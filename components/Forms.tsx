@@ -1,9 +1,40 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+'use client';
 
-const Login = () => {
+import { signIn } from "@/auth";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+
+
+
+export function LoginForm() {
+const router = useRouter();
+  const [error, setError] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const res = await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError("Invalid credentials");
+        return;
+      }
+
+      router.replace("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <Card className='w-full max-w-md'>
       <CardHeader>
@@ -11,7 +42,7 @@ const Login = () => {
         <CardDescription>Enter your email below to login to your account</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-6'>
             <div className='grid gap-2'>
               <Label htmlFor='email'>Email</Label>
@@ -35,13 +66,10 @@ const Login = () => {
         </Button>
         <div className='mt-4 text-center text-sm'>
           Don&apos;t have an account?{' '}
-          <a href='#' className='underline underline-offset-4'>
+          <a href='/sign-up' className='underline underline-offset-4'>
             Sign up
           </a>
         </div>
       </CardFooter>
     </Card>
-  )
-}
-
-export default Login
+  )}
