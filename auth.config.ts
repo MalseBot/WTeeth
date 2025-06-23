@@ -49,12 +49,12 @@ export const { handlers, auth,signIn,signOut } = NextAuth({
           throw new Error("wrong password");
         }
         await prisma.session.create({
-                data: {
-                  sessionToken: uuidv4(),
-                  expires: new Date(Date.now() + 30 * 24 * 60 ), // 30 days
-                  userId: user.id,
-                }
-              })
+					data: {
+						sessionToken: uuidv4(),
+						expires: new Date(Date.now() + 12 * 60 * 60 * 1000), // 12 hours
+						userId: user.id,
+					},
+				});
 
         return user;
       }

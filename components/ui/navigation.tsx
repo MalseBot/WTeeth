@@ -32,7 +32,7 @@ interface MenuItem {
 
 interface NavigationProps {
   menuItems?: MenuItem[];
-  components?: ComponentItem[];
+  essentials?: ComponentItem[];
   logo?: ReactNode;
   logoTitle?: string;
   logoDescription?: string;
@@ -47,86 +47,53 @@ interface NavigationProps {
 export default function Navigation({
   menuItems = [
     {
-      title: "Getting started",
+      title: "Dashboard",
       content: "default",
     },
     {
-      title: "Components",
-      content: "components",
-    },
-    {
-      title: "Documentation",
-      isLink: true,
-      href: "https://www.launchuicomponents.com/",
-    },
+      title: "ُEssentials",
+      content: "essentials",
+    }
   ],
-  components = [
+  essentials = [
     {
-      title: "Alert Dialog",
-      href: "/docs/primitives/alert-dialog",
+      title: "Materials Storage",
+      href: "/storage",
       description:
-        "A modal dialog that interrupts the user with important content and expects a response.",
+        "A simple storage managing material inventory, including adding, editing, and deleting materials.",
     },
     {
-      title: "Hover Card",
-      href: "/docs/primitives/hover-card",
+      title: "Incomes",
+      href: "/incomes",
       description:
-        "For sighted users to preview content available behind a link.",
-    },
-    {
-      title: "Progress",
-      href: "/docs/primitives/progress",
-      description:
-        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-      title: "Scroll-area",
-      href: "/docs/primitives/scroll-area",
-      description: "Visually or semantically separates content.",
-    },
-    {
-      title: "Tabs",
-      href: "/docs/primitives/tabs",
-      description:
-        "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-      title: "Tooltip",
-      href: "/docs/primitives/tooltip",
-      description:
-        "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
+        "Track your income sources, expenses, and amounts effortlessly.",
+    }
   ],
   logo = <LaunchUI />,
-  logoTitle = "Launch UI",
-  logoDescription = "Landing page template built with React, Shadcn/ui and Tailwind that you can copy/paste into your project.",
+  logoTitle = "WHealth",
+  logoDescription = "A simple healthcare management system",
   logoHref = "https://www.launchuicomponents.com/",
   introItems = [
     {
-      title: "Introduction",
-      href: "https://www.launchuicomponents.com/",
+      title: "Appointments",
+      href: "/appointments",
       description:
-        "Re-usable components built using Radix UI and Tailwind CSS.",
+        "Manage your appointments with ease. Book, reschedule, and cancel appointments seamlessly.",
     },
     {
-      title: "Installation",
-      href: "https://www.launchuicomponents.com/",
-      description: "How to install dependencies and structure your app.",
-    },
-    {
-      title: "Typography",
-      href: "https://www.launchuicomponents.com/",
-      description: "Styles for headings, paragraphs, lists...etc",
+      title: "Patients",
+      href: "/patients",
+      description: "Manage your patients with ease. Add, edit, and view patient information seamlessly.",
     },
   ],
 }: NavigationProps) {
   return (
-    <NavigationMenu className="hidden md:flex">
+    <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
         {menuItems.map((item, index) => (
           <NavigationMenuItem key={index}>
             {item.isLink ? (
-              <Link href={item.href || ""} legacyBehavior passHref>
+              <Link href={item.href || ""} passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {item.title}
                 </NavigationMenuLink>
@@ -159,9 +126,9 @@ export default function Navigation({
                         </ListItem>
                       ))}
                     </ul>
-                  ) : item.content === "components" ? (
+                  ) : item.content === "essentials" ? (
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {components.map((component) => (
+                      {essentials.map((component) => (
                         <ListItem
                           key={component.title}
                           title={component.title}

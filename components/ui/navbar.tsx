@@ -26,7 +26,7 @@ function NavbarRight({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       data-slot="navbar-right"
-      className={cn("flex items-center justify-end gap-4", className)}
+      className={cn("flex items-center justify-end gap-4 lg:", className)}
       {...props}
     />
   );

@@ -1,87 +1,128 @@
-'use client'
+/** @format */
 
-import { register } from "@/app/actions/auth"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+'use client';
 
+import { register } from '@/app/actions/auth';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { signUpSchema } from '@/lib/zodSchemas';
 export default function SignUpPage() {
-  const router = useRouter()
-  const [error, setError] = useState<string>("")
-  const [loading, setLoading] = useState(false)
+	const router = useRouter();
+	const [error, setError] = useState<string>('');
+	const [loading, setLoading] = useState(false);
+	const [form, setForm] = useState({ name: '', email: '', password: '' }); // <-- move here
 
-  async function handleSubmit(formData: FormData) {
-    setError("")
-    setLoading(true)
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		setError('');
+		setLoading(true);
 
-    try {
-      const result = await register(formData)
+		const result = signUpSchema.safeParse(form);
+		if (!result.success) {
+			setError(result.error.errors[0].message);
+			setLoading(false);
+			return;
+		}
+		try {
+			const formData = new FormData();
+			formData.append('name', form.name);
+			formData.append('email', form.email);
+			formData.append('password', form.password);
 
-      if (result.error) {
-        setError(result.error)
-      } else {
-        router.push('/sign-in')
-      }
-    } catch (error) {
-      console.error(error)
-      setError('Something went wrong')
-    } finally {
-      setLoading(false)
-    }
-  }
+			const res = await register(formData);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form action={handleSubmit} className="space-y-4 w-full max-w-md p-6">
-        <h1 className="text-2xl font-bold mb-6">Create an Account</h1>
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        {error && (
-          <p className="text-red-500 text-sm">{error}</p>
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300"
-        >
-          {loading ? 'Creating account...' : 'Sign Up'}
-        </button>
-        <a href="/sign-in" className="text-center">{`I have an account`}</a>
+			if ( res.success === true) {
+				return router.push('/sign-in');
+			}
+		} catch (error) {
+			console.error(error);
+			setError('Something went wrong, please try again later.');
+		} finally {
+			setLoading(false);
+		}
+	}
 
-      </form>
-    </div>
-  )
+	return (
+		<Card className='w-full max-w-md'>
+			<CardHeader>
+				<CardTitle>create your account</CardTitle>
+				<CardDescription>
+					Enter your email below to register your account
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<form onSubmit={handleSubmit}>
+					<div className='flex flex-col gap-6'>
+						<div className='grid gap-2'>
+							<Label htmlFor='name'>Your name</Label>
+							<Input
+								id='name'
+								type='text'
+								placeholder='mohamed'
+								required
+								value={form.name}
+								onChange={(e) =>
+									setForm((f) => ({ ...f, name: e.target.value }))
+								}
+							/>
+						</div>
+						<div className='grid gap-2'>
+							<Label htmlFor='email'>Email</Label>
+							<Input
+								id='email'
+								type='email'
+								placeholder='m@example.com'
+								required
+								value={form.email}
+								onChange={(e) =>
+									setForm((f) => ({ ...f, email: e.target.value }))
+								}
+							/>
+						</div>
+						<div className='grid gap-2'>
+							<div className='flex items-center'>
+								<Label htmlFor='password'>Password</Label>
+							</div>
+							<Input
+								id='password'
+								type='password'
+								required
+								value={form.password}
+								onChange={(e) =>
+									setForm((f) => ({ ...f, password: e.target.value }))
+								}
+							/>
+						</div>
+						{error && <div className='text-red-500 text-sm'>{error}</div>}
+					</div>
+					<Button
+						type='submit'
+						className='w-full mt-5'>
+						{loading ? 'Loading ...' : 'Sign Up'}
+					</Button>
+				</form>
+			</CardContent>
+			<CardFooter className='flex-col gap-2'>
+				<div className='mt-4 text-center text-sm font-semibold'>
+					have an account?{' '}
+					<a
+						href='/sign-in'
+						className='underline hover:text-secondary underline-offset-4'>
+						Sign in
+					</a>
+				</div>
+			</CardFooter>
+		</Card>
+	);
 }
