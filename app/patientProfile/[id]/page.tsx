@@ -1,8 +1,21 @@
+/** @format */
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Edit2, LocateIcon, PhoneIcon, PlusCircleIcon } from 'lucide-react';
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
+import {
+	Edit2,
+	LocateIcon,
+	PhoneIcon,
+	Timer,
+	VenusAndMars,
+} from 'lucide-react';
 import Link from 'next/link';
-import React from 'react'
+import React from 'react';
 import {
 	Table,
 	TableHeader,
@@ -11,45 +24,22 @@ import {
 	TableBody,
 	TableCell,
 } from '@/components/ui/table'; // Adjust the import path as needed
-import { InfoCircledIcon } from '@radix-ui/react-icons';import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
+import { InfoCircledIcon, PlusIcon, UpdateIcon } from '@radix-ui/react-icons';
+import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
 
 interface PageProps {
-  params: { id: string };
+	params: { id: string };
 }
 
-const  page = async ({ params }: PageProps) => {
+const page = async ({ params }: PageProps) => {
+	const patient = await getPatient(params?.id);
+	const appointments = await getAppointmentsByPatientId(params?.id);
 
-  const patient = await getPatient(params?.id)
-  const appointments =await getAppointmentsByPatientId(params?.id);
-
-const tabs = [
-	{
-		name: 'Details',
-		value: 'details',
-		content:
-			'Welcome to the Home tab! Here, you can explore the latest updates, news, and highlights. Stay informed about what&apos;s happening and never miss out on important announcements.',
-	},
-	{
-		name: 'Diagnose',
-		value: 'diagnose',
-		content:
-			'This is your Profile tab. Manage your personal information, update your account details, and customize your settings to make your experience unique.',
-	},
-	{
-		name: 'Photage',
-		value: 'photage',
-		content:
-			'Messages: Check your recent messages, start new conversations, and stay connected with your friends and contacts. Manage your chat history and keep the communication flowing.',
-	},
-];
-
-
-
-  return (
+	return (
 		<div className='flex flex-col m-5 gap-5 justify-start h-screen bg-accent-100 '>
-			<Card className=' p-5  md:flex-row sm:gap-0 capitalize'>
-				<CardHeader className='lg:w-1/3 '>
-					<CardTitle className='text-2xl'>
+			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-2 h-min sm:gap-0 capitalize'>
+				<CardHeader className=' '>
+					<CardTitle className='text-2xl text-primary uppercase'>
 						{patient?.name || 'Unknown Patient'}
 					</CardTitle>
 					<CardContent className='text-sm'>
@@ -61,27 +51,45 @@ const tabs = [
 						{patient?.address || 'Unknown'}
 					</CardContent>
 				</CardHeader>
-				<div className=' w-full flex'>
+				<div className='w-full flex'>
 					<div className='w-1/2'>
 						<CardContent className='text-lg'>
+							<VenusAndMars />
 							Gender: {patient?.gender || 'Unknown'}
 						</CardContent>
 						<CardContent className='text-lg'>
+							<Timer />
 							Age: {patient?.age || 'Unknown'}
 						</CardContent>
 					</div>
-					<div className='w-1/2'>
+					<div className='w-1/2 flex gap-2 flex-col'>
 						<CardContent className='border border-accent p-1 rounded-tr-xl rounded-bl-xl'>
-							<PlusCircleIcon className='text-secondary text-xs' />{' '}
+							<PlusIcon
+								width={20}
+								height={20}
+								className='text-secondary hover:rotate-180 transform duration-500'
+							/>{' '}
 							{patient?.createdAt.toDateString() || 'Unknown'}
+						</CardContent>
+						<CardContent className='border border-accent p-1 rounded-tr-xl rounded-bl-xl'>
+							<UpdateIcon
+								width={20}
+								height={20}
+								className='text-secondary hover:rotate-180 transform duration-500'
+							/>{' '}
+							{patient?.updatedAt.toDateString() || 'Unknown'}
 						</CardContent>
 					</div>
 				</div>
-				<CardFooter className='flex justify-end items-baseline'>
+				<CardFooter className=' items-start'>
 					<Link href={`/patientProfile/${patient?.id}/edit`}>
 						<Edit2 className='text-primary hover:scale-110 transform duration-500 active:text-secondary' />
 					</Link>
 				</CardFooter>
+				<div className='w-full col-span-full mx-2'>
+					<h2>Notes</h2>
+					<p>{patient?.note || 'Nothing to note yet'}</p>
+				</div>
 			</Card>
 			<section className='md:mx-10 overflow-x-scroll mx-1 '>
 				<Table className=' rounded-bl-3xl rounded-tr-3xl p-1 md:p-5 overflow-x-scroll'>
@@ -123,6 +131,6 @@ const tabs = [
 			</section>
 		</div>
 	);
-}
+};
 
-export default page
+export default page;

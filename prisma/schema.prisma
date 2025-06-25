@@ -41,20 +41,28 @@ enum Gender {
   Female
 }
 
+model Media {
+  id            String      @id @default(cuid())
+  url           String
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  appointmentId String
+  createdAt     DateTime    @default(now())
+}
+
 model Appointment {
-  id          String   @id @default(cuid())
-  patientId   String
-  date        DateTime
-  status      String   @default("Scheduled")
-  prescription String
-  medicine    String
-  operation   String
-  images      String[]
-  materials   String
-  payment     Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  patient     Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  patientId     String
+  date          DateTime
+  status        String   @default("Scheduled")
+  prescription  String
+  medicine      String
+  operation     String
+  materials     String
+  payment       Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  patient       Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  media         Media[]  // <-- New relation
 
   @@index([patientId])
 }
@@ -73,3 +81,5 @@ model Session {
 
   @@index([userId])
 }
+
+
