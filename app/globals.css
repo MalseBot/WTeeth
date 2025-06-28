@@ -3,6 +3,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+
 :root {
   --background: #f8f8f8;
   --foreground: #333333;

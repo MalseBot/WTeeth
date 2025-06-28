@@ -28,17 +28,17 @@ export async function getPatient(e: string): Promise<Patient | null> {
 
 interface Appointment {
 	id: string;
-	patientId: string;
 	date: Date;
+	patientId: string;
 	createdAt: Date;
 	updatedAt: Date;
 	status: string;
-	prescription: string;
 	payment: number;
-	medicine: string;
+	prescription: string;
 	operation: string;
-	images: any[];
 	materials: string;
+	medicine: string;
+	images: any[];
 	// Add other appointment fields as needed
 }
 
@@ -59,6 +59,23 @@ export async function getAppointmentsByPatientId(
 	}));
 }
 
+export async function getAppointment(e: string): Promise<Appointment | null> {
+	const appointment = await prisma.appointment.findUnique({
+		where: {
+			id: e,
+		},
+		include: {
+			media: true, // include related media
+		},
+	});
+		return appointment
+			? {
+					...appointment,
+					images: appointment.media, // map media to images
+			  }
+			: null;
+	}
+
 export async function getUpdatePatient(id: string, data: any) {
 	await prisma.patient.update({
 		where: { id },
@@ -78,9 +95,4 @@ export async function getUpdatePatient(id: string, data: any) {
 	};
 }
 
-export async function updatePatient(id: string, data: any) {
-	await prisma.patient.update({
-		where: { id },
-		data,
-	});
-}
+

@@ -16,16 +16,10 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import {
-	Table,
-	TableHeader,
-	TableRow,
-	TableHead,
-	TableBody,
-	TableCell,
-} from '@/components/ui/table'; // Adjust the import path as needed
-import { InfoCircledIcon, PlusIcon, UpdateIcon } from '@radix-ui/react-icons';
+
+import {  PlusIcon, StarFilledIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
+import InfoTable from '@/components/sections/InfoTable';
 
 interface PageProps {
 	params: { id: string };
@@ -37,6 +31,7 @@ const page = async ({ params }: PageProps) => {
 
 	return (
 		<div className='flex flex-col m-5 gap-5 justify-start h-screen bg-accent-100 '>
+				  <h1 className='text-3xl uppercase text-primary font-bold m-3 border-b border-s w-fit flex items-center'><StarFilledIcon width={25} height={25} className='mx-1 text-yellow-300 '/>Patient Profile</h1>
 			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-2 h-min sm:gap-0 capitalize'>
 				<CardHeader className=' '>
 					<CardTitle className='text-2xl text-primary uppercase'>
@@ -91,43 +86,8 @@ const page = async ({ params }: PageProps) => {
 					<p>{patient?.note || 'Nothing to note yet'}</p>
 				</div>
 			</Card>
-			<section className='md:mx-10 overflow-x-scroll mx-1 '>
-				<Table className=' rounded-bl-3xl rounded-tr-3xl p-1 md:p-5 overflow-x-scroll'>
-					<TableHeader>
-						<TableRow className='rounded-tr-3xl'>
-							<TableHead className='w-[100px]'>Date</TableHead>
-							<TableHead className='w-[100px]'>Status</TableHead>
-							<TableHead className='w-[100px]'>Fee Paid</TableHead>
-							<TableHead>Diagnose</TableHead>
-							<TableHead className='w-[100px]'>Operationed</TableHead>
-							<TableHead className='w-[50px] rounded-tr-3xl'>Info</TableHead>
-						</TableRow>
-					</TableHeader>
-					{appointments.length !== 0 ? (
-						appointments.map((e) => (
-							<TableBody key={e.id}>
-								<TableRow>
-									<TableCell className='font-medium'>
-										{e.date.toDateString()}
-									</TableCell>
-									<TableCell>{e.status}</TableCell>
-									<TableCell>{e.payment}</TableCell>
-									<TableCell>{e.prescription}</TableCell>
-									<TableCell className='text-right'>{e.operation}</TableCell>
-									<TableCell>
-										<Link href={`/appointmentDetails/${e.id}`}>
-											<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
-										</Link>
-									</TableCell>
-								</TableRow>
-							</TableBody>
-						))
-					) : (
-						<TableCell className=' font-bold text-2xl capitalize text-center'>
-							No appointments made Yet ...
-						</TableCell>
-					)}
-				</Table>{' '}
+			<section >
+				<InfoTable rows={appointments}/>
 			</section>
 		</div>
 	);
