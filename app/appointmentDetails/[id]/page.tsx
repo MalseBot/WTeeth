@@ -1,3 +1,4 @@
+'use server'
 import React from 'react'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Box, CheckCheckIcon, DollarSign, DoorClosedLocked, DropletIcon, Edit2, Hourglass, PlusIcon, Timer, VenusAndMars } from 'lucide-react';
@@ -5,6 +6,7 @@ import { StarFilledIcon, UpdateIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { getAppointment, getPatient } from '@/lib/fetching';
 import Image from 'next/image';
+import { ImageDocument } from '@/components/ImageDocument';
 
 interface PageProps {
 	params: { id: string };
@@ -120,10 +122,16 @@ const page = async ({params}:PageProps) => {
 				</p>
 			</div>
 			<div className='p-5 rounded-tr-3xl rounded-bl-3xl shadow grid lg:grid-cols-3 grid-cols-2'>
-        {appointment?.images.map((e)=>(
-          <Image key={e?.id} src={e?.url} alt='diagnose image'/>
-        ))}
-      </div>
+				<h2 className='text-lg border-b mb-1 font-semibold'>Media</h2>
+				{/* {appointment?.images.map((e) => (
+					<Image
+						key={e?.id}
+						src={e?.url}
+						alt='diagnose image'
+					/>
+				))} */}
+				<ImageDocument/>
+			</div>
 		</div>
 	);
 }

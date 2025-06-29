@@ -27,7 +27,7 @@ export default function InfoTable({rows,patientMap}:InfoTableProps) {
     const isAppointment = !!rows[0]?.patientId;
 
     return (
-			<div className='m-10 rounded-tr-3xl overflow-x-auto'>
+			<div className='m-10 rounded-tr-3xl rounded-bl-3xl overflow-x-auto shadow'>
 				<Table className=' rounded-bl-3xl rounded-tr-3xl'>
 					<TableHeader className='!rounded-tr-3xl'>
 						<TableRow className='!rounded-tr-3xl'>

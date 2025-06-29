@@ -30,7 +30,7 @@ export default function ProtectedPage({
 	if (status === 'loading') {
 		return (
 			<>
-				<div className='h-screen w-screen'>
+				<div className='h-screen w-screen flex justify-center items-center'>
 					<Spinner>Loading ...</Spinner>
 				</div>
 			</>
