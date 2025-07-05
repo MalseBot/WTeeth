@@ -1,8 +1,14 @@
-import UploadImage from '@/components/UploadImage'
-import React from 'react'
+/** @format */
+
+import { AppointmentForm } from '@/components/AppointmentForm';
+import React from 'react';
+
+
 
 export default function page() {
-  return (
-    <div><UploadImage /></div>
-  )
+	return (
+		<section className='w-full flex justify-center items-center'>
+			<AppointmentForm  />
+		</section>
+	);
 }

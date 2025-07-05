@@ -32,7 +32,7 @@ interface PatientProps {
 	};
 }
 
-export default function EditPatientForm({ patient }: PatientProps) {
+export default function PatientForm({ patient }: PatientProps) {
 	const router = useRouter()
 	const [form, setForm] = useState(patient || {});
 	const [error, setError] = useState('')

@@ -66,7 +66,16 @@ const page = async ({params}:PageProps) => {
 								height={20}
 								className=' hover:rotate-180 transform duration-500'
 							/>
-							{appointment?.createdAt.toDateString() || 'Unknown'}
+							{(appointment?.createdAt &&
+								new Date(appointment.createdAt).toLocaleString('en-US', {
+									weekday: 'short',
+									month: 'short',
+									day: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+									hour12: true,
+								})) ||
+								'Unknown'}
 						</CardContent>
 						<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
 							<Hourglass
@@ -74,7 +83,16 @@ const page = async ({params}:PageProps) => {
 								height={20}
 								className=' hover:rotate-180 transform duration-500'
 							/>
-							{appointment?.date.toDateString() || 'Unknown'}
+							{(appointment?.date &&
+								new Date(appointment.date).toLocaleString('en-US', {
+									weekday: 'short',
+									month: 'short',
+									day: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+									hour12: true,
+								})) ||
+								'Unknown'}
 						</CardContent>
 						<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
 							<UpdateIcon
@@ -82,12 +100,21 @@ const page = async ({params}:PageProps) => {
 								height={20}
 								className=' hover:rotate-180 transform duration-500'
 							/>
-							{appointment?.updatedAt.toDateString() || 'Unknown'}
+							{(appointment?.updatedAt &&
+								new Date(appointment.updatedAt).toLocaleString('en-US', {
+									weekday: 'short',
+									month: 'short',
+									day: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+									hour12: true,
+								})) ||
+								'Unknown'}{' '}
 						</CardContent>
 					</div>
 				</div>
 				<CardFooter className=' items-start '>
-					<Link href={`/appointmentProfile/${appointment?.id}/edit`}>
+					<Link href={`/appointmentDetails/${appointment?.id}/edit`}>
 						<Edit2 className='text-destructive hover:scale-110 transform duration-500 active:text-secondary' />
 					</Link>
 				</CardFooter>
@@ -130,7 +157,7 @@ const page = async ({params}:PageProps) => {
 						alt='diagnose image'
 					/>
 				))} */}
-				<ImageDocument/>
+				<ImageDocument />
 			</div>
 		</div>
 	);

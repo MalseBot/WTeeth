@@ -1,5 +1,6 @@
-"use server"
-import EditPatientForm from '@/components/EditPatientForm';
+
+'use server';
+import PatientForm from '@/components/PatientForm';
 import { getPatient } from '@/lib/fetching';
 
 interface ParamsProps {
@@ -7,7 +8,7 @@ interface ParamsProps {
 }
 
 export default async function Page({ params }: ParamsProps) {
-	const data = await getPatient(params.id)
+	const data = await getPatient(params.id);
 
 	if (!data) {
 		return <div>Patient not found</div>;
@@ -15,7 +16,7 @@ export default async function Page({ params }: ParamsProps) {
 
 	return (
 		<div className='w-full my-20 flex justify-center h-screen items-center'>
-			<EditPatientForm patient={data} />
+			<PatientForm patient={data} />
 		</div>
 	);
 }

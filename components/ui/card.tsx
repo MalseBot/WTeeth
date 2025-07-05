@@ -65,7 +65,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("px-6 flex gap-1 items-center font-semibold w-fit text-secondary hover:scale-110 transform duration-500 cursor-default", className)}
+      className={cn("px-6 flex gap-1 items-center font-semibold w-fit text-secondary transform cursor-default", className)}
       {...props}
     />
   )
