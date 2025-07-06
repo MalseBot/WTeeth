@@ -1,6 +1,4 @@
-/** @format */
-
-'use client';
+'use client'
 import React, { useState } from 'react';
 import {
 	Table,
@@ -105,23 +103,17 @@ export default function InfoTable({ rows, patientMap }: InfoTableProps) {
 							{sortKey === (rows[0]?.payment ? 'payment' : 'gender') &&
 								(sortDir === 'asc' ? ' ▲' : ' ▼')}
 						</TableHead>
-						{(rows[0]?.prescription && (
-							<TableHead
-								className='cursor-pointer'
-								onClick={() => handleSort('prescription')}>
-								Prescription
-								{sortKey === 'prescription' &&
-									(sortDir === 'asc' ? ' ▲' : ' ▼')}
-							</TableHead>
-						)) ||
-							(rows[0]?.prescription && (
-								<TableHead
-									className='cursor-pointer'
-									onClick={() => handleSort('address')}>
-									Address
-									{sortKey === 'address' && (sortDir === 'asc' ? ' ▲' : ' ▼')}
-								</TableHead>
-							))}
+						<TableHead
+							className='cursor-pointer'
+							onClick={() =>
+								handleSort(rows[0]?.prescription ? 'prescription' : 'address')
+							}>
+							{(rows[0]?.prescription && 'Diagnose') ||
+								(rows[0]?.address && 'Address')}
+							{sortKey ===
+								(rows[0]?.prescription ? 'prescription' : 'address') &&
+								(sortDir === 'asc' ? ' ▲' : ' ▼')}
+						</TableHead>
 						<TableHead
 							className='w-[100px] cursor-pointer'
 							onClick={() =>

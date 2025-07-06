@@ -7,7 +7,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { useRouter } from 'next/navigation';
 import { appointmentSchema } from '@/lib/zodSchemas';
-import { updateAppointment } from '@/lib/fetching';
+import { getUpdateAppointment } from '@/lib/fetching';
 
 
 interface ParamsProps {
@@ -37,16 +37,18 @@ export default function UpdateAppointmentForm({appointment}:ParamsProps) {
             if (!result.success) {
                 setError(result.error.errors[0].message);
                 setLoading(false);
+				console.log(error);
+				
                 return;
             }
             console.log(form);
-            const update = updateAppointment(form)
+            const update = getUpdateAppointment(form)
             if(!update){
                 setError('Something went wrong !!')
                 console.log(error);
                 setLoading(false)
             }
-             router.push(`/patientProfile/${form.id}`)
+             router.push(`/appointmentDetails/${form.id}`)
             //toaster
         }
         const handleChange = (

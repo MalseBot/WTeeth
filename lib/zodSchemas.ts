@@ -23,7 +23,7 @@ export const editPatientSchema = z.object({
 
 export const appointmentSchema = z.object({
 	patientId: z.string().min(1, 'Patient is required'),
-	date: z.string().min(1, 'Date is required'),
+	date: z.date(),
 	status: z.string().optional(),
 	prescription: z.string().min(3,'what the patient need'),
 	medicine: z.string().optional(),

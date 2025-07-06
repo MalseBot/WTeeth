@@ -22,7 +22,6 @@ interface PatientProps {
 		name: string;
 		id: string;
 		createdAt: Date;
-		updatedAt: Date;
 		age: number;
 		address: string;
 		bloodType: string;

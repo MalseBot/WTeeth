@@ -22,14 +22,15 @@ import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
 import InfoTable from '@/components/sections/InfoTable';
 
 interface PageProps {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
-const page = async ({ params }: PageProps) => {
-	const patient = await getPatient(params?.id);
-	const appointments = await getAppointmentsByPatientId(params?.id);
+const page = async (props: PageProps) => {
+    const params = await props.params;
+    const patient = await getPatient(params?.id);
+    const appointments = await getAppointmentsByPatientId(params?.id);
 
-	return (
+    return (
 		<div className='flex flex-col m-5 gap-5 justify-start h-screen bg-accent-100 '>
 				  <h1 className='text-3xl uppercase text-primary font-bold m-3 border-b border-s w-fit flex items-center'><StarFilledIcon width={25} height={25} className='mx-1 text-yellow-300 '/>Patient Profile</h1>
 			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-2 h-min sm:gap-0 capitalize'>
