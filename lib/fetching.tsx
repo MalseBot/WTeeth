@@ -35,7 +35,7 @@ interface Appointment {
 	payment: number;
 	prescription: string;
 	operation: string;
-	materials: string;
+	materials: any[];
 	medicine: string;
 	images: any[];
 	// Add other appointment fields as needed
@@ -49,12 +49,14 @@ export async function getAppointmentsByPatientId(
 			patientId: e,
 		},
 		include: {
-			media: true, // include related media
+			media: true,
+			materials: true, // include related media
 		},
 	});
 	return appointments.map((a) => ({
 		...a,
 		images: a.media, // map media to images
+		materials: a.materials,
 	}));
 }
 
@@ -64,19 +66,21 @@ export async function getAppointment(e: string): Promise<Appointment | null> {
 			id: e,
 		},
 		include: {
-			media: true, // include related media
+			media: true,
+			materials: true, // include related media
 		},
 	});
 	return appointment
 		? {
 				...appointment,
-				images: appointment.media, // map media to images
+				images: appointment.media,
+				materials: appointment.materials, // map media to images
 		  }
 		: null;
 }
 
 export async function getUpdatePatient(id: string, data: any) {
-	await prisma.patient.update({
+	return await prisma.patient.update({
 		where: { id },
 		data: {
 			name: data.name,
@@ -94,7 +98,7 @@ export async function getUpdatePatient(id: string, data: any) {
 }
 
 export async function getCreatePatient(data: any) {
-	await prisma.patient.create({
+	return await prisma.patient.create({
 		data: {
 			name: data.name,
 			id: data.id,
@@ -110,8 +114,8 @@ export async function getCreatePatient(data: any) {
 	});
 }
 
-export async function getCreateAppointment(data: any) { 
-	await prisma.appointment.create({
+export async function getCreateAppointment(data: any) {
+	return await prisma.appointment.create({
 		data: {
 			patientId: data.patientId,
 			date: new Date(data.date),
@@ -119,16 +123,13 @@ export async function getCreateAppointment(data: any) {
 			prescription: data.prescription,
 			medicine: data.medicine || '',
 			operation: data.operation || '',
-			materials: data.materials || '',
 			payment: data.payment,
 		},
 	});
-
 }
 
-
 export async function getUpdateAppointment(data: any) {
- await prisma.appointment.update({
+	return await prisma.appointment.update({
 		where: { id: data.id },
 		data: {
 			patientId: data.patientId,
@@ -136,7 +137,6 @@ export async function getUpdateAppointment(data: any) {
 			prescription: data.prescription,
 			medicine: data.medicine,
 			operation: data.operation,
-			materials: data.materials,
 			payment: data.payment,
 			updatedAt: new Date(),
 			id: data.id,
@@ -145,5 +145,5 @@ export async function getUpdateAppointment(data: any) {
 }
 
 export async function getAllPatients() {
-	await prisma.patient.findMany();
+	return await prisma.patient.findMany();
 }

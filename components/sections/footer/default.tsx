@@ -59,7 +59,6 @@ export default function FooterSection({
       ],
     },
   ],
-  copyright = "© 2025 Mikołaj Dobrucki. All rights reserved",
   policies = [
     { text: "Privacy Policy", href: "https://www.launchuicomponents.com/" },
     { text: "Terms of Service", href: "https://www.launchuicomponents.com/" },
@@ -68,11 +67,10 @@ export default function FooterSection({
   className,
 }: FooterProps) {
   return (
-    <footer className={cn("bg-background w-full px-4", className)}>
+    <footer className={cn(" w-full px-4", className)}>
       <div className="max-w-container mx-auto">
         <Footer>
           <FooterBottom>
-            <div>{copyright}</div>
             <div className="flex items-center gap-4">
               {policies.map((policy, index) => (
                 <a key={index} href={policy.href}>

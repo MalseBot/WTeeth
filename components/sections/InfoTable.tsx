@@ -1,4 +1,6 @@
-'use client'
+/** @format */
+
+'use client';
 import React, { useState } from 'react';
 import {
 	Table,
@@ -32,6 +34,25 @@ interface InfoTableProps {
 }
 
 type SortKey = keyof InfoTableRow;
+
+interface Appointment {
+	id: string;
+	date: Date;
+	patientId: string;
+	createdAt: Date;
+	status: string;
+	payment: number;
+	prescription: string;
+}
+interface Patient {
+	id: string;
+	name: string;
+	age: number;
+	gender: string;
+	address: string;
+	createdAt: Date;
+	// Add other patient fields as needed
+}
 
 export default function InfoTable({ rows, patientMap }: InfoTableProps) {
 	const [sortKey, setSortKey] = useState<SortKey>('date');

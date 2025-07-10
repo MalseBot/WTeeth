@@ -5,35 +5,35 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex font-semibold items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        default:
-          "text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-        glow: "glass-4 hover:glass-5 shadow-md",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-foreground underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        xs: "h-7 rounded-md px-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-5",
-        icon: "size-9",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
+	'inline-flex font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+	{
+		variants: {
+			variant: {
+				default:
+					'text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary',
+				destructive:
+					'bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90',
+				outline:
+					'border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
+				glow: 'glass-4 hover:glass-5 shadow-md',
+				secondary:
+					'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+				ghost: 'hover:bg-accent hover:text-accent-foreground',
+				link: 'text-foreground underline-offset-4 hover:underline',
+			},
+			size: {
+				default: 'h-9 px-4 py-2',
+				xs: 'h-7 rounded-md px-2',
+				sm: 'h-8 rounded-md px-3 text-xs',
+				lg: 'h-10 rounded-md px-5',
+				icon: 'size-9',
+			},
+		},
+		defaultVariants: {
+			variant: 'default',
+			size: 'default',
+		},
+	}
 );
 
 export interface ButtonProps

@@ -28,6 +28,5 @@ export const appointmentSchema = z.object({
 	prescription: z.string().min(3,'what the patient need'),
 	medicine: z.string().optional(),
 	operation: z.string().optional(),
-	materials: z.string().optional(),
 	payment: z.coerce.number().min(0, 'Payment must be a positive number'),
 });

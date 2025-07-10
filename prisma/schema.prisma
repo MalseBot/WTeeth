@@ -57,11 +57,11 @@ model Appointment {
   prescription  String
   medicine      String
   operation     String
-  materials     String
   payment       Float
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   patient       Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  materials     Materials[]
   media         Media[]  // <-- New relation
 
   @@index([patientId])
@@ -82,4 +82,27 @@ model Session {
   @@index([userId])
 }
 
+enum ItemType {
+  Unit
+  kg
+  ml
+}
 
+model Materials {
+  id String @id @default(cuid())
+  name String
+  type ItemType @default(Unit)
+  quantity Int
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  appointmentId String
+}
+model Storage{
+  id String  @id @default(cuid())
+  name String
+  type ItemType @default(Unit)
+  quantity Int
+  buyDate DateTime
+  shortageLimit Int
+  price Int
+  seller String
+}

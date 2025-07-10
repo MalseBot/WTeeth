@@ -17,6 +17,7 @@ import Navigation from '../../ui/navigation';
 import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet';
 import { signOut, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { AppointmentForm } from '@/components/AppointmentForm';
 
 interface NavbarLink {
 	text: string;
@@ -53,15 +54,7 @@ export default function Navbar({
 		{ text: 'storage', href: '/storage' },
 		{ text: 'income', href: '/income' },
 	],
-	actions = [
-		{ text: 'Sign in', href: '/sign-in', isButton: false },
-		{
-			text: 'Add Appointment',
-			href: '/appointments/add',
-			isButton: true,
-			variant: 'default',
-		},
-	],
+	actions = [{ text: 'Sign in', href: '/sign-in', isButton: false }],
 	showNavigation = true,
 	customNavigation,
 	className,
@@ -69,8 +62,8 @@ export default function Navbar({
 	const { data: session, status } = useSession();
 
 	return (
-		<header className={cn('sticky top-0 z-50 -mb-4 px-4 pb-4', className)}>
-			<div className='fade-bottom bg-accent/15 absolute left-0 h-18 w-full backdrop-blur-lg'></div>
+		<header className={cn('sticky top-0 z-50  px-4 pb-2', className)}>
+			<div className='fade-bottom bg-accent/15 absolute left-0 h-16 w-full backdrop-blur-lg'></div>
 			<div className='max-w-container relative mx-auto'>
 				<NavbarComponent>
 					<NavbarLeft>
@@ -107,16 +100,19 @@ export default function Navbar({
 							)
 						)}
 						{status === 'authenticated' && (
-							<Button
-								type='button'
-								variant={'destructive'}
-								onClick={() => {
-									signOut();
-									redirect('/sign-in');
-								}}
-								className='hidden uppercase !text-xs lg:block !p-2 h-7'>
-								Sign out
-							</Button>
+							<>
+								<AppointmentForm />
+								<Button
+									type='button'
+									variant={'destructive'}
+									onClick={() => {
+										signOut();
+										redirect('/sign-in');
+									}}
+									className='hidden uppercase !text-xs lg:block !p-2 h-7'>
+									Sign out
+								</Button>
+							</>
 						)}
 						<Sheet>
 							<SheetTrigger asChild>

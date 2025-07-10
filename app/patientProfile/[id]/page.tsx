@@ -8,6 +8,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import {
+	DropletIcon,
 	Edit2,
 	LocateIcon,
 	PhoneIcon,
@@ -20,6 +21,7 @@ import React from 'react';
 import {  PlusIcon, StarFilledIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
 import InfoTable from '@/components/sections/InfoTable';
+import PatientForm from '@/components/PatientForm';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -29,7 +31,9 @@ const page = async (props: PageProps) => {
     const params = await props.params;
     const patient = await getPatient(params?.id);
     const appointments = await getAppointmentsByPatientId(params?.id);
-
+	if (!patient) {
+		return <div className='w-full my-20 flex justify-center h-screen items-center'>Patient not found</div>;
+	}
     return (
 		<div className='flex flex-col m-5 gap-5 justify-start h-screen bg-accent-100 '>
 				  <h1 className='text-3xl uppercase text-primary font-bold m-3 border-b border-s w-fit flex items-center'><StarFilledIcon width={25} height={25} className='mx-1 text-yellow-300 '/>Patient Profile</h1>
@@ -57,6 +61,10 @@ const page = async (props: PageProps) => {
 							<Timer />
 							Age: {patient?.age || 'Unknown'}
 						</CardContent>
+						<CardContent className='text-lg text-destructive'>
+													<DropletIcon />
+													{patient?.bloodType || 'Unknown'}
+												</CardContent>
 					</div>
 					<div className='w-1/2 flex gap-2 flex-col'>
 						<CardContent className='border border-accent p-1 rounded-tr-xl rounded-bl-xl'>
@@ -78,9 +86,7 @@ const page = async (props: PageProps) => {
 					</div>
 				</div>
 				<CardFooter className=' items-start'>
-					<Link href={`/patientProfile/${patient?.id}/edit`}>
-						<Edit2 className='text-primary hover:scale-110 transform duration-500 active:text-secondary' />
-					</Link>
+								<PatientForm patient={patient} />
 				</CardFooter>
 				<div className='w-full col-span-full mx-2'>
 					<h2>Notes</h2>
