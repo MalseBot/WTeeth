@@ -60,7 +60,7 @@ const page = async (props: PageProps) => {
 			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-1 h-min sm:gap-0 capitalize'>
 				<CardHeader className=''>
 					<CardTitle className='text-2xl text-primary uppercase'>
-						<Link href={`/patientProfile/${patient?.id}`}>
+						<Link className='cursor-pointer' href={`/patientProfile/${patient?.id}`}>
 							{patient?.name || 'Unknown Patient'}
 						</Link>
 					</CardTitle>

@@ -25,6 +25,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from './ui/dialog';
+// import UpdateMaterial from './UpdateMaterial';
 
 interface ParamsProps {
 	appointment: {
@@ -149,6 +150,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 										onChange={handleChange}
 									/>
 								</div>
+								{/* <UpdateMaterial id={appointment.id}/> */}
 								{error && <div className='text-red-500 text-sm'>{error}</div>}
 							</div>
 							<Button

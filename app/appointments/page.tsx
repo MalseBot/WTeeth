@@ -29,6 +29,7 @@ const page = async () => {
 			<InfoTable
 				rows={appointments}
 				patientMap={patientMap}
+				type='appointment'
 			/>
 		</section>
 	);

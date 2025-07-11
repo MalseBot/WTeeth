@@ -1,6 +1,5 @@
 /** @format */
-
-'use client';
+"use client";
 import React, { useState } from 'react';
 import {
 	Table,
@@ -12,10 +11,13 @@ import {
 } from '../ui/table';
 import Link from 'next/link';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import ItemForm from '../ItemForm';
 
 interface InfoTableRow {
-	id: string | number;
+	id: string;
+	// Common fields
 	name?: string;
+	// Appointment fields
 	date?: Date;
 	patientId?: string;
 	status?: string;
@@ -26,40 +28,57 @@ interface InfoTableRow {
 	address?: string;
 	operation?: string;
 	createdAt?: Date;
+	// Storage fields
+	type?: string;
+	quantity?: number;
+	shortageLimit?: number;
+	buyDate?: Date;
+	price?: number;
+	seller?: string;
 }
 
 interface InfoTableProps {
 	rows: InfoTableRow[];
 	patientMap?: Map<string, string>;
+	type: 'patient' | 'appointment' | 'storage';
 }
 
 type SortKey = keyof InfoTableRow;
 
-interface Appointment {
-	id: string;
-	date: Date;
-	patientId: string;
-	createdAt: Date;
-	status: string;
-	payment: number;
-	prescription: string;
-}
-interface Patient {
-	id: string;
-	name: string;
-	age: number;
-	gender: string;
-	address: string;
-	createdAt: Date;
-	// Add other patient fields as needed
-}
+const HEADERS: Record<
+	InfoTableProps['type'],
+	{ key: SortKey; label: string }[]
+> = {
+	patient: [
+		{ key: 'name', label: 'Name' },
+		{ key: 'age', label: 'Age' },
+		{ key: 'gender', label: 'Gender' },
+		{ key: 'address', label: 'Address' },
+		{ key: 'createdAt', label: 'Created At' },
+	],
+	appointment: [
+		{ key: 'date', label: 'Date' },
+		{ key: 'patientId', label: 'Patient Name' },
+		{ key: 'status', label: 'Status' },
+		{ key: 'payment', label: 'Fee Paid' },
+		{ key: 'prescription', label: 'Diagnose' },
+		{ key: 'operation', label: 'Operationed' },
+		{ key: 'createdAt', label: 'Created At' },
+	],
+	storage: [
+		{ key: 'name', label: 'Name' },
+		{ key: 'type', label: 'Type' },
+		{ key: 'quantity', label: 'Quantity' },
+		{ key: 'buyDate', label: 'Buy Date' },
+		{ key: 'price', label: 'Price' },
+		{ key: 'seller', label: 'Seller' },
+	],
+};
 
-export default function InfoTable({ rows, patientMap }: InfoTableProps) {
-	const [sortKey, setSortKey] = useState<SortKey>('date');
+export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
+	const [sortKey, setSortKey] = useState<SortKey>(HEADERS[type][0].key);
 	const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
-	const isAppointment = !!rows[0]?.patientId;
 
-	// Sorting function
 	const sortedRows = [...rows].sort((a, b) => {
 		const aValue = a[sortKey];
 		const bValue = b[sortKey];
@@ -77,7 +96,6 @@ export default function InfoTable({ rows, patientMap }: InfoTableProps) {
 			: String(bValue).localeCompare(String(aValue));
 	});
 
-	// Click handler for sorting
 	const handleSort = (key: SortKey) => {
 		if (sortKey === key) {
 			setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
@@ -89,115 +107,82 @@ export default function InfoTable({ rows, patientMap }: InfoTableProps) {
 
 	return (
 		<div className='m-10 rounded-tr-3xl rounded-bl-3xl overflow-x-auto shadow'>
-			<Table className=' rounded-bl-3xl rounded-tr-3xl'>
+			<Table className='rounded-bl-3xl rounded-tr-3xl'>
 				<TableHeader className='!rounded-tr-3xl'>
 					<TableRow className='!rounded-tr-3xl'>
-						<TableHead
-							className='w-[100px] cursor-pointer'
-							onClick={() => handleSort(rows[0]?.date ? 'date' : 'name')}>
-							{(rows[0]?.name && 'Name') || (rows[0]?.date && 'Date')}
-							{sortKey === (rows[0]?.date ? 'date' : 'name') &&
-								(sortDir === 'asc' ? ' ▲' : ' ▼')}
-						</TableHead>
-						{isAppointment && patientMap && (
+						{HEADERS[type].map((header) => (
 							<TableHead
+								key={header.key}
 								className='cursor-pointer'
-								onClick={() => handleSort('patientId')}>
-								Patient name
-								{sortKey === 'patientId' && (sortDir === 'asc' ? ' ▲' : ' ▼')}
+								onClick={() => handleSort(header.key)}>
+								{header.label}
+								{sortKey === header.key && (sortDir === 'asc' ? ' ▲' : ' ▼')}
 							</TableHead>
-						)}
-						<TableHead
-							className='w-[100px] cursor-pointer'
-							onClick={() => handleSort(rows[0]?.status ? 'status' : 'age')}>
-							{(rows[0]?.status && 'Status') || (rows[0]?.age && 'Age')}
-							{sortKey === (rows[0]?.status ? 'status' : 'age') &&
-								(sortDir === 'asc' ? ' ▲' : ' ▼')}
-						</TableHead>
-						<TableHead
-							className='w-[100px] cursor-pointer'
-							onClick={() =>
-								handleSort(rows[0]?.payment ? 'payment' : 'gender')
-							}>
-							{(rows[0]?.payment && 'Fee Paid') ||
-								(rows[0]?.gender && 'Gender')}
-							{sortKey === (rows[0]?.payment ? 'payment' : 'gender') &&
-								(sortDir === 'asc' ? ' ▲' : ' ▼')}
-						</TableHead>
-						<TableHead
-							className='cursor-pointer'
-							onClick={() =>
-								handleSort(rows[0]?.prescription ? 'prescription' : 'address')
-							}>
-							{(rows[0]?.prescription && 'Diagnose') ||
-								(rows[0]?.address && 'Address')}
-							{sortKey ===
-								(rows[0]?.prescription ? 'prescription' : 'address') &&
-								(sortDir === 'asc' ? ' ▲' : ' ▼')}
-						</TableHead>
-						<TableHead
-							className='w-[100px] cursor-pointer'
-							onClick={() =>
-								handleSort(rows[0]?.operation ? 'operation' : 'createdAt')
-							}>
-							{(rows[0]?.operation && 'Operationed') ||
-								(rows[0]?.createdAt && 'Created At')}
-							{sortKey === (rows[0]?.operation ? 'operation' : 'createdAt') &&
-								(sortDir === 'asc' ? ' ▲' : ' ▼')}
-						</TableHead>
+						))}
 						<TableHead className='w-[50px] !rounded-tr-3xl'>Info</TableHead>
 					</TableRow>
 				</TableHeader>
 				{sortedRows.length !== 0 ? (
 					sortedRows.map((e) => (
-						<TableBody key={e.id}>
+						<TableBody
+							key={e.id}
+							className={
+								typeof e.quantity === 'number' &&
+								typeof e.shortageLimit === 'number' &&
+								e.quantity <= e.shortageLimit
+									? 'bg-red-100'
+									: ''
+							}
+						>
 							<TableRow>
-								<TableCell className='font-medium'>
-									{e.date
-										? new Date(e.date).toLocaleString('en-US', {
-												weekday: 'short',
-												month: 'short',
-												day: 'numeric',
-												hour: '2-digit',
-												minute: '2-digit',
-												hour12: true,
-										  })
-										: e.name}
-								</TableCell>
-								{isAppointment && patientMap && (
-									<TableCell>
-										{e.patientId ? patientMap.get(e.patientId) : ''}
+								{HEADERS[type].map((header) => (
+									<TableCell
+										key={header.key}
+										className='font-medium'>
+										{header.key === 'patientId' && patientMap
+											? e.patientId
+												? patientMap.get(e.patientId)
+												: ''
+											: header.key === 'date' ||
+											  header.key === 'createdAt' ||
+											  header.key === 'buyDate'
+											? e[header.key]
+												? new Date(e[header.key] as Date).toLocaleString(
+														'en-US',
+														{
+															weekday: 'short',
+															month: 'short',
+															day: 'numeric',
+															hour: '2-digit',
+															minute: '2-digit',
+															hour12: true,
+														}
+												  )
+												: ''
+											: e[header.key]}
 									</TableCell>
-								)}
-								<TableCell>{e.status || e.age}</TableCell>
-								<TableCell>{e.payment || e.gender}</TableCell>
-								<TableCell>{e.prescription || e.address}</TableCell>
-								<TableCell className='text-right'>
-									{e.operation ||
-										(e.createdAt
-											? new Date(e.createdAt).toLocaleString('en-US', {
-													weekday: 'short',
-													month: 'short',
-													day: 'numeric',
-													hour: '2-digit',
-													minute: '2-digit',
-													hour12: true,
-											  })
-											: '')}
-								</TableCell>
+								))}
 								<TableCell className='flex justify-center items-center'>
-									<Link
-										href={`/${
-											e.name ? 'patientProfile' : 'appointmentDetails'
-										}/${e.id}`}>
-										<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
-									</Link>
+									{type === 'storage' ? (
+										<ItemForm id={e.id} />
+									) : (
+										<Link
+											href={`/${
+												type === 'patient'
+													? 'patientProfile'
+													: type === 'appointment'
+													&& 'appointmentDetails'
+													
+											}/${e.id}`}>
+											<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
+										</Link>
+									)}
 								</TableCell>
 							</TableRow>
 						</TableBody>
 					))
 				) : (
-					<TableCell className=' font-bold text-2xl capitalize text-center'>
+					<TableCell className='font-bold text-2xl capitalize text-center'>
 						No Information made Yet ...
 					</TableCell>
 				)}

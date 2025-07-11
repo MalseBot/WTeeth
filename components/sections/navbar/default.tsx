@@ -69,7 +69,7 @@ export default function Navbar({
 					<NavbarLeft>
 						<a
 							href={homeUrl}
-							className='flex items-center gap-2 text-xl font-bold'>
+							className='flex uppercase items-center gap-2 text-xl font-bold'>
 							{logo}
 							{name}
 						</a>
@@ -135,7 +135,7 @@ export default function Navbar({
 										<a
 											key={index}
 											href={link.href}
-											className='text-muted-foreground hover:text-foreground'>
+											className='text-muted-foreground border-b duration-500 font-semibold uppercase hover:text-foreground'>
 											{link.text}
 										</a>
 									))}

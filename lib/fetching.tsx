@@ -147,3 +147,39 @@ export async function getUpdateAppointment(data: any) {
 export async function getAllPatients() {
 	return await prisma.patient.findMany();
 }
+
+export async function getStorage() {
+	return await prisma.storage.findMany();
+}
+export async function getStorageById(id: string) {
+	return await prisma.storage.findUnique({
+		where: { id },
+	});
+}
+export async function updateStorageItem(id: string, data: any) {
+	return await prisma.storage.update({
+		where: { id },
+		data: {
+			name: data.name,
+			type: data.type,
+			quantity: data.quantity,
+			buyDate: new Date(data.buyDate),
+			price: data.price,
+			seller: data.seller,
+		},
+	});
+}
+
+export async function createStorageItem(data: any) {
+	return await prisma.storage.create({
+		data: {
+			name: data.name,
+			type: data.type,
+			quantity: data.quantity,
+			buyDate: new Date(),
+			price: data.price,
+			seller: data.seller,
+			shortageLimit: data.shortageLimit, 
+		},
+	});
+}

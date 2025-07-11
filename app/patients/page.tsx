@@ -17,7 +17,7 @@ const page = async () => {
 				/>
 				Patients
 			</h1>
-			<InfoTable rows={patients} />
+			<InfoTable rows={patients} type='patient' />
 		</section>
 	);
 };
