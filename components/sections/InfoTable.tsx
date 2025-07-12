@@ -57,13 +57,13 @@ const HEADERS: Record<
 		{ key: 'createdAt', label: 'Created At' },
 	],
 	appointment: [
-		{ key: 'date', label: 'Date' },
-		{ key: 'patientId', label: 'Patient Name' },
+		{ key: 'date', label: 'Visite date' },
+		{ key: 'patientId', label: 'Patient name' },
 		{ key: 'status', label: 'Status' },
-		{ key: 'payment', label: 'Fee Paid' },
+		{ key: 'payment', label: 'Fee paid' },
 		{ key: 'prescription', label: 'Diagnose' },
 		{ key: 'operation', label: 'Operationed' },
-		{ key: 'createdAt', label: 'Created At' },
+		{ key: 'createdAt', label: 'Created at' },
 	],
 	storage: [
 		{ key: 'name', label: 'Name' },
@@ -132,8 +132,7 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 								e.quantity <= e.shortageLimit
 									? 'bg-red-100'
 									: ''
-							}
-						>
+							}>
 							<TableRow>
 								{HEADERS[type].map((header) => (
 									<TableCell
@@ -141,7 +140,7 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 										className='font-medium'>
 										{header.key === 'patientId' && patientMap
 											? e.patientId
-												? patientMap.get(e.patientId)
+												? patientMap.get(e.patientId) ?? 'Unknown'
 												: ''
 											: header.key === 'date' ||
 											  header.key === 'createdAt' ||
@@ -170,9 +169,7 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 											href={`/${
 												type === 'patient'
 													? 'patientProfile'
-													: type === 'appointment'
-													&& 'appointmentDetails'
-													
+													: type === 'appointment' && 'appointmentDetails'
 											}/${e.id}`}>
 											<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
 										</Link>

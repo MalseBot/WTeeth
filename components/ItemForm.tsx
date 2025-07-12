@@ -24,7 +24,7 @@ import { Label } from './ui/label';
 
 const initialForm = {
 	name: '',
-	type: 'kg',
+	type: 'Unit',
 	quantity: 0,
 	shortageLimit: 0,
 	price: 0,
@@ -128,12 +128,12 @@ export default function ItemForm({ id }: { id?: string }) {
 						<select
 							id='type'
 							name='type'
-							value={form.type || 'kg'}
+							value={form.type || 'Ubit'}
 							onChange={handleChange}
 							className='border rounded px-2 py-1 w-full'
 							required>
-							<option value='kg'>kg</option>
-							<option value='ml'>ml</option>
+							<option value='Gram'>Gram</option>
+							<option value='Milliliter'>Milliliter</option>
 							<option value='Unit'>Unit</option>
 						</select>
 					</div>
