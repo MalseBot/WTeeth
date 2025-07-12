@@ -14,7 +14,7 @@ import {
 	NavbarRight,
 } from '../../ui/navbar';
 import Navigation from '../../ui/navigation';
-import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '../../ui/sheet';
 import { signOut, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { AppointmentForm } from '@/components/AppointmentForm';
@@ -125,6 +125,7 @@ export default function Navbar({
 								</Button>
 							</SheetTrigger>
 							<SheetContent side='right'>
+								<SheetTitle className='sr-only'>Navigation Menu</SheetTitle>
 								<nav className='grid gap-6 text-lg font-medium items-between'>
 									<a
 										href={homeUrl}

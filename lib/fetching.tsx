@@ -1,6 +1,7 @@
 /** @format */
 'use server';
 import { prisma } from './prisma';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Patient {
 	name: string;
@@ -157,7 +158,14 @@ export async function getStorageById(id: string) {
 	});
 }
 export async function updateStorageItem(id: string, data: any) {
-	return await prisma.storage.update({
+	return await prisma.materials.updateMany({
+		where: { name: data.name },
+		data: {
+			type: data.type,
+			name: data.name,
+		}
+	}),
+	await prisma.storage.update({
 		where: { id },
 		data: {
 			name: data.name,
@@ -183,3 +191,79 @@ export async function createStorageItem(data: any) {
 		},
 	});
 }
+
+export async function getStorageNamesAndTypes() {
+	const items = await prisma.storage.findMany({
+		select: { name: true, type: true },
+	});
+	return items;
+}
+
+export async function getMaterialsByAppointment(appointmentId: string) {
+	return await prisma.materials.findMany({
+		where: { appointmentId },
+	});
+}
+
+export async function updateMaterial(material: any) {
+	
+	await StorageCurrentQuantity(material);
+	return await prisma.materials.update({
+		where: { id: material.id },
+		data: {
+			quantity: material.quantity,
+			createdAt: new Date(),
+			// Add other fields if needed
+		},
+	});
+}
+
+export async function addMaterial(material: any) {
+		await StorageCurrentQuantity(material);
+	return await prisma.materials.create({
+		data: {
+			name: material.name,
+			type: material.type,
+			quantity: material.quantity,
+			appointmentId: material.appointmentId,
+		},
+	});
+}
+
+// do math to calculate current quantity in storage
+const StorageCurrentQuantity = async (e: any) => {
+	const storageItem = await prisma.storage.findUniqueOrThrow({
+		where: { name: e.name },
+		select: { name: true, quantity: true },
+	});
+
+	// If e.id is not provided, this is a new material
+	if (!e.id) {
+		const currentQuantity = storageItem.quantity - e.quantity;
+		const updateStorage = await prisma.storage.update({
+			where: { name: e.name },
+			data: {
+				quantity: currentQuantity,
+			},
+		});
+		return updateStorage;
+	}
+
+	// If updating an existing material
+	const oldMaterial = await prisma.materials.findUniqueOrThrow({
+		where: { id: e.id },
+		select: { name: true, quantity: true, createdAt: true },
+	});
+
+	if (oldMaterial?.quantity !== e.quantity) {
+		const diff = e.quantity - oldMaterial.quantity;
+		const currentQuantity = storageItem.quantity - diff;
+		const updateStorage = await prisma.storage.update({
+			where: { name: e.name },
+			data: {
+				quantity: currentQuantity,
+			},
+		});
+		return updateStorage;
+	}
+};

@@ -25,7 +25,7 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog';
 
 const initialForm = {
 	patientId: '',
-	date: '',
+	date: '', // Default to current date and time
 	payment: 0,
 	prescription: '',
 	status: 'Scheduled',
@@ -112,6 +112,8 @@ export const AppointmentForm = () => {
 		const result = appointmentSchema.safeParse({ ...form, patientId });
 		if (!result.success) {
 			setError(result.error.errors[0].message);
+			console.log('Validation error:', result.error);
+			
 			setLoading(false);
 			return;
 		}

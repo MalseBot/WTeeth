@@ -2,40 +2,41 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
+
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 model User {
-  id            String          @id @default(cuid())
-  email         String          @unique
-  name          String
-  password      String
-  role          Role            
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  sessions      Session[]
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  password  String
+  role      Role
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sessions  Session[]
 }
 
 enum Role {
-  Doctor 
+  Doctor
   Nurse
 }
 
 model Patient {
-  id        String   @id @default(cuid())
-  name      String
-  age       Int
-  address   String
-  bloodType String
-  phone     String
-  gender    Gender   @default(Male)
-  note      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String        @id @default(cuid())
+  name         String
+  age          Int
+  address      String
+  bloodType    String
+  phone        String
+  gender       Gender        @default(Male)
+  note         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   appointments Appointment[]
 }
+
 enum Gender {
   Male
   Female
@@ -50,28 +51,29 @@ model Media {
 }
 
 model Appointment {
-  id            String   @id @default(cuid())
-  patientId     String
-  date          DateTime
-  status        String   @default("Scheduled")
-  prescription  String
-  medicine      String
-  operation     String
-  payment       Float
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  patient       Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  materials     Materials[]
-  media         Media[]  // <-- New relation
+  id           String      @id @default(cuid())
+  patientId    String
+  date         DateTime
+  status       String      @default("Scheduled")
+  prescription String
+  medicine     String
+  operation    String
+  payment      Float
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  patient      Patient     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  materials    Materials[]
+  media        Media[] // <-- New relation
 
   @@index([patientId])
 }
- 
- enum AppointmentStatus {
+
+enum AppointmentStatus {
   Scheduled
   Completed
   Cancelled
 }
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -84,25 +86,30 @@ model Session {
 
 enum ItemType {
   Unit
-  kg
-  ml
+  Gram
+  Milliliter
 }
 
 model Materials {
-  id String @id @default(cuid())
-  name String
-  type ItemType @default(Unit)
-  quantity Int
+  id            String      @id @default(cuid())
+  name          String
+  type          ItemType    @default(Unit)
+  quantity      Int
+  createdAt     DateTime    @default(now())
   appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
   appointmentId String
+  storage       Storage     @relation(fields: [name], references: [name], onDelete: Cascade)
 }
-model Storage{
-  id String  @id @default(cuid())
-  name String
-  type ItemType @default(Unit)
-  quantity Int
-  buyDate DateTime
+
+model Storage {
+  id            String      @id @default(cuid())
+  name          String      @unique
+  type          ItemType    @default(Unit)
+  quantity      Int
+  buyDate       DateTime
   shortageLimit Int
-  price Int
-  seller String
+  price         Int
+  seller        String
+  updatedAt     DateTime    @updatedAt
+  materials     Materials[]
 }
