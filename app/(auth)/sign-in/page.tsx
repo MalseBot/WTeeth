@@ -38,16 +38,15 @@ export default function SignInPage() {
 			return;
 		}
 
-		await signIn('credentials', {
+		const res = await signIn('credentials', {
 			email: form.email,
 			password: form.password,
 			redirect: true,
 			redirectTo: '/',
 		});
-		if (error) {
+		//@ts-ignore
+		if (res?.error) {
 			setError('Invalid credentials');
-			console.log(Error);
-			
 			setLoading(false);
 			return;
 		}

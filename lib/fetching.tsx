@@ -1,6 +1,7 @@
 /** @format */
 'use server';
 import { prisma } from './prisma';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Patient {
 	name: string;
