@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import ItemForm from '../ItemForm';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 interface InfoTableRow {
 	id: string;
@@ -35,12 +36,15 @@ interface InfoTableRow {
 	buyDate?: Date;
 	price?: number;
 	seller?: string;
+	// Budget fields
+	info?: string;
+	updatedAt?: Date;
 }
 
 interface InfoTableProps {
 	rows: InfoTableRow[];
 	patientMap?: Map<string, string>;
-	type: 'patient' | 'appointment' | 'storage';
+	type: 'patient' | 'appointment' | 'storage'| 'budget';
 }
 
 type SortKey = keyof InfoTableRow;
@@ -73,6 +77,12 @@ const HEADERS: Record<
 		{ key: 'price', label: 'Price' },
 		{ key: 'seller', label: 'Seller' },
 	],
+	budget:[
+		{ key: 'name', label: 'Name' },
+		{ key: 'createdAt', label: 'Date' },
+		{ key: 'price', label: 'Price' },
+		{key: 'info', label: 'Info' },
+	]
 };
 
 export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
@@ -106,14 +116,14 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 	};
 
 	return (
-		<div className='m-10 rounded-tr-3xl rounded-bl-3xl overflow-x-auto shadow'>
+		<div className='m-10 mt-0 rounded-tr-3xl rounded-bl-3xl w-full h-fit overflow-x-auto shadow'>
 			<Table className='rounded-bl-3xl rounded-tr-3xl'>
 				<TableHeader className='!rounded-tr-3xl'>
 					<TableRow className='!rounded-tr-3xl'>
 						{HEADERS[type].map((header) => (
 							<TableHead
 								key={header.key}
-								className='cursor-pointer'
+								className='cursor-pointer w-fit'
 								onClick={() => handleSort(header.key)}>
 								{header.label}
 								{sortKey === header.key && (sortDir === 'asc' ? ' ▲' : ' ▼')}
@@ -135,34 +145,64 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 							}>
 							<TableRow>
 								{HEADERS[type].map((header) => (
-									<TableCell
-										key={header.key}
-										className='font-medium'>
-										{header.key === 'patientId' && patientMap
-											? e.patientId
-												? patientMap.get(e.patientId) ?? 'Unknown'
-												: ''
-											: header.key === 'date' ||
-											  header.key === 'createdAt' ||
-											  header.key === 'buyDate'
-											? e[header.key]
-												? new Date(e[header.key] as Date).toLocaleString(
-														'en-US',
-														{
-															weekday: 'short',
-															month: 'short',
-															day: 'numeric',
-															hour: '2-digit',
-															minute: '2-digit',
-															hour12: true,
-														}
-												  )
-												: ''
-											: e[header.key]}
+									<TableCell key={header.key}>
+										<Popover>
+											<PopoverTrigger
+												className={`font-medium ${
+													type === 'budget' && ' max-w-[150px] '
+												} overflow-hidden text-ellipsis`}>
+												{header.key === 'patientId' && patientMap
+													? e.patientId
+														? patientMap.get(e.patientId) ?? 'Unknown'
+														: ''
+													: header.key === 'date' ||
+													  header.key === 'createdAt' ||
+													  header.key === 'buyDate' ||
+													  header.key === 'updatedAt'
+													? e[header.key]
+														? new Date(e[header.key] as Date).toLocaleString(
+																'en-US',
+																{
+																	weekday: 'short',
+																	month: 'short',
+																	day: 'numeric',
+																	hour: '2-digit',
+																	minute: '2-digit',
+																	hour12: true,
+																}
+														  )
+														: ''
+													: e[header.key]}
+											</PopoverTrigger>
+											<PopoverContent>
+												{header.key === 'patientId' && patientMap
+													? e.patientId
+														? patientMap.get(e.patientId) ?? 'Unknown'
+														: ''
+													: header.key === 'date' ||
+													  header.key === 'createdAt' ||
+													  header.key === 'buyDate' ||
+													  header.key === 'updatedAt'
+													? e[header.key]
+														? new Date(e[header.key] as Date).toLocaleString(
+																'en-US',
+																{
+																	weekday: 'short',
+																	month: 'short',
+																	day: 'numeric',
+																	hour: '2-digit',
+																	minute: '2-digit',
+																	hour12: true,
+																}
+														  )
+														: ''
+													: e[header.key]}{' '}
+											</PopoverContent>
+										</Popover>
 									</TableCell>
 								))}
 								<TableCell className='flex justify-center items-center'>
-									{type === 'storage' ? (
+									{type === 'storage' || type === 'budget' ? (
 										<ItemForm id={e.id} />
 									) : (
 										<Link

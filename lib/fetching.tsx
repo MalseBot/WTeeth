@@ -1,7 +1,7 @@
 /** @format */
 'use server';
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { prisma } from './prisma';
-import { v4 as uuidv4 } from 'uuid';
 
 interface Patient {
 	name: string;
@@ -179,6 +179,7 @@ export async function updateStorageItem(id: string, data: any) {
 }
 
 export async function createStorageItem(data: any) {
+	
 	return await prisma.storage.create({
 		data: {
 			name: data.name,
@@ -220,6 +221,7 @@ export async function updateMaterial(material: any) {
 
 export async function addMaterial(material: any) {
 		await StorageCurrentQuantity(material);
+		
 	return await prisma.materials.create({
 		data: {
 			name: material.name,
@@ -267,3 +269,190 @@ const StorageCurrentQuantity = async (e: any) => {
 		return updateStorage;
 	}
 };
+
+export async function getStorageByDateRange(startDate: Date, endDate: Date) {
+	return await prisma.storage.findMany({
+		where: {
+			buyDate: {
+				gte: startDate,
+				lte: endDate,
+			},
+		},
+		select: {
+			price: true,
+			buyDate: true,
+		},
+	});
+}
+
+export async function getAppointmentsByDateRange(startDate: Date,endDate:Date) {
+	return await prisma.appointment.findMany({
+		where: {
+			date: {
+				gte: startDate,
+				lte: endDate,
+			},
+		},
+		select: {
+			payment: true,
+			createdAt: true,
+		}
+	});
+}
+
+export async function getBudget() {
+	return await prisma.budget.findMany();
+}
+
+export async function getBudgetIncome(){
+	return await prisma.budget.findMany(
+		{where:{
+			type : 'income'
+		}}
+	)
+}
+
+export async function getBudgetExpense() {
+	return await prisma.budget.findMany({
+		where: {
+			type: 'expense',
+		},
+	});
+}
+export async function calculateBudgetTotal() {
+	const budgets = await prisma.budget.findMany({
+		where: { type: 'expense' },
+		select: { price: true },
+	});
+	return budgets.reduce((total, budget) => total + budget.price, 0);
+}
+
+export async function createBudget(data: any) {
+	return await prisma.budget.create({
+		data: {
+			name: data.name,
+			type: data.type,
+			price: data.price,
+			info: data.info,
+			createdAt: new Date(),
+		},
+	});
+}
+
+export async function updateBudget(id: string, data: any) {
+	return await prisma.budget.update({
+		where: { id },
+		data: {
+			name: data.name,
+			type: data.type,
+			price: data.price,
+			info: data.info,
+			updatedAt: new Date(),
+		},
+	});
+}
+
+export async function deleteBudget(id: string) {
+	return await prisma.budget.delete({
+		where: { id },
+	});
+}
+
+export async function updateIncome(){
+	const now = new Date();
+	const firstDayOfThisMonth = startOfMonth(now);
+	const lastDayOfThisMonth = endOfMonth(now);
+	console.log(`Fetching data from ${firstDayOfThisMonth} to ${lastDayOfThisMonth}`);
+	
+		const appointments = await getAppointmentsByDateRange(
+			new Date(firstDayOfThisMonth),
+			new Date(lastDayOfThisMonth)
+		);
+		const storage = await getStorageByDateRange(new Date(firstDayOfThisMonth),new Date(lastDayOfThisMonth));
+	
+		const sumAppointments = appointments.reduce((acc, appointment) => {
+			return acc + appointment.payment;
+		}, 0);
+		const sumStorage = storage.reduce((acc, item) => {
+			return acc + item.price;
+		}, 0);
+
+		return await prisma.budget.update({
+			where: { name: 'Appointments' },
+			data: {
+				type: 'income',
+				price: sumAppointments ,
+				info: `Total income from appointments for the month.`,
+				createdAt: new Date(),
+			},
+		}),
+		await prisma.budget.update({
+			where: { name: 'Storage' },
+			data: {
+				type: 'expense',
+				price: sumStorage,
+				info: `Total income from storage for the month.`,
+				createdAt: new Date(),
+			},
+		});
+}
+
+export async function getTotalExpense() {
+	
+
+	const budgets = await prisma.budget.findMany({
+		where: { type: 'expense' },
+		select: { price: true },
+	});
+	return budgets.reduce((total, budget) => total + budget.price, 0);
+}
+
+export async function getAllbudget(){
+	const now = new Date();
+	const firstDayOfThisMonth = startOfMonth(now);
+	const lastDayOfThisMonth = endOfMonth(now);
+	const expense = await prisma.budget.findMany({
+		where: {
+			createdAt: {
+				gte: firstDayOfThisMonth,
+				lte: lastDayOfThisMonth,
+			},
+			type: 'expense',
+		},
+		select: { price: true, createdAt: true, type: true },
+	});
+	const income = await prisma.appointment.findMany({
+		where: {
+			date: {
+				gte: firstDayOfThisMonth,
+				lte: lastDayOfThisMonth,
+			},
+		},
+		select: { payment: true, createdAt: true },
+	});
+	// Add `type: 'income'` to each income item
+	const allTransactions = [
+		...expense,
+		...income.map((item) => ({
+			...item,
+			type: 'income' as const,
+			price: item.payment,
+		})),
+	];
+
+	return allTransactions;
+}
+
+export async function getTotalBudget() {
+	const income = await prisma.budget.findMany({
+		where: { type: 'income' },
+		select: { price: true },
+	});
+	const expense = await prisma.budget.findMany({
+		where: { type: 'expense' },
+		select: { price: true },
+	});
+	const totalBudget = income.reduce((total, item) => total + item.price, 0) -
+		expense.reduce((total, item) => total + item.price, 0);
+	return totalBudget
+}

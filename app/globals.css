@@ -1,8 +1,13 @@
+/** @format */
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
 :root {
+	--chart-1: #6f4fff; /* blue-500 */
+	--chart-2: #11f7aa; /* emerald-500 */
+	--color-desktop: var(--chart-1);
+	--color-mobile: var(--chart-2);
 	--background: #f8f8f8;
 	--foreground: #333333;
 	--card: #ffffff;

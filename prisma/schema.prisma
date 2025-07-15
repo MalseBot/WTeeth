@@ -113,3 +113,21 @@ model Storage {
   updatedAt     DateTime    @updatedAt
   materials     Materials[]
 }
+
+enum budgetType {
+  income
+  expense
+}
+
+model Budget {
+  id            String      @id @default(cuid())
+  name          String      @unique
+  type          budgetType
+  repeatable    Boolean     @default(false)
+  info         String
+  price         Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([name])
+}
