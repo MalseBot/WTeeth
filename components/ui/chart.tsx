@@ -108,7 +108,7 @@ function ChartTooltipContent({
   active,
   payload,
   className,
-  indicator = "dot",
+  indicator = "line",
   hideLabel = false,
   hideIndicator = false,
   label,
@@ -153,7 +153,7 @@ function ChartTooltipContent({
       return null
     }
 
-    return <div className={cn("font-medium", labelClassName)}>{value}</div>
+    return <div className={cn("font-medium", labelClassName)}> {" "}{value}</div>
   }, [
     label,
     labelFormatter,
@@ -234,7 +234,7 @@ function ChartTooltipContent({
                     </div>
                     {item.value && (
                       <span className="text-foreground font-mono font-medium tabular-nums">
-                        {item.value.toLocaleString()}
+                        {' '}{item.value.toLocaleString()}
                       </span>
                     )}
                   </div>

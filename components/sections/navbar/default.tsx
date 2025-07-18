@@ -17,7 +17,7 @@ import Navigation from '../../ui/navigation';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '../../ui/sheet';
 import { signOut, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import { AppointmentForm } from '@/components/AppointmentForm';
+import { AppointmentForm } from '@/components/forms/AppointmentForm';
 
 interface NavbarLink {
 	text: string;
@@ -52,7 +52,7 @@ export default function Navbar({
 		{ text: 'appointment', href: '/appointments' },
 		{ text: 'patients', href: '/patients' },
 		{ text: 'storage', href: '/storage' },
-		{ text: 'income', href: '/income' },
+		{ text: 'budget', href: '/budget' },
 	],
 	actions = [{ text: 'Sign in', href: '/sign-in', isButton: false }],
 	showNavigation = true,

@@ -303,6 +303,11 @@ export async function getAppointmentsByDateRange(startDate: Date,endDate:Date) {
 export async function getBudget() {
 	return await prisma.budget.findMany();
 }
+export async function getBudgetById(id: string) {
+	return await prisma.budget.findUnique({
+		where: { id },
+	});
+}
 
 export async function getBudgetIncome(){
 	return await prisma.budget.findMany(
@@ -331,7 +336,7 @@ export async function createBudget(data: any) {
 	return await prisma.budget.create({
 		data: {
 			name: data.name,
-			type: data.type,
+			type: 'expense',
 			price: data.price,
 			info: data.info,
 			createdAt: new Date(),
@@ -347,7 +352,7 @@ export async function updateBudget(id: string, data: any) {
 			type: data.type,
 			price: data.price,
 			info: data.info,
-			updatedAt: new Date(),
+			createdAt: new Date(),
 		},
 	});
 }

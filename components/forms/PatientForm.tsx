@@ -1,3 +1,5 @@
+/** @format */
+
 'use client';
 
 import { useState } from 'react';
@@ -17,7 +19,13 @@ import { getUpdatePatient } from '@/lib/fetching';
 import { useRouter } from 'next/navigation';
 import { editPatientSchema } from '@/lib/zodSchemas';
 import { Edit2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '../ui/dialog';
 
 interface PatientProps {
 	patient: {
@@ -34,13 +42,13 @@ interface PatientProps {
 }
 
 export default function PatientForm({ patient }: PatientProps) {
-	const router = useRouter()
+	const router = useRouter();
 	const [form, setForm] = useState(patient || {});
-	const [error, setError] = useState('')
-	const [loading, setLoading] = useState(false)
-	const handleSubmit = (e:React.FormEvent)=>{
-		e.preventDefault()
-		setLoading(true)
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		setLoading(true);
 		const result = editPatientSchema.safeParse(form);
 		if (!result.success) {
 			setError(result.error.errors[0].message);
@@ -48,16 +56,16 @@ export default function PatientForm({ patient }: PatientProps) {
 			return;
 		}
 		console.log(form);
-		const update = getUpdatePatient(form.id,form)
-		if(!update){
-			setError('Something went wrong !!')
+		const update = getUpdatePatient(form.id, form);
+		if (!update) {
+			setError('Something went wrong !!');
 			console.log(error);
-			setLoading(false)
+			setLoading(false);
 		}
-		 router.refresh()
-		setLoading(false)
+		router.refresh();
+		setLoading(false);
 		//toaster
-	}
+	};
 
 	return (
 		<Dialog>

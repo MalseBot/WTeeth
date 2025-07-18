@@ -1,37 +1,22 @@
-/** @format */
-
-'use client';
-import { useEffect, useState } from 'react';
-import {
-	getStorageById,
-	updateStorageItem,
-	createStorageItem,
-} from '@/lib/fetching';
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from './ui/dialog';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { CardTitle } from './ui/card';
+"use client"
+import React, { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import {  CardTitle } from '../ui/card';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
 import { EditIcon, PlusIcon } from 'lucide-react';
-import { Textarea } from './ui/textarea';
+import { createBudget, getBudgetById, updateBudget } from '@/lib/fetching';
 import { useRouter } from 'next/navigation';
-import { Label } from './ui/label';
 
 const initialForm = {
 	name: '',
-	type: 'Unit',
-	quantity: 0,
-	shortageLimit: 0,
 	price: 0,
-	seller: '',
+	info: '',
 };
 
-export default function ItemForm({ id }: { id?: string }) {
+export default function BudgetForm({ id }: { id?: string }) {
 	const [item, setItem] = useState<any>(null);
 	const [form, setForm] = useState<any>(initialForm);
 	const [loading, setLoading] = useState(false);
@@ -41,12 +26,12 @@ export default function ItemForm({ id }: { id?: string }) {
 
 	useEffect(() => {
 		if (id) {
-			getStorageById(id).then((data) => {
+			getBudgetById(id).then((data) => {
 				setItem(data);
 				setForm({
 					...data,
-					buyDate: data?.buyDate
-						? new Date(data.buyDate).toISOString().slice(0, 10)
+					createdAt: data?.createdAt
+						? new Date(data.createdAt).toISOString().slice(0, 10)
 						: '',
 				});
 			});
@@ -63,10 +48,7 @@ export default function ItemForm({ id }: { id?: string }) {
 		const { name, value } = e.target;
 		setForm((f: any) => ({
 			...f,
-			[name]:
-				name === 'quantity' || name === 'price' || name === 'shortageLimit'
-					? Number(value)
-					: value,
+			[name]: name === 'price' ? Number(value) : value,
 		}));
 	};
 
@@ -76,9 +58,9 @@ export default function ItemForm({ id }: { id?: string }) {
 		setError('');
 		try {
 			if (isEdit) {
-				await updateStorageItem(id!, form);
+				await updateBudget(id!, form);
 			} else {
-				await createStorageItem(form);
+				await createBudget(form);
 				setForm(initialForm);
 			}
 			route.refresh();
@@ -86,11 +68,10 @@ export default function ItemForm({ id }: { id?: string }) {
 		} catch (err) {
 			setError('Failed to save item');
 			console.log('Error saving item:', err);
-			
+
 			setLoading(false);
 		}
 	};
-
 	return (
 		<Dialog>
 			<DialogTrigger>
@@ -99,7 +80,7 @@ export default function ItemForm({ id }: { id?: string }) {
 				) : (
 					<p className='inline-flex py-1.5 px-2 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'>
 						<PlusIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />{' '}
-						Add Item
+						Add Expense
 					</p>
 				)}
 			</DialogTrigger>
@@ -124,44 +105,6 @@ export default function ItemForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div>
-						<Label htmlFor='type'>Type</Label>
-						<select
-							id='type'
-							name='type'
-							value={form.type || 'Ubit'}
-							onChange={handleChange}
-							className='border rounded px-2 py-1 w-full'
-							required>
-							<option value='Gram'>Gram</option>
-							<option value='Milliliter'>Milliliter</option>
-							<option value='Unit'>Unit</option>
-						</select>
-					</div>
-					<div>
-						<Label htmlFor='quantity'>Quantity</Label>
-						<Input
-							id='quantity'
-							name='quantity'
-							type='number'
-							value={form.quantity ?? ''}
-							onChange={handleChange}
-							placeholder='Quantity'
-							required
-						/>
-					</div>
-					<div>
-						<Label htmlFor='shortageLimit'>Shortage Limit</Label>
-						<Input
-							id='shortageLimit'
-							name='shortageLimit'
-							type='number'
-							value={form.shortageLimit ?? 0}
-							onChange={handleChange}
-							placeholder='Shortage limit'
-							required
-						/>
-					</div>
-					<div>
 						<Label htmlFor='price'>Price</Label>
 						<Input
 							id='price'
@@ -169,16 +112,16 @@ export default function ItemForm({ id }: { id?: string }) {
 							type='number'
 							value={form.price ?? ''}
 							onChange={handleChange}
-							placeholder='Price'
+							placeholder='Quantity'
 							required
 						/>
 					</div>
 					<div className='col-span-2'>
-						<Label htmlFor='seller'>Seller</Label>
+						<Label htmlFor='info'>Info</Label>
 						<Textarea
-							id='seller'
-							name='seller'
-							value={form.seller || ''}
+							id='info'
+							name='info'
+							value={form.info || ''}
 							onChange={handleChange}
 							placeholder='Seller'
 						/>

@@ -26,7 +26,7 @@ import Link from 'next/link';
 import { getAppointment, getPatient } from '@/lib/fetching';
 import Image from 'next/image';
 import { ImageDocument } from '@/components/ImageDocument';
-import UpdateAppointmentForm from '@/components/UpdateAppointmentForm';
+import UpdateAppointmentForm from '@/components/forms/UpdateAppointmentForm';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -60,7 +60,9 @@ const page = async (props: PageProps) => {
 			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-1 h-min sm:gap-0 capitalize'>
 				<CardHeader className=''>
 					<CardTitle className='text-2xl text-primary uppercase'>
-						<Link className='cursor-pointer' href={`/patientProfile/${patient?.id}`}>
+						<Link
+							className='cursor-pointer'
+							href={`/patientProfile/${patient?.id}`}>
 							{patient?.name || 'Unknown Patient'}
 						</Link>
 					</CardTitle>
@@ -169,7 +171,7 @@ const page = async (props: PageProps) => {
 				</h3>
 				<div className='text-accent'>
 					{appointment?.materials.map((e) => (
-						<p key={e?.id||e.length}>
+						<p key={e?.id || e.length}>
 							{e?.name}: {e?.quantity} {e?.type}
 						</p>
 					)) || 'Waiting to be diagnosed'}

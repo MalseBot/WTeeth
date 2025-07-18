@@ -4,8 +4,8 @@
 @import 'tw-animate-css';
 
 :root {
-	--chart-1: #6f4fff; /* blue-500 */
-	--chart-2: #11f7aa; /* emerald-500 */
+	--chart-1: #37ff79; /* blue-500 */
+	--chart-2: #ff3535; /* emerald-500 */
 	--color-desktop: var(--chart-1);
 	--color-mobile: var(--chart-2);
 	--background: #f8f8f8;
@@ -26,8 +26,6 @@
 	--border: #d4d4d4;
 	--input: #d4d4d4;
 	--ring: #5f4da3;
-	--chart-1: #5f4da3;
-	--chart-2: #6f4da3;
 	--chart-3: #804da3;
 	--chart-4: #4d7ba3;
 	--chart-5: #4d96a3;

@@ -1,6 +1,6 @@
 /** @format */
 
-import ItemForm from '@/components/ItemForm';
+import ItemForm from '@/components/forms/ItemForm';
 import InfoTable from '@/components/sections/InfoTable';
 import { getStorage } from '@/lib/fetching';
 import { StarFilledIcon } from '@radix-ui/react-icons';
@@ -20,7 +20,7 @@ export default async function page() {
 					Storage
 				</h1>
 				<div className='mx-10'>
-				<ItemForm />
+					<ItemForm />
 				</div>
 			</div>
 

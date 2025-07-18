@@ -2,8 +2,8 @@
 
 'use client';
 import React, { useState } from 'react';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 import {
 	Card,
 	CardContent,
@@ -11,9 +11,9 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from './ui/card';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
+} from '../ui/card';
+import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 import { useRouter } from 'next/navigation';
 import { appointmentSchema } from '@/lib/zodSchemas';
 import { getUpdateAppointment } from '@/lib/fetching';
@@ -24,8 +24,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from './ui/dialog';
-import UpdateMaterial from './UpdateMaterial';
+} from '../ui/dialog';
+import UpdateMaterial from '../UpdateMaterial';
 // import UpdateMaterial from './UpdateMaterial';
 
 interface ParamsProps {
@@ -97,7 +97,9 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 						</CardHeader>
 					</DialogHeader>
 					<CardContent className='gap-5'>
-						<form onSubmit={handleSubmit} className='w-3/5'>
+						<form
+							onSubmit={handleSubmit}
+							className='w-3/5'>
 							<div className='grid grid-cols-2 gap-6'>
 								<div className='grid gap-2'>
 									<Label htmlFor='status'>Status</Label>
@@ -161,7 +163,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 								{loading ? 'Saving...' : 'Update Appointment'}
 							</Button>
 						</form>
-								<UpdateMaterial id={appointment.id}/>
+						<UpdateMaterial id={appointment.id} />
 					</CardContent>
 					<CardFooter />
 				</Card>

@@ -1,5 +1,5 @@
 /** @format */
-"use client";
+'use client';
 import React, { useState } from 'react';
 import {
 	Table,
@@ -11,8 +11,11 @@ import {
 } from '../ui/table';
 import Link from 'next/link';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import ItemForm from '../ItemForm';
+import ItemForm from '../forms/ItemForm';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import BudgetForm from '../forms/BudgetForm';
+import { XIcon } from 'lucide-react';
+import DeleteBudget from '../DeleteBudget';
 
 interface InfoTableRow {
 	id: string;
@@ -44,7 +47,7 @@ interface InfoTableRow {
 interface InfoTableProps {
 	rows: InfoTableRow[];
 	patientMap?: Map<string, string>;
-	type: 'patient' | 'appointment' | 'storage'| 'budget';
+	type: 'patient' | 'appointment' | 'storage' | 'budget';
 }
 
 type SortKey = keyof InfoTableRow;
@@ -77,12 +80,12 @@ const HEADERS: Record<
 		{ key: 'price', label: 'Price' },
 		{ key: 'seller', label: 'Seller' },
 	],
-	budget:[
+	budget: [
 		{ key: 'name', label: 'Name' },
 		{ key: 'createdAt', label: 'Date' },
 		{ key: 'price', label: 'Price' },
-		{key: 'info', label: 'Info' },
-	]
+		{ key: 'info', label: 'Info' },
+	],
 };
 
 export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
@@ -116,7 +119,7 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 	};
 
 	return (
-		<div className='m-10 mt-0 rounded-tr-3xl rounded-bl-3xl w-full h-fit overflow-x-auto shadow'>
+		<div className='m-10 my-0 rounded-tr-3xl rounded-bl-3xl w-full h-fit overflow-x-auto shadow'>
 			<Table className='rounded-bl-3xl rounded-tr-3xl'>
 				<TableHeader className='!rounded-tr-3xl'>
 					<TableRow className='!rounded-tr-3xl'>
@@ -202,9 +205,14 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 									</TableCell>
 								))}
 								<TableCell className='flex justify-center items-center'>
-									{type === 'storage' || type === 'budget' ? (
+									{type === 'storage' ? (
 										<ItemForm id={e.id} />
-									) : (
+									) : type === 'budget' ? 
+										e.name === 'Storage' ? '':<>
+											<BudgetForm id={e.id} />
+											 <DeleteBudget id={e.id}/>
+										</>
+									 : (
 										<Link
 											href={`/${
 												type === 'patient'

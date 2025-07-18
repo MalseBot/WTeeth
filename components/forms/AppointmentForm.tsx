@@ -8,9 +8,9 @@ import {
 	getAllPatients,
 	getCreatePatient,
 } from '@/lib/fetching';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
 import {
 	Card,
 	CardHeader,
@@ -18,10 +18,15 @@ import {
 	CardDescription,
 	CardContent,
 	CardFooter,
-} from './ui/card';
-import { Button } from './ui/button';
+} from '../ui/card';
+import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog';
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogTrigger,
+} from '../ui/dialog';
 
 const initialForm = {
 	patientId: '',
@@ -113,7 +118,7 @@ export const AppointmentForm = () => {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			console.log('Validation error:', result.error);
-			
+
 			setLoading(false);
 			return;
 		}
@@ -137,7 +142,6 @@ export const AppointmentForm = () => {
 		<Dialog>
 			<DialogTrigger
 				type='button'
-				
 				className='inline-flex px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'>
 				Add Appointment
 			</DialogTrigger>
