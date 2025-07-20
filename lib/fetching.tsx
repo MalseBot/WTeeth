@@ -30,6 +30,7 @@ interface Appointment {
 	id: string;
 	date: Date;
 	patientId: string;
+	patientName: string;
 	createdAt: Date;
 	updatedAt: Date;
 	status: string;
@@ -116,17 +117,23 @@ export async function getCreatePatient(data: any) {
 }
 
 export async function getCreateAppointment(data: any) {
-	return await prisma.appointment.create({
-		data: {
-			patientId: data.patientId,
-			date: new Date(data.date),
-			status: data.status || 'Scheduled',
-			prescription: data.prescription,
-			medicine: data.medicine || '',
-			operation: data.operation || '',
-			payment: data.payment,
-		},
-	});
+	try {
+		return await prisma.appointment.create({
+			data: {
+				patientId: data.patientId,
+				patientName: data.patientName,
+				date: new Date(data.date),
+				status: data.status || 'Scheduled',
+				prescription: data.prescription,
+				medicine: data.medicine || '',
+				operation: data.operation || '',
+				payment: data.payment,
+			},
+		});
+	} catch (error) {
+		console.error('Error creating appointment:', error);
+		throw new Error('Failed to create appointment');
+	}
 }
 
 export async function getUpdateAppointment(data: any) {
@@ -134,6 +141,7 @@ export async function getUpdateAppointment(data: any) {
 		where: { id: data.id },
 		data: {
 			patientId: data.patientId,
+			patientName: data.patientName,
 			status: data.status,
 			prescription: data.prescription,
 			medicine: data.medicine,
@@ -158,37 +166,39 @@ export async function getStorageById(id: string) {
 	});
 }
 export async function updateStorageItem(id: string, data: any) {
-	return await prisma.materials.updateMany({
-		where: { name: data.name },
-		data: {
-			type: data.type,
-			name: data.name,
-		}
-	}),
-	await prisma.storage.update({
-		where: { id },
-		data: {
-			name: data.name,
-			type: data.type,
-			quantity: data.quantity,
-			buyDate: new Date(data.buyDate),
-			price: data.price,
-			seller: data.seller,
-		},
-	});
+	return (
+		await prisma.materials.updateMany({
+			where: { name: data.name },
+			data: {
+				type: data.type,
+				name: data.name,
+			},
+		}),
+		await prisma.storage.update({
+			where: { id },
+			data: {
+				name: data.name,
+				type: data.type,
+				currentAmount: data.currentAmount,
+				buyDate: new Date(data.buyDate),
+				price: data.price,
+				seller: data.seller,
+			},
+		})
+	);
 }
 
 export async function createStorageItem(data: any) {
-	
 	return await prisma.storage.create({
 		data: {
 			name: data.name,
 			type: data.type,
-			quantity: data.quantity,
+			quantity: data.currentAmount,
+			currentAmount: data.currentAmount,
 			buyDate: new Date(),
 			price: data.price,
 			seller: data.seller,
-			shortageLimit: data.shortageLimit, 
+			shortageLimit: data.shortageLimit,
 		},
 	});
 }
@@ -207,7 +217,6 @@ export async function getMaterialsByAppointment(appointmentId: string) {
 }
 
 export async function updateMaterial(material: any) {
-	
 	await StorageCurrentQuantity(material);
 	return await prisma.materials.update({
 		where: { id: material.id },
@@ -220,8 +229,8 @@ export async function updateMaterial(material: any) {
 }
 
 export async function addMaterial(material: any) {
-		await StorageCurrentQuantity(material);
-		
+	await StorageCurrentQuantity(material);
+
 	return await prisma.materials.create({
 		data: {
 			name: material.name,
@@ -236,16 +245,16 @@ export async function addMaterial(material: any) {
 const StorageCurrentQuantity = async (e: any) => {
 	const storageItem = await prisma.storage.findUniqueOrThrow({
 		where: { name: e.name },
-		select: { name: true, quantity: true },
+		select: { name: true, currentAmount: true },
 	});
 
 	// If e.id is not provided, this is a new material
 	if (!e.id) {
-		const currentQuantity = storageItem.quantity - e.quantity;
+		const currentQuantity = storageItem.currentAmount - e.quantity;
 		const updateStorage = await prisma.storage.update({
 			where: { name: e.name },
 			data: {
-				quantity: currentQuantity,
+				currentAmount: currentQuantity,
 			},
 		});
 		return updateStorage;
@@ -259,11 +268,11 @@ const StorageCurrentQuantity = async (e: any) => {
 
 	if (oldMaterial?.quantity !== e.quantity) {
 		const diff = e.quantity - oldMaterial.quantity;
-		const currentQuantity = storageItem.quantity - diff;
+		const currentQuantity = storageItem.currentAmount - diff;
 		const updateStorage = await prisma.storage.update({
 			where: { name: e.name },
 			data: {
-				quantity: currentQuantity,
+				currentAmount: currentQuantity,
 			},
 		});
 		return updateStorage;
@@ -285,18 +294,18 @@ export async function getStorageByDateRange(startDate: Date, endDate: Date) {
 	});
 }
 
-export async function getAppointmentsByDateRange(startDate: Date,endDate:Date) {
+export async function getAppointmentsByDateRange(
+	startDate: Date,
+	endDate: Date
+) {
 	return await prisma.appointment.findMany({
 		where: {
 			date: {
 				gte: startDate,
 				lte: endDate,
 			},
+			status: 'Scheduled',
 		},
-		select: {
-			payment: true,
-			createdAt: true,
-		}
 	});
 }
 
@@ -309,12 +318,12 @@ export async function getBudgetById(id: string) {
 	});
 }
 
-export async function getBudgetIncome(){
-	return await prisma.budget.findMany(
-		{where:{
-			type : 'income'
-		}}
-	)
+export async function getBudgetIncome() {
+	return await prisma.budget.findMany({
+		where: {
+			type: 'income',
+		},
+	});
 }
 
 export async function getBudgetExpense() {
@@ -324,13 +333,7 @@ export async function getBudgetExpense() {
 		},
 	});
 }
-export async function calculateBudgetTotal() {
-	const budgets = await prisma.budget.findMany({
-		where: { type: 'expense' },
-		select: { price: true },
-	});
-	return budgets.reduce((total, budget) => total + budget.price, 0);
-}
+
 
 export async function createBudget(data: any) {
 	return await prisma.budget.create({
@@ -363,34 +366,59 @@ export async function deleteBudget(id: string) {
 	});
 }
 
-export async function updateIncome(){
+export async function updateIncome() {
 	const now = new Date();
 	const firstDayOfThisMonth = startOfMonth(now);
 	const lastDayOfThisMonth = endOfMonth(now);
-	console.log(`Fetching data from ${firstDayOfThisMonth} to ${lastDayOfThisMonth}`);
-	
-		const appointments = await getAppointmentsByDateRange(
-			new Date(firstDayOfThisMonth),
-			new Date(lastDayOfThisMonth)
-		);
-		const storage = await getStorageByDateRange(new Date(firstDayOfThisMonth),new Date(lastDayOfThisMonth));
-	
-		const sumAppointments = appointments.reduce((acc, appointment) => {
-			return acc + appointment.payment;
-		}, 0);
-		const sumStorage = storage.reduce((acc, item) => {
-			return acc + item.price;
-		}, 0);
+	console.log(
+		`Fetching data from ${firstDayOfThisMonth} to ${lastDayOfThisMonth}`
+	);
 
-		return await prisma.budget.update({
+	const appointments = await getAppointmentsByDateRange(
+		new Date(firstDayOfThisMonth),
+		new Date(lastDayOfThisMonth)
+	);
+	const storage = await getStorageByDateRange(
+		new Date(firstDayOfThisMonth),
+		new Date(lastDayOfThisMonth)
+	);
+
+	const sumAppointments = appointments.reduce((acc, appointment) => {
+		return acc + appointment.payment;
+	}, 0);
+	const sumStorage = storage.reduce((acc, item) => {
+		return acc + item.price;
+	}, 0);
+	const income = await prisma.budget.findFirst({
+		where: { type: 'income' },
+		select: { price: true },
+	});
+	const storageExpense = await prisma.budget.findFirst({
+		where: { type: 'expense', name: 'Storage' },
+		select: { price: true },
+	});
+	if (income) {
+		await prisma.budget.update({
 			where: { name: 'Appointments' },
 			data: {
 				type: 'income',
-				price: sumAppointments ,
+				price: sumAppointments,
 				info: `Total income from appointments for the month.`,
 				createdAt: new Date(),
 			},
-		}),
+		});
+	} else {
+		await prisma.budget.create({
+			data: {
+				name: 'Appointments',
+				type: 'income',
+				price: sumAppointments,
+				info: `Total income from appointments for the month.`,
+				createdAt: new Date(),
+			},
+		});
+	}
+	if (storageExpense) {
 		await prisma.budget.update({
 			where: { name: 'Storage' },
 			data: {
@@ -400,11 +428,20 @@ export async function updateIncome(){
 				createdAt: new Date(),
 			},
 		});
+	} else {
+		await prisma.budget.create({
+			data: {
+				name: 'Storage',
+				type: 'expense',
+				price: sumStorage,
+				info: `Total income from storage for the month.`,
+				createdAt: new Date(),
+			},
+		});
+	}
 }
 
 export async function getTotalExpense() {
-	
-
 	const budgets = await prisma.budget.findMany({
 		where: { type: 'expense' },
 		select: { price: true },
@@ -412,7 +449,16 @@ export async function getTotalExpense() {
 	return budgets.reduce((total, budget) => total + budget.price, 0);
 }
 
-export async function getAllbudget(){
+export async function getTotalIncome() {
+	const budgets = await prisma.budget.findMany({
+		where: { type: 'income' },
+		select: { price: true },
+	});
+	return budgets.reduce((total, budget) => total + budget.price, 0);
+}
+
+
+export async function getAllbudget() {
 	const now = new Date();
 	const firstDayOfThisMonth = startOfMonth(now);
 	const lastDayOfThisMonth = endOfMonth(now);
@@ -457,7 +503,8 @@ export async function getTotalBudget() {
 		where: { type: 'expense' },
 		select: { price: true },
 	});
-	const totalBudget = income.reduce((total, item) => total + item.price, 0) -
+	const totalBudget =
+		income.reduce((total, item) => total + item.price, 0) -
 		expense.reduce((total, item) => total + item.price, 0);
-	return totalBudget
+	return totalBudget;
 }

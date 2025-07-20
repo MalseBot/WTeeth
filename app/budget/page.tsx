@@ -13,13 +13,19 @@ import {
 } from '@/lib/fetching';
 import React from 'react';
 import { StarFilledIcon } from '@radix-ui/react-icons';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import BudgetForm from '@/components/forms/BudgetForm';
 
 const page = async () => {
 	const totalbudget = await getTotalBudget();
 	const budgetData = await getAllbudget();
-	
+
 	await updateIncome();
 	const now = new Date();
 
@@ -71,7 +77,7 @@ const page = async () => {
 					<ChartCard chartData={budgetData} />
 				</CardContent>
 			</Card>
-			<section className='flex justify-between items-center flex-col gap-y-3'>
+			<section className='flex justify-between items-center w-full flex-col gap-y-3'>
 				<div className='flex justify-between items-center w-full'>
 					<h2 className='text-2xl uppercase font-bold opacity-80 border-b m-5 w-full'>
 						expenses history of

@@ -119,20 +119,20 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 	};
 
 	return (
-		<div className='m-10 my-0 rounded-tr-3xl rounded-bl-3xl w-full h-fit overflow-x-auto shadow'>
-			<Table className='rounded-bl-3xl rounded-tr-3xl'>
+		<div className='rounded-tr-3xl rounded-bl-3xl max-w-full h-fit overflow-x-hidden shadow'>
+			<Table className='rounded-bl-3xl max-w-full rounded-tr-3xl'>
 				<TableHeader className='!rounded-tr-3xl'>
 					<TableRow className='!rounded-tr-3xl'>
 						{HEADERS[type].map((header) => (
 							<TableHead
 								key={header.key}
-								className='cursor-pointer w-fit'
+								className='cursor-pointer w-fit p-2'
 								onClick={() => handleSort(header.key)}>
 								{header.label}
 								{sortKey === header.key && (sortDir === 'asc' ? ' ▲' : ' ▼')}
 							</TableHead>
 						))}
-						<TableHead className='w-[50px] !rounded-tr-3xl'>Info</TableHead>
+						<TableHead className='w-[50px] p-2 !rounded-tr-3xl'>Info</TableHead>
 					</TableRow>
 				</TableHeader>
 				{sortedRows.length !== 0 ? (

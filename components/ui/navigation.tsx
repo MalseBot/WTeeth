@@ -57,14 +57,14 @@ export default function Navigation({
   ],
   essentials = [
     {
-      title: "Materials Storage",
+      title: "Storage",
       href: "/storage",
       description:
         "A simple storage managing material inventory, including adding, editing, and deleting materials.",
     },
     {
-      title: "Incomes",
-      href: "/incomes",
+      title: "Budget",
+      href: "/budget",
       description:
         "Track your income sources, expenses, and amounts effortlessly.",
     }

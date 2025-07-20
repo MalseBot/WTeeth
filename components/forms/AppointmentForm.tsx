@@ -30,6 +30,7 @@ import {
 
 const initialForm = {
 	patientId: '',
+	patientName: '',
 	date: '', // Default to current date and time
 	payment: 0,
 	prescription: '',
@@ -89,10 +90,15 @@ export const AppointmentForm = () => {
 	const handlePatientSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		if (e.target.value === 'new') {
 			setIsNewPatient(true);
-			setForm((f) => ({ ...f, patientId: '' }));
+			setForm((f) => ({ ...f, patientId: '', patientName: '' }));
+			console.log(form.patientName);
 		} else {
 			setIsNewPatient(false);
-			setForm((f) => ({ ...f, patientId: e.target.value }));
+			setForm((f) => ({
+				...f,
+				patientId: e.target.value,
+				patientName: patients.find((p) => p.id === e.target.value)?.name || '',}));
+			console.log(form.patientName, form.patientId);
 		}
 	};
 
@@ -102,6 +108,7 @@ export const AppointmentForm = () => {
 		setError('');
 
 		let patientId = form.patientId;
+		let patientName = form.patientName;
 
 		if (isNewPatient) {
 			const patientResult = editPatientSchema.safeParse(patientForm);
@@ -112,9 +119,14 @@ export const AppointmentForm = () => {
 			}
 			const newPatient = await getCreatePatient(patientForm);
 			patientId = newPatient?.id;
+			patientName = newPatient?.name;
 		}
 
-		const result = appointmentSchema.safeParse({ ...form, patientId });
+		const result = appointmentSchema.safeParse({
+			...form,
+			patientId,
+			patientName,
+		});
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			console.log('Validation error:', result.error);
@@ -124,7 +136,11 @@ export const AppointmentForm = () => {
 		}
 
 		try {
-			const created = await getCreateAppointment({ ...form, patientId });
+			const created = await getCreateAppointment({
+				...form,
+				patientId,
+				patientName,
+			});
 			setForm(initialForm);
 			setPatientForm(initialPatient);
 			setIsNewPatient(false);

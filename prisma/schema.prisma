@@ -25,7 +25,7 @@ enum Role {
 
 model Patient {
   id           String        @id @default(cuid())
-  name         String
+  name         String        
   age          Int
   address      String
   bloodType    String
@@ -35,6 +35,7 @@ model Patient {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   appointments Appointment[]
+  @@unique([id, name])
 }
 
 enum Gender {
@@ -53,6 +54,7 @@ model Media {
 model Appointment {
   id           String      @id @default(cuid())
   patientId    String
+  patientName  String
   date         DateTime
   status       String      @default("Scheduled")
   prescription String
@@ -61,11 +63,11 @@ model Appointment {
   payment      Float
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  patient      Patient     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient      Patient     @relation(fields: [patientId,patientName], references: [id,name], onDelete: Cascade)
   materials    Materials[]
   media        Media[] // <-- New relation
 
-  @@index([patientId])
+  @@index([patientId,patientName])
 }
 
 enum AppointmentStatus {
@@ -106,6 +108,7 @@ model Storage {
   name          String      @unique
   type          ItemType    @default(Unit)
   quantity      Int
+  currentAmount Int         @default(0)
   buyDate       DateTime
   shortageLimit Int
   price         Int

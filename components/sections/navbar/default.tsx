@@ -69,8 +69,8 @@ export default function Navbar({
 					<NavbarLeft>
 						<a
 							href={homeUrl}
-							className='flex uppercase items-center gap-2 text-xl font-bold'>
-							{logo}
+							className='flex uppercase items-center gap-2  text-xl font-bold'>
+								{logo}
 							{name}
 						</a>
 						{showNavigation && (customNavigation || <Navigation />)}

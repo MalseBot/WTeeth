@@ -57,8 +57,8 @@ const page = async (props: PageProps) => {
 				/>
 				Appointment Details
 			</h1>
-			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px]  lg:grid-rows-1 h-min sm:gap-0 capitalize'>
-				<CardHeader className=''>
+			<Card className='p-5 grid grid-cols-1  sm:gap-0 capitalize'>
+				<CardHeader className='flex justify-between gap-0 p-0'>
 					<CardTitle className='text-2xl text-primary uppercase'>
 						<Link
 							className='cursor-pointer'
@@ -66,89 +66,83 @@ const page = async (props: PageProps) => {
 							{patient?.name || 'Unknown Patient'}
 						</Link>
 					</CardTitle>
-					<div className='grid grid-cols-2 grid-rows-2 '>
-						<CardContent className='text-lg text-accent'>
-							<VenusAndMars />
-							{patient?.gender || 'no'}
-						</CardContent>
-						<CardContent className='text-lg text-accent'>
-							<Timer />
-							{patient?.age || 'Unknown'}
-						</CardContent>
-						<CardContent className='text-lg text-destructive'>
-							<DropletIcon />
-							{patient?.bloodType || 'Unknown'}
-						</CardContent>
-					</div>
-				</CardHeader>
-				<div className='w-full flex justify-around '>
-					<div className='flex flex-col gap-2'>
-						<CardContent className='text-lg text-accent'>
-							<CheckCheckIcon />
-							{appointment?.status || 'Unknown'}
-						</CardContent>
-						<CardContent className='text-lg text-accent'>
-							<DollarSign />
-							{appointment?.payment || 'Unknown'}
-						</CardContent>
-					</div>
-					<div className=' flex gap-2 flex-col'>
-						<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
-							<PlusIcon
-								width={20}
-								height={20}
-								className=' hover:rotate-180 transform duration-500'
-							/>
-							{(appointment?.createdAt &&
-								new Date(appointment.createdAt).toLocaleString('en-US', {
-									weekday: 'short',
-									month: 'short',
-									day: 'numeric',
-									hour: '2-digit',
-									minute: '2-digit',
-									hour12: true,
-								})) ||
-								'Unknown'}
-						</CardContent>
-						<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
-							<Hourglass
-								width={20}
-								height={20}
-								className=' hover:rotate-180 transform duration-500'
-							/>
-							{(appointment?.date &&
-								new Date(appointment.date).toLocaleString('en-US', {
-									weekday: 'short',
-									month: 'short',
-									day: 'numeric',
-									hour: '2-digit',
-									minute: '2-digit',
-									hour12: true,
-								})) ||
-								'Unknown'}
-						</CardContent>
-						<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
-							<UpdateIcon
-								width={20}
-								height={20}
-								className=' hover:rotate-180 transform duration-500'
-							/>
-							{(appointment?.updatedAt &&
-								new Date(appointment.updatedAt).toLocaleString('en-US', {
-									weekday: 'short',
-									month: 'short',
-									day: 'numeric',
-									hour: '2-digit',
-									minute: '2-digit',
-									hour12: true,
-								})) ||
-								'Unknown'}{' '}
-						</CardContent>
-					</div>
-				</div>
-				<CardFooter className=' items-start '>
 					<UpdateAppointmentForm appointment={appointment} />
-				</CardFooter>
+				</CardHeader>
+				<div className='grid grid-cols-2 col-span-2 lg:col-span-1 gap-3 h-fit grid-rows-2 '>
+					<CardContent className='text-lg text-accent'>
+						<VenusAndMars />
+						{patient?.gender || 'no'}
+					</CardContent>
+					<CardContent className='text-lg text-accent'>
+						<Timer />
+						{patient?.age || 'Unknown'}
+					</CardContent>
+					<CardContent className='text-lg text-destructive'>
+						<DropletIcon />
+						{patient?.bloodType || 'Unknown'}
+					</CardContent>
+					<CardContent className='text-lg text-accent'>
+						<DollarSign />
+						{appointment?.payment || 'Unknown'}
+					</CardContent>
+				</div>
+				<div className='grid grid-cols-2 col-span-2 lg:col-span-1 gap-3 h-fit grid-rows-2 '>
+					<CardContent className='text-lg text-accent'>
+						<CheckCheckIcon />
+						{appointment?.status || 'Unknown'}
+					</CardContent>
+					<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
+						<Hourglass
+							width={20}
+							height={20}
+							className=' hover:rotate-180 transform duration-500'
+						/>
+						{(appointment?.date &&
+							new Date(appointment.date).toLocaleString('en-US', {
+								weekday: 'short',
+								month: 'short',
+								day: 'numeric',
+								hour: '2-digit',
+								minute: '2-digit',
+								hour12: true,
+							})) ||
+							'Unknown'}
+					</CardContent>
+					<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
+						<PlusIcon
+							width={20}
+							height={20}
+							className=' hover:rotate-180 transform duration-500'
+						/>
+						{(appointment?.createdAt &&
+							new Date(appointment.createdAt).toLocaleString('en-US', {
+								weekday: 'short',
+								month: 'short',
+								day: 'numeric',
+								hour: '2-digit',
+								minute: '2-digit',
+								hour12: true,
+							})) ||
+							'Unknown'}
+					</CardContent>
+					<CardContent className='border border-accent p-1 rounded-tr-xl text-secondary-foreground rounded-bl-xl'>
+						<UpdateIcon
+							width={20}
+							height={20}
+							className=' hover:rotate-180 transform duration-500'
+						/>
+						{(appointment?.updatedAt &&
+							new Date(appointment.updatedAt).toLocaleString('en-US', {
+								weekday: 'short',
+								month: 'short',
+								day: 'numeric',
+								hour: '2-digit',
+								minute: '2-digit',
+								hour12: true,
+							})) ||
+							'Unknown'}{' '}
+					</CardContent>
+				</div>
 			</Card>
 			<div className='p-5 rounded-tr-3xl rounded-bl-3xl shadow'>
 				<h2 className='text-lg mb-1 font-semibold'>Diagnose</h2>

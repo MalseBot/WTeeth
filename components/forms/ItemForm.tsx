@@ -26,6 +26,7 @@ const initialForm = {
 	name: '',
 	type: 'Unit',
 	quantity: 0,
+	currentAmount: 0,
 	shortageLimit: 0,
 	price: 0,
 	seller: '',
