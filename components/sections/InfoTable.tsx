@@ -35,6 +35,7 @@ interface InfoTableRow {
 	// Storage fields
 	type?: string;
 	quantity?: number;
+	currentAmount?:number;
 	shortageLimit?: number;
 	buyDate?: Date;
 	price?: number;
@@ -76,6 +77,7 @@ const HEADERS: Record<
 		{ key: 'name', label: 'Name' },
 		{ key: 'type', label: 'Type' },
 		{ key: 'quantity', label: 'Quantity' },
+		{key: 'currentAmount', label: 'CurrentAmount'},
 		{ key: 'buyDate', label: 'Buy Date' },
 		{ key: 'price', label: 'Price' },
 		{ key: 'seller', label: 'Seller' },
