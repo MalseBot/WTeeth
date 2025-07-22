@@ -25,7 +25,6 @@ import { Label } from '../ui/label';
 const initialForm = {
 	name: '',
 	type: 'Unit',
-	quantity: 0,
 	currentAmount: 0,
 	shortageLimit: 0,
 	price: 0,
@@ -65,7 +64,7 @@ export default function ItemForm({ id }: { id?: string }) {
 		setForm((f: any) => ({
 			...f,
 			[name]:
-				name === 'quantity' || name === 'price' || name === 'shortageLimit'
+				name === 'currentAmount' || name === 'price' || name === 'shortageLimit'
 					? Number(value)
 					: value,
 		}));
@@ -139,12 +138,12 @@ export default function ItemForm({ id }: { id?: string }) {
 						</select>
 					</div>
 					<div>
-						<Label htmlFor='quantity'>Quantity</Label>
+						<Label htmlFor='currentAmount'>Quantity</Label>
 						<Input
-							id='quantity'
-							name='quantity'
+							id='currentAmount'
+							name='currentAmount'
 							type='number'
-							value={form.quantity ?? ''}
+							value={form.currentAmount ?? ''}
 							onChange={handleChange}
 							placeholder='Quantity'
 							required
