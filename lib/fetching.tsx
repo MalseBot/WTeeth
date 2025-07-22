@@ -195,7 +195,7 @@ export async function createStorageItem(data: any) {
 			name: data.name,
 			type: data.type,
 			quantity: data.quantity,
-			currentAmount: data.currentAmount,
+			currentAmount: data.quantity,
 			buyDate: new Date(),
 			price: data.price,
 			seller: data.seller,
@@ -276,8 +276,11 @@ const StorageCurrentQuantity = async (e: any) => {
 				currentAmount: currentQuantity,
 			},
 		});
+		
 		return updateStorage;
 	}
+	console.log(e);
+	
 };
 
 export async function getStorageByDateRange(startDate: Date, endDate: Date) {
