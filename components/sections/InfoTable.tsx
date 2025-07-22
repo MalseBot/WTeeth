@@ -137,8 +137,8 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 						<TableHead className='w-[50px] p-2 !rounded-tr-3xl'>Info</TableHead>
 					</TableRow>
 				</TableHeader>
-				{/* {sortedRows.length !== 0 ? ( */}
-				{sortedRows.map((e) => (
+				{sortedRows.length !== 0 ? (
+				sortedRows.map((e) => (
 					<TableBody
 						key={e.id}
 						className={
@@ -231,12 +231,12 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 							</TableCell>
 						</TableRow>
 					</TableBody>
-				))}
-				{/* ) : (
+				))
+				 ) : (
 					<TableCell className='font-bold text-2xl capitalize text-center'>
 						No Information made Yet ...
 					</TableCell>
-				)} */}
+				)} 
 			</Table>
 		</div>
 	);
