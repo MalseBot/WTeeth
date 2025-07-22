@@ -179,6 +179,7 @@ export async function updateStorageItem(id: string, data: any) {
 			data: {
 				name: data.name,
 				type: data.type,
+				quantity:data.currentAmount,
 				currentAmount: data.currentAmount,
 				buyDate: new Date(data.buyDate),
 				price: data.price,
