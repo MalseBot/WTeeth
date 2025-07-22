@@ -9,7 +9,7 @@ import React from 'react';
 export default async function page() {
 	const storageRows = await getStorage();
 	return (
-		<div className=' min-h-screen'>
+		<div className=' min-h-screen m-5'>
 			<div className='flex justify-between items-center'>
 				<h1 className='text-3xl uppercase text-primary font-bold m-3 border-b border-s w-fit flex items-center'>
 					<StarFilledIcon

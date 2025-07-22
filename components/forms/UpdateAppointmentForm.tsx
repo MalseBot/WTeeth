@@ -137,7 +137,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 									/>
 								</div>
 								<div className='grid gap-2 col-span-2'>
-									<Label htmlFor='prescription'>Prescription</Label>
+									<Label htmlFor='prescription'>Diagnose</Label>
 									<Textarea
 										id='prescription'
 										name='prescription'

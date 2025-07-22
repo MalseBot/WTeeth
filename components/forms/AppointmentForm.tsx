@@ -290,7 +290,7 @@ export const AppointmentForm = () => {
 									</select>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='prescription'>Prescription</Label>
+									<Label htmlFor='prescription'>Diagnose</Label>
 									<Textarea
 										id='prescription'
 										name='prescription'
