@@ -4,14 +4,6 @@ import ItemAmount from '@/components/ItemAmount';
 import PieCard from '@/components/PieCard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui/table';
-import {
 	getAppointmentsByDateRange,
 	getStorage,
 	getTotalBudget,
