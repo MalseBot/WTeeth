@@ -35,7 +35,7 @@ interface InfoTableRow {
 	// Storage fields
 	type?: string;
 	quantity?: number;
-	currentAmount?:number;
+	currentAmount?: number;
 	shortageLimit?: number;
 	buyDate?: Date;
 	price?: number;
@@ -77,7 +77,7 @@ const HEADERS: Record<
 		{ key: 'name', label: 'Name' },
 		{ key: 'type', label: 'Type' },
 		{ key: 'quantity', label: 'Quantity' },
-		{key: 'currentAmount', label: 'CurrentAmount'},
+		{ key: 'currentAmount', label: 'Current Amount' },
 		{ key: 'buyDate', label: 'Buy Date' },
 		{ key: 'price', label: 'Price' },
 		{ key: 'seller', label: 'Seller' },
@@ -138,96 +138,100 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 					</TableRow>
 				</TableHeader>
 				{/* {sortedRows.length !== 0 ? ( */}
-					{sortedRows.map((e) => (
-						<TableBody
-							key={e.id}
-							className={
-								typeof e.quantity === 'number' &&
-								typeof e.shortageLimit === 'number' &&
-								e.quantity <= e.shortageLimit
-									? 'bg-red-100'
-									: ''
-							}>
-							<TableRow>
-								{HEADERS[type].map((header) => (
-									<TableCell key={header.key}>
-										<Popover>
-											<PopoverTrigger
-												className={`font-medium ${
-													type === 'budget' && ' max-w-[150px] '
-												} overflow-hidden text-ellipsis`}>
-												{header.key === 'patientId' && patientMap
-													? e.patientId
-														? patientMap.get(e.patientId) ?? 'Unknown'
-														: ''
-													: header.key === 'date' ||
-													  header.key === 'createdAt' ||
-													  header.key === 'buyDate' ||
-													  header.key === 'updatedAt'
-													? e[header.key]
-														? new Date(e[header.key] as Date).toLocaleString(
-																'en-US',
-																{
-																	weekday: 'short',
-																	month: 'short',
-																	day: 'numeric',
-																	hour: '2-digit',
-																	minute: '2-digit',
-																	hour12: true,
-																}
-														  )
-														: ''
-													: e[header.key]}
-											</PopoverTrigger>
-											<PopoverContent>
-												{header.key === 'patientId' && patientMap
-													? e.patientId
-														? patientMap.get(e.patientId) ?? 'Unknown'
-														: ''
-													: header.key === 'date' ||
-													  header.key === 'createdAt' ||
-													  header.key === 'buyDate' ||
-													  header.key === 'updatedAt'
-													? e[header.key]
-														? new Date(e[header.key] as Date).toLocaleString(
-																'en-US',
-																{
-																	weekday: 'short',
-																	month: 'short',
-																	day: 'numeric',
-																	hour: '2-digit',
-																	minute: '2-digit',
-																	hour12: true,
-																}
-														  )
-														: ''
-													: e[header.key]}{' '}
-											</PopoverContent>
-										</Popover>
-									</TableCell>
-								))}
-								<TableCell className='flex justify-center items-center'>
-									{type === 'storage' ? (
-										<ItemForm id={e.id} />
-									) : type === 'budget' ? 
-										e.name === 'Storage' ? '':<>
-											<BudgetForm id={e.id} />
-											 <DeleteBudget id={e.id}/>
-										</>
-									 : (
-										<Link
-											href={`/${
-												type === 'patient'
-													? 'patientProfile'
-													: type === 'appointment' && 'appointmentDetails'
-											}/${e.id}`}>
-											<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
-										</Link>
-									)}
+				{sortedRows.map((e) => (
+					<TableBody
+						key={e.id}
+						className={
+							typeof e.currentAmount === 'number' &&
+							typeof e.shortageLimit === 'number' &&
+							e.currentAmount <= e.shortageLimit
+								? 'bg-red-100'
+								: ''
+						}>
+						<TableRow>
+							{HEADERS[type].map((header) => (
+								<TableCell key={header.key}>
+									<Popover>
+										<PopoverTrigger
+											className={`font-medium ${
+												type === 'budget' && ' max-w-[150px] '
+											} overflow-hidden text-ellipsis`}>
+											{header.key === 'patientId' && patientMap
+												? e.patientId
+													? patientMap.get(e.patientId) ?? 'Unknown'
+													: ''
+												: header.key === 'date' ||
+												  header.key === 'createdAt' ||
+												  header.key === 'buyDate' ||
+												  header.key === 'updatedAt'
+												? e[header.key]
+													? new Date(e[header.key] as Date).toLocaleString(
+															'en-US',
+															{
+																weekday: 'short',
+																month: 'short',
+																day: 'numeric',
+																hour: '2-digit',
+																minute: '2-digit',
+																hour12: true,
+															}
+													  )
+													: ''
+												: e[header.key]}
+										</PopoverTrigger>
+										<PopoverContent>
+											{header.key === 'patientId' && patientMap
+												? e.patientId
+													? patientMap.get(e.patientId) ?? 'Unknown'
+													: ''
+												: header.key === 'date' ||
+												  header.key === 'createdAt' ||
+												  header.key === 'buyDate' ||
+												  header.key === 'updatedAt'
+												? e[header.key]
+													? new Date(e[header.key] as Date).toLocaleString(
+															'en-US',
+															{
+																weekday: 'short',
+																month: 'short',
+																day: 'numeric',
+																hour: '2-digit',
+																minute: '2-digit',
+																hour12: true,
+															}
+													  )
+													: ''
+												: e[header.key]}{' '}
+										</PopoverContent>
+									</Popover>
 								</TableCell>
-							</TableRow>
-						</TableBody>
-					))}
+							))}
+							<TableCell className='flex justify-center items-center'>
+								{type === 'storage' ? (
+									<ItemForm id={e.id} />
+								) : type === 'budget' ? (
+									e.name === 'Storage' ? (
+										''
+									) : (
+										<>
+											<BudgetForm id={e.id} />
+											<DeleteBudget id={e.id} />
+										</>
+									)
+								) : (
+									<Link
+										href={`/${
+											type === 'patient'
+												? 'patientProfile'
+												: type === 'appointment' && 'appointmentDetails'
+										}/${e.id}`}>
+										<InfoCircledIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />
+									</Link>
+								)}
+							</TableCell>
+						</TableRow>
+					</TableBody>
+				))}
 				{/* ) : (
 					<TableCell className='font-bold text-2xl capitalize text-center'>
 						No Information made Yet ...

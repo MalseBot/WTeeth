@@ -195,7 +195,7 @@ export async function createStorageItem(data: any) {
 			name: data.name,
 			type: data.type,
 			quantity: data.quantity,
-			currentAmount: data.quantity,
+			currentAmount: data.currentAmount,
 			buyDate: new Date(),
 			price: data.price,
 			seller: data.seller,
