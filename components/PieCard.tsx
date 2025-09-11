@@ -8,7 +8,6 @@ import { Label, Pie, PieChart } from 'recharts';
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
@@ -18,7 +17,8 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart';
-import { formatDate, getMonth, getTime } from 'date-fns';
+import { useTranslations } from 'next-intl';
+import { formatDate, getTime } from 'date-fns';
 
 export const description = 'A donut chart with text';
 
@@ -42,11 +42,12 @@ export default function PieCard({totalBudget,totalIncome,totalExpense}:any) {
             color: 'var(--chart-4)',
         },
     } satisfies ChartConfig;
-	const totalEarnings =totalBudget    
+	const totalEarnings =totalBudget  
+	const t = useTranslations('PieCard');
 	return (
-		<Card className='flex flex-col w-fit'>
+		<Card className='flex flex-col w-full'>
 			<CardHeader className='items-center pb-0'>
-				<CardTitle className='text-xl text-primary'>Earning status for {formatDate(getTime(new Date()), 'MMMM')}</CardTitle>
+				<CardTitle className='text-xl text-primary'>{t("title")} {formatDate(getTime(new Date()), 'MMMM')}</CardTitle>
 			</CardHeader>
 			<CardContent className='flex-1 pb-0'>
 				<ChartContainer
@@ -82,7 +83,7 @@ export default function PieCard({totalBudget,totalIncome,totalExpense}:any) {
 													x={viewBox.cx}
 													y={(viewBox.cy || 0) + 24}
 													className='fill-muted-foreground'>
-													Earnings
+													{t("earnings")}
 												</tspan>
 											</text>
 										);

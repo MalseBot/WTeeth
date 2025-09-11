@@ -1,10 +1,12 @@
 import { XSquare } from 'lucide-react';
-import React from 'react'
+import React, { use } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { deleteBudget } from '@/lib/fetching';
 import { Button } from './ui/button';
+import { useTranslations } from 'next-intl';
 
 export default function DeleteBudget({id}: {id: string}) {
+	const t = useTranslations('deleteBudget')
   return (
 		<Dialog>
 			<DialogTrigger>
@@ -13,18 +15,18 @@ export default function DeleteBudget({id}: {id: string}) {
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>
-                        Delete Budget
+                        {t('title')}
 					</DialogTitle>
 				</DialogHeader>
 				<div className='flex flex-col items-center justify-center gap-4'>
                     <p className='text-sm text-muted-foreground'>
-                        Are you sure you want to delete this budget?
+                        {t('sure')}
                     </p>
                     <Button
                         variant='destructive'
                         onClick={ () => (deleteBudget(id),window.location.reload()) }
                     >
-                        Delete
+                        {t('title')}
                     </Button>
                 </div>
 			</DialogContent>

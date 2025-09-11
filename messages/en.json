@@ -1,0 +1,229 @@
+{
+	"Dashboard": {
+		"title": "Dashboard",
+		"appointments": "Today's Appointments",
+		"storage": "Storage status"
+	},
+	"Login": {
+		"title": "Login to your account",
+		"description": "Enter your email below to login to your account",
+		"noAccount": "Don't have an account ",
+		"signUp": "Sign Up",
+		"Login": "Sign in",
+		"Password": "Password",
+		"Email": "Email",
+		"Loading": "Loading ..."
+	},
+	"SignUp": {
+		"title": "create your Personal account",
+		"description": "Fill in your information",
+		"Account": "Have an account",
+		"signUp": "Sign up",
+		"Login": "Sign in",
+		"Password": "Password",
+		"Name": "Enter your name",
+		"Email": "Email",
+		"Loading": "... Loading"
+	},
+	"AppointmentDetails": {
+		"err404": "Appointment or patient not found",
+		"title": "Appointment Details",
+		"unknown": "Unknown",
+		"Diagnose": "Diagnose",
+		"Waiting": "Waiting to be diagnosed",
+		"Media": "Media",
+		"Medicine": "Medicine"
+	},
+	"Appointment": {
+		"title": "Appointments"
+	},
+	"Budget": {
+		"title": "Budget",
+		"income": "your income for this month is",
+		"currency": "EGP",
+		"expense": "your expenses for this month is",
+		"chartTitle": "Visual Chart",
+		"chartDescription": "Showing total Budget information for this month.",
+		"total": "Total Budget:",
+		"totalExpense": "expenses history of"
+	},
+	"PatientProfile": {
+		"notFound":"Patient Not Found",
+		"title": "Patient Profile",
+		"Unkown": "Unknown",
+		"phone": "Phone number:",
+		"address": "Address:",
+		"Notes": "Notes",
+		"noNote": "Nothing to note yet ..."
+	},
+	"Patients": {
+		"title": "Patients"
+	},
+	"Stoarge": {
+		"title": "Storage"
+	},
+	"AppointmentForm": {
+		"button": "Add Appointment",
+		"title": "Book Appointment",
+		"description": "Fill in the details below to create a new appointment.",
+		"patient": "Patient",
+		"select": "Select patient",
+		"new": "+ New Patient",
+		"name": "Name",
+		"age": "Age",
+		"address": "Address",
+		"blood": "Blood type",
+		"phone": "Phone",
+		"gender": "Gender",
+		"male": "Male",
+		"female": "Female",
+		"note": "Note",
+		"date": "Date",
+		"status": "Status",
+		"scheduled": "Scheduled",
+		"completed": "Completed",
+		"cancelled": "Cancelled",
+		"diagnose": "Diagnose",
+		"payment": "Payment",
+		"create": "Create Appointment",
+		"saving": "Saving ...",
+		"Error": "Failed to create appointment."
+	},
+	"BudgetForm": {
+		"button": "Add Expense",
+		"createTitle": "Create Item",
+		"updateTitle": "Update Item",
+		"name": "Name",
+		"price": "Price",
+		"info": "Info",
+		"saving": "Saving ...",
+		"save": "Save Changes",
+		"Error": "Failed to save item",
+		"update": "Update",
+		"updating": "Updating ..."
+	},
+	"ItemForm": {
+		"button": "Add Item",
+		"createTitle": "Create Item",
+		"updateTitle": "Update Item",
+		"name": "Name",
+		"price": "Price",
+		"type": "Type",
+		"gram": "Gram",
+		"milliliter": "Milliliter",
+		"unit": "Unit",
+		"quantity": "Quantity",
+		"short": "Shortage Limit",
+		"seller": "Seller",
+		"update": "Update",
+		"create": "Create",
+		"creating": "Creating ...",
+		"updating": "Updating ...",
+		"Error": "Failed to add item:"
+	},
+	"PatientForm": {
+		"title": "Edit Patient Profile",
+		"description": "Update the patient information below.",
+		"name": "Name",
+		"age": "Age",
+		"address": "Address",
+		"blood": "Blood type",
+		"phone": "Phone",
+		"gender": "Gender",
+		"note": "Note",
+		"saving": "Saving ...",
+		"save": "Save Changes",
+		"male": "Male",
+		"female": "Female",
+		"select": "Select Gender",
+		"Error": "Failed to save patient"
+	},
+	"UpdateAppointmentForm": {
+		"title": "Update Appointment",
+		"description": "Fill in the details below to update the appointment.",
+		"status": "Status",
+		"scheduled": "Scheduled",
+		"completed": "Completed",
+		"cancelled": "Cancelled",
+		"diagnose": "Diagnose",
+		"payment": "Payment",
+		"operation":"Operation",
+		"medicine":"Medicine",
+		"save":"Save Changes",
+		"saving": "Saving ...",
+		"Error": "Failed to update appointment"
+	},
+	"navbar":{
+		"appointments":"Appointments",
+		"patients":"Patients",
+		"storage":"Storage",
+		"budget":"Budget",
+		"signIn":"Sign in",
+		"signOut":"Sign out"
+	},
+	"navigation":{
+		"dashboard":"Dashboard",
+		"essentials":"Essentials",
+		"storage":"Storage",
+		"storageDesc":"storage managing material inventory.",
+		"budget":"Budget",
+		"budgetDesc":"Track your income sources, expenses, and amounts effortlessly.",
+		"description":"Let WTeeth manage your work for you.",
+		"appointments":"Appointments",
+		"appointmentDesc":"Manage your appointments with ease. Book, reschedule, and cancel appointments seamlessly.",
+		"patients":"Patients",
+		"patientsDesc":"Manage your patients with ease. Add, edit, and view patient information seamlessly.",
+		"logoDecription":"Easily manage your dental clinic.",
+		"way":"left-0"
+	},
+	"InfoTable":{
+		"name":"Name",
+		"status":"Status",
+		"gender":"Gender",
+		"diagnose":"Diagnose",
+		"date":"Date",
+		"age":"Age",
+		"payment":"Fee Paid",
+		"operation":"Operationed",
+		"createdAt":"Created At",
+		"quantity":"Quantity",
+		"currentAmount":"Cureent Amount",
+		"Shortage":"Shortage Limit",
+		"buyDate":"Buy Date",
+		"price":"Price",
+		"seller":"Seller",
+		"info":"Info",
+		"type":"Type",
+		"address":"Address",
+		"noInfo":"No Information made Yet ..."
+	},
+	"chartsCard":{
+		"income":"Income",
+		"expense":"Expense"
+	},
+	"deleteBudget":{
+		"title":"Delete Budget",
+		"sure":"Are you sure you want to delete this budget?"
+	},
+	"PieCard": {
+		"title": "Earning status for",
+		"income": "Income",
+		"expense": "Expense",
+		"total": "Total earning",
+		"earnings":"Earnings"
+	},
+	"ProtectedPage":{
+		"Loading":"Loading ..."
+	},
+	"UpdateMaterial":{
+		"title":"Material",
+		"name":"Name",
+		"quantity":"Quantity",
+		"type":"Type",
+		"update":"Update",
+		"selectName":"Select Name",
+		"submited":"Submite",
+		"Error":"Failed to add material:",
+		"addMaterial":"Add Material"
+	}
+}

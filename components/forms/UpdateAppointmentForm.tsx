@@ -26,6 +26,8 @@ import {
 	DialogTrigger,
 } from '../ui/dialog';
 import UpdateMaterial from '../UpdateMaterial';
+import { get } from 'http';
+import { useTranslations } from 'next-intl';
 // import UpdateMaterial from './UpdateMaterial';
 
 interface ParamsProps {
@@ -43,6 +45,7 @@ interface ParamsProps {
 }
 
 export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
+	const t = useTranslations('UpdateAppointmentForm');
 	const router = useRouter();
 	const [form, setForm] = useState(appointment);
 	const [error, setError] = useState('');
@@ -54,15 +57,16 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			setLoading(false);
-			console.log(error);
+			console.log(error, result);
 
 			return;
 		}
-		console.log(form);
+
+		console.log(form, result);
 		const update = getUpdateAppointment(form);
 		if (!update) {
-			setError('Something went wrong !!');
-			console.log(error);
+			setError(t('Error'));
+			console.log(error, result);
 			setLoading(false);
 		}
 		router.push(`/appointmentDetails/${form.id}`);
@@ -89,10 +93,10 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 					<DialogHeader>
 						<CardHeader>
 							<DialogTitle>
-								<CardTitle>Book Appointment</CardTitle>
+								<CardTitle>{t('title')}</CardTitle>
 							</DialogTitle>
 							<CardDescription>
-								Fill in the details below to create a new appointment.
+								{t('description')}
 							</CardDescription>
 						</CardHeader>
 					</DialogHeader>
@@ -102,20 +106,20 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 							className='w-3/5'>
 							<div className='grid grid-cols-2 gap-6'>
 								<div className='grid gap-2'>
-									<Label htmlFor='status'>Status</Label>
+									<Label htmlFor='status'>{t('status')}</Label>
 									<select
 										id='status'
 										name='status'
 										value={form.status}
 										onChange={handleChange}
 										className='border rounded px-2 py-1 w-full'>
-										<option value='Scheduled'>Scheduled</option>
-										<option value='Completed'>Completed</option>
-										<option value='Cancelled'>Cancelled</option>
+										<option value='Scheduled'>{t('scheduled')}</option>
+										<option value='Completed'>{t('compeleted')}</option>
+										<option value='Cancelled'>{t('cancelled')}</option>
 									</select>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='payment'>Payment</Label>
+									<Label htmlFor='payment'>{t('payment')}</Label>
 									<Input
 										id='payment'
 										name='payment'
@@ -127,7 +131,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='operation'>Operation</Label>
+									<Label htmlFor='operation'>{t('operation')}</Label>
 									<Input
 										type='text'
 										id='operation'
@@ -137,7 +141,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 									/>
 								</div>
 								<div className='grid gap-2 col-span-2'>
-									<Label htmlFor='prescription'>Diagnose</Label>
+									<Label htmlFor='prescription'>{t('diagnose')}</Label>
 									<Textarea
 										id='prescription'
 										name='prescription'
@@ -146,7 +150,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 									/>
 								</div>
 								<div className='grid gap-2 col-span-2'>
-									<Label htmlFor='medicine'>Medicine</Label>
+									<Label htmlFor='medicine'>{t('medicine')}</Label>
 									<Textarea
 										id='medicine'
 										name='medicine'
@@ -160,7 +164,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 								type='submit'
 								className='w-full mt-5'
 								disabled={loading}>
-								{loading ? 'Saving...' : 'Update Appointment'}
+								{loading ? t('saving') : t('save')}
 							</Button>
 						</form>
 						<UpdateMaterial id={appointment.id} />

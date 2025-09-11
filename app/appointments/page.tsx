@@ -4,6 +4,7 @@ import InfoTable from '@/components/sections/InfoTable';
 
 import { prisma } from '@/lib/prisma';
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
 const page = async () => {
@@ -14,7 +15,8 @@ const page = async () => {
 		select: { id: true, name: true }
 	});
 	const patientMap = new Map(patients.map(p => [p.id, p.name]));
-	
+		const t = await getTranslations('Appointment');
+
 
 	return (
 		<section className='w-full'>
@@ -24,7 +26,7 @@ const page = async () => {
 					height={25}
 					className='mx-1 text-yellow-300 '
 				/>
-				Appointments
+				{t('title')}
 			</h1>
 			<InfoTable
 				rows={appointments}

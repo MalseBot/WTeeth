@@ -18,6 +18,8 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '../../ui/sheet';
 import { signOut, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { AppointmentForm } from '@/components/forms/AppointmentForm';
+import LocaleSwitcher from '@/components/LocaleSwitcher';
+import { useTranslations } from 'next-intl';
 
 interface NavbarLink {
 	text: string;
@@ -49,16 +51,17 @@ export default function Navbar({
 	name = 'WTeeth',
 	homeUrl = '/',
 	mobileLinks = [
-		{ text: 'appointment', href: '/appointments' },
+		{ text: 'appointments', href: '/appointments' },
 		{ text: 'patients', href: '/patients' },
 		{ text: 'storage', href: '/storage' },
 		{ text: 'budget', href: '/budget' },
 	],
-	actions = [{ text: 'Sign in', href: '/sign-in', isButton: false }],
+	actions = [{ text: 'signIn', href: '/sign-in', isButton: false }],
 	showNavigation = true,
 	customNavigation,
 	className,
 }: NavbarProps) {
+	const t = useTranslations('navbar');
 	const { data: session, status } = useSession();
 
 	return (
@@ -70,21 +73,23 @@ export default function Navbar({
 						<a
 							href={homeUrl}
 							className='flex uppercase items-center gap-2  text-xl font-bold'>
-								{logo}
+							{logo}
 							{name}
 						</a>
 						{showNavigation && (customNavigation || <Navigation />)}
 					</NavbarLeft>
 					<NavbarRight>
+						<LocaleSwitcher />
 						{actions.map((action, index) =>
 							action.isButton ? (
 								<Button
 									key={index}
+									className='inline-flex px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'
 									variant={action.variant || 'default'}
 									asChild>
 									<a href={action.href}>
 										{action.icon}
-										{action.text}
+										{t(action.text)}
 										{action.iconRight}
 									</a>
 								</Button>
@@ -93,8 +98,8 @@ export default function Navbar({
 									<a
 										key={index}
 										href={action.href}
-										className='hidden font-bold uppercase text-sm lg:block'>
-										{action.text}
+										className='inline-flex text-primary-foreground px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-secondary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-secondary/100 dark:from-secondary/100 dark:to-primary/70 border-t-primary'>
+										{t(action.text)}
 									</a>
 								)
 							)
@@ -109,8 +114,8 @@ export default function Navbar({
 										signOut();
 										redirect('/sign-in');
 									}}
-									className='hidden uppercase !text-xs lg:block !p-2 h-7'>
-									Sign out
+									className='inline-flex px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-destructive/100 dark:to-destructive/70 border-t-destructive'>
+									{t('signOut')}
 								</Button>
 							</>
 						)}
@@ -137,7 +142,7 @@ export default function Navbar({
 											key={index}
 											href={link.href}
 											className='text-muted-foreground border-b duration-500 font-semibold uppercase hover:text-foreground'>
-											{link.text}
+											{t(link.text)}
 										</a>
 									))}
 									<div className='flex flex-col gap-2'>
@@ -149,7 +154,7 @@ export default function Navbar({
 													asChild>
 													<a href={action.href}>
 														{action.icon}
-														{action.text}
+														{t(action.text)}
 														{action.iconRight}
 													</a>
 												</Button>
@@ -173,7 +178,7 @@ export default function Navbar({
 													redirect('/sign-in');
 												}}
 												className='uppercase !text-xs !p-2 h-7'>
-												Sign out
+												{t('signOut')}
 											</Button>
 										)}
 									</div>

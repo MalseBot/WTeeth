@@ -7,6 +7,8 @@ import Navbar from '@/components/sections/navbar/default';
 import Footer from '@/components/sections/footer/default';
 import { SessionProvider } from 'next-auth/react';
 import ProtectedPage from '@/components/ProtectedPage';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 const geistSans = Geist({
 	variable: '--font-geist-sans',
 	subsets: ['latin'],
@@ -22,23 +24,26 @@ export const metadata: Metadata = {
 	description: 'dashboard for healthcare',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	  const locale = await getLocale();
+
 	return (
-		<html lang='en'>
+		<html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
 			<body
 				className={`
                     ${geistSans.variable} ${geistMono.variable} antialiased
                     bg-gradient-to-br from-blue-300 via-white to-teal-300
-                `}
-			>
+                `}>
 				<SessionProvider>
-					<Navbar />
-					<ProtectedPage>{children}</ProtectedPage>
-					<Footer />
+					<NextIntlClientProvider>
+						<Navbar />
+						<ProtectedPage>{children}</ProtectedPage>
+						<Footer />
+					</NextIntlClientProvider>
 				</SessionProvider>
 			</body>
 		</html>

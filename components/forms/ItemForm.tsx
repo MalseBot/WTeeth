@@ -21,6 +21,7 @@ import { EditIcon, PlusIcon } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import { useRouter } from 'next/navigation';
 import { Label } from '../ui/label';
+import { useTranslations } from 'next-intl';
 
 const initialForm = {
 	name: '',
@@ -38,6 +39,7 @@ export default function ItemForm({ id }: { id?: string }) {
 	const [error, setError] = useState('');
 	const isEdit = !!id;
 	const route = useRouter();
+	const t = useTranslations('ItemForm'); // Use the hook
 
 	useEffect(() => {
 		if (id) {
@@ -84,7 +86,7 @@ export default function ItemForm({ id }: { id?: string }) {
 			route.refresh();
 			setLoading(false);
 		} catch (err) {
-			setError('Failed to save item');
+			setError(t('Error'));
 			console.log('Error saving item:', err);
 
 			setLoading(false);
@@ -99,21 +101,21 @@ export default function ItemForm({ id }: { id?: string }) {
 				) : (
 					<p className='inline-flex py-1.5 px-2 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'>
 						<PlusIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />{' '}
-						Add Item
+						{t('button')}
 					</p>
 				)}
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>
-						<CardTitle>{isEdit ? 'Update Item' : 'Create Item'}</CardTitle>
+						<CardTitle>{isEdit ? t('updateTitle') : t('createTitle')}</CardTitle>
 					</DialogTitle>
 				</DialogHeader>
 				<form
 					onSubmit={handleSubmit}
 					className='grid grid-cols-2 gap-4 mt-2'>
 					<div>
-						<Label htmlFor='name'>Name</Label>
+						<Label htmlFor='name'>{t('name')}</Label>
 						<Input
 							id='name'
 							name='name'
@@ -124,21 +126,21 @@ export default function ItemForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div>
-						<Label htmlFor='type'>Type</Label>
+						<Label htmlFor='type'>{t('type')}</Label>
 						<select
 							id='type'
 							name='type'
-							value={form.type || 'Ubit'}
+							value={form.type || 'Unit'}
 							onChange={handleChange}
 							className='border rounded px-2 py-1 w-full'
 							required>
-							<option value='Gram'>Gram</option>
-							<option value='Milliliter'>Milliliter</option>
-							<option value='Unit'>Unit</option>
+							<option value='Gram'>{t('gram')}</option>
+							<option value='Milliliter'>{t('milliliter')}</option>
+							<option value='Unit'>{t('unit')}</option>
 						</select>
 					</div>
 					<div>
-						<Label htmlFor='quantity'>Quantity</Label>
+						<Label htmlFor='quantity'>{t('quantity')}</Label>
 						<Input
 							id='quantity'
 							name='quantity'
@@ -150,7 +152,7 @@ export default function ItemForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div>
-						<Label htmlFor='shortageLimit'>Shortage Limit</Label>
+						<Label htmlFor='shortageLimit'>{t('short')}</Label>
 						<Input
 							id='shortageLimit'
 							name='shortageLimit'
@@ -162,7 +164,7 @@ export default function ItemForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div>
-						<Label htmlFor='price'>Price</Label>
+						<Label htmlFor='price'>{t('price')}</Label>
 						<Input
 							id='price'
 							name='price'
@@ -174,7 +176,7 @@ export default function ItemForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div className='col-span-2'>
-						<Label htmlFor='seller'>Seller</Label>
+						<Label htmlFor='seller'>{t('seller')}</Label>
 						<Textarea
 							id='seller'
 							name='seller'
@@ -190,11 +192,11 @@ export default function ItemForm({ id }: { id?: string }) {
 						className='col-span-2'>
 						{loading
 							? isEdit
-								? 'Updating...'
-								: 'Creating...'
+								? t('updating')
+								: t('creating')
 							: isEdit
-							? 'Update'
-							: 'Create'}
+							? t('update')
+							: t('create')}
 					</Button>
 				</form>
 			</DialogContent>

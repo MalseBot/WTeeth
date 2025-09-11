@@ -27,6 +27,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '../ui/dialog';
+import { useTranslations } from 'next-intl';
 
 const initialForm = {
 	patientId: '',
@@ -45,7 +46,7 @@ const initialPatient = {
 	age: 0,
 	address: '',
 	bloodType: '',
-	phone: '',
+	phone: 0,
 	gender: 'Male',
 	note: '',
 };
@@ -58,7 +59,8 @@ export const AppointmentForm = () => {
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-
+		const t = useTranslations('AppointmentForm'); // Use the hook
+	
 	useEffect(() => {
 		getAllPatients().then(setPatients);
 	}, []);
@@ -135,6 +137,7 @@ export const AppointmentForm = () => {
 			return;
 		}
 
+
 		try {
 			const created = await getCreateAppointment({
 				...form,
@@ -149,7 +152,7 @@ export const AppointmentForm = () => {
 				router.push(`/appointmentDetails/${created.id}`);
 			}
 		} catch (err) {
-			setError('Failed to create appointment.');
+			setError(t('Error'));
 		}
 		setLoading(false);
 	};
@@ -159,15 +162,15 @@ export const AppointmentForm = () => {
 			<DialogTrigger
 				type='button'
 				className='inline-flex px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'>
-				Add Appointment
+				{t('button')}
 			</DialogTrigger>
 			<DialogContent>
 				<Card className='!border-0 !shadow-none bg-transparent'>
 					<DialogTitle>
 						<CardHeader>
-							<CardTitle>Book Appointment</CardTitle>
+							<CardTitle>{t('title')}</CardTitle>
 							<CardDescription>
-								Fill in the details below to create a new appointment.
+								{t('description')}
 							</CardDescription>
 						</CardHeader>
 					</DialogTitle>
@@ -176,7 +179,7 @@ export const AppointmentForm = () => {
 						<form onSubmit={handleSubmit}>
 							<div className='grid grid-cols-2 gap-6'>
 								<div className='grid gap-2'>
-									<Label htmlFor='patientId'>Patient</Label>
+									<Label htmlFor='patientId'>{t('patient')}</Label>
 									<select
 										id='patientId'
 										name='patientId'
@@ -184,7 +187,7 @@ export const AppointmentForm = () => {
 										onChange={handlePatientSelect}
 										className='border rounded-tr-xl rounded-bl-xl shadow px-2 py-1 w-full'
 										required>
-										<option value=''>Select patient</option>
+										<option value=''>{t('select')}</option>
 										{patients.map((p) => (
 											<option
 												key={p.id}
@@ -192,13 +195,13 @@ export const AppointmentForm = () => {
 												{p.name} ({p.phone})
 											</option>
 										))}
-										<option value='new'>+ New Patient</option>
+										<option value='new'>{t('new')}</option>
 									</select>
 								</div>
 								{isNewPatient && (
 									<>
 										<div>
-											<Label>Name</Label>
+											<Label>{t('name')}</Label>
 											<Input
 												name='name'
 												value={patientForm.name}
@@ -207,7 +210,7 @@ export const AppointmentForm = () => {
 											/>
 										</div>
 										<div>
-											<Label>Age</Label>
+											<Label>{t('age')}</Label>
 											<Input
 												name='age'
 												type='number'
@@ -217,7 +220,7 @@ export const AppointmentForm = () => {
 											/>
 										</div>
 										<div>
-											<Label>Address</Label>
+											<Label>{t('address')}</Label>
 											<Input
 												name='address'
 												value={patientForm.address}
@@ -226,7 +229,7 @@ export const AppointmentForm = () => {
 											/>
 										</div>
 										<div>
-											<Label>Blood Type</Label>
+											<Label>{t('blood')}</Label>
 											<Input
 												name='bloodType'
 												value={patientForm.bloodType}
@@ -235,16 +238,17 @@ export const AppointmentForm = () => {
 											/>
 										</div>
 										<div>
-											<Label>Phone</Label>
+											<Label>{t('phone')}</Label>
 											<Input
 												name='phone'
+												type='number'
 												value={patientForm.phone}
 												onChange={handlePatientChange}
 												required
 											/>
 										</div>
 										<div>
-											<Label>Gender</Label>
+											<Label>{t('gender')}</Label>
 											<select
 												name='gender'
 												value={patientForm.gender}
@@ -256,7 +260,7 @@ export const AppointmentForm = () => {
 											</select>
 										</div>
 										<div>
-											<Label>Note</Label>
+											<Label>{t('note')}</Label>
 											<Textarea
 												name='note'
 												value={patientForm.note}
@@ -266,7 +270,7 @@ export const AppointmentForm = () => {
 									</>
 								)}
 								<div className='grid gap-2'>
-									<Label htmlFor='date'>Date</Label>
+									<Label htmlFor='date'>{t('date')}</Label>
 									<Input
 										id='date'
 										name='date'
@@ -277,20 +281,20 @@ export const AppointmentForm = () => {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='status'>Status</Label>
+									<Label htmlFor='status'>{t('status')}</Label>
 									<select
 										id='status'
 										name='status'
 										value={form.status}
 										onChange={handleChange}
 										className='border rounded-tr-xl rounded-bl-xl shadow w-full'>
-										<option value='Scheduled'>Scheduled</option>
-										<option value='Completed'>Completed</option>
-										<option value='Cancelled'>Cancelled</option>
+										<option value='Scheduled'>{t('scheduled')}</option>
+										<option value='Completed'>{t('completed')}</option>
+										<option value='Cancelled'>{t('cancelled')}</option>
 									</select>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='prescription'>Diagnose</Label>
+									<Label htmlFor='prescription'>{t('diagnose')}</Label>
 									<Textarea
 										id='prescription'
 										name='prescription'
@@ -299,7 +303,7 @@ export const AppointmentForm = () => {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='payment'>Payment</Label>
+									<Label htmlFor='payment'>{t('payment')}</Label>
 									<Input
 										id='payment'
 										name='payment'
@@ -316,7 +320,7 @@ export const AppointmentForm = () => {
 								type='submit'
 								className='w-full mt-5'
 								disabled={loading}>
-								{loading ? 'Saving...' : 'Create Appointment'}
+								{loading ? t('saving') : t('create')}
 							</Button>
 						</form>
 					</CardContent>

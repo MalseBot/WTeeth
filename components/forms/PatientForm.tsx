@@ -26,6 +26,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '../ui/dialog';
+import { useTranslations } from 'next-intl';
 
 interface PatientProps {
 	patient: {
@@ -58,7 +59,7 @@ export default function PatientForm({ patient }: PatientProps) {
 		console.log(form);
 		const update = getUpdatePatient(form.id, form);
 		if (!update) {
-			setError('Something went wrong !!');
+			setError(t('Error'));
 			console.log(error);
 			setLoading(false);
 		}
@@ -66,6 +67,8 @@ export default function PatientForm({ patient }: PatientProps) {
 		setLoading(false);
 		//toaster
 	};
+	const t=useTranslations("PatientForm")
+
 
 	return (
 		<Dialog>
@@ -77,9 +80,9 @@ export default function PatientForm({ patient }: PatientProps) {
 					<DialogHeader>
 						<DialogTitle>
 							<CardHeader>
-								<CardTitle>Edit Patient Profile</CardTitle>
+								<CardTitle>{t('title')}</CardTitle>
 								<CardDescription>
-									Update the patient information below.
+									{t('description')}
 								</CardDescription>
 							</CardHeader>
 						</DialogTitle>
@@ -90,7 +93,7 @@ export default function PatientForm({ patient }: PatientProps) {
 							className='w-full'>
 							<div className='grid grid-cols-2 w-full gap-6'>
 								<div className='grid gap-2'>
-									<Label htmlFor='name'>Name</Label>
+									<Label htmlFor='name'>{t('name')}</Label>
 									<Input
 										id='name'
 										type='text'
@@ -102,7 +105,7 @@ export default function PatientForm({ patient }: PatientProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='age'>Age</Label>
+									<Label htmlFor='age'>{t('age')}</Label>
 									<Input
 										id='age'
 										type='number'
@@ -115,7 +118,7 @@ export default function PatientForm({ patient }: PatientProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='address'>Address</Label>
+									<Label htmlFor='address'>{t('address')}</Label>
 									<Input
 										id='address'
 										type='text'
@@ -127,7 +130,7 @@ export default function PatientForm({ patient }: PatientProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='bloodType'>Blood Type</Label>
+									<Label htmlFor='bloodType'>{t('blood')}</Label>
 									<Input
 										id='bloodType'
 										type='text'
@@ -139,7 +142,7 @@ export default function PatientForm({ patient }: PatientProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='phone'>Phone</Label>
+									<Label htmlFor='phone'>{t('phone')}</Label>
 									<Input
 										id='phone'
 										type='tel'
@@ -151,7 +154,7 @@ export default function PatientForm({ patient }: PatientProps) {
 									/>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='gender'>Gender</Label>
+									<Label htmlFor='gender'>{t('gender')}</Label>
 									<select
 										id='gender'
 										required
@@ -160,13 +163,13 @@ export default function PatientForm({ patient }: PatientProps) {
 										onChange={(e) =>
 											setForm((f) => ({ ...f, gender: e.target.value }))
 										}>
-										<option value=''>Select gender</option>
-										<option value='Male'>Male</option>
-										<option value='Female'>Female</option>
+										<option value=''>{t('select')}</option>
+										<option value='Male'>{t('male')}</option>
+										<option value='Female'>{t('female')}</option>
 									</select>
 								</div>
 								<div className='grid gap-2'>
-									<Label htmlFor='note'>Note</Label>
+									<Label htmlFor='note'>{t('note')}</Label>
 									<Textarea
 										id='note'
 										value={form?.note || ''}
@@ -181,11 +184,10 @@ export default function PatientForm({ patient }: PatientProps) {
 								type='submit'
 								className='w-full mt-5'
 								disabled={loading}>
-								{loading ? 'Loading ...' : 'Save Changes'}
+								{loading ? t('saving') : t('save')}
 							</Button>
 						</form>
 					</CardContent>
-					<CardFooter className='flex-col gap-2'></CardFooter>
 				</Card>
 			</DialogContent>
 		</Dialog>

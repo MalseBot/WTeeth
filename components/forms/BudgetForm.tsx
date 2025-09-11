@@ -1,7 +1,15 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import {  CardTitle } from '../ui/card';
+/** @format */
+
+'use client';
+import React, { useEffect, useState } from 'react';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '../ui/dialog';
+import { CardTitle } from '../ui/card';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -9,6 +17,7 @@ import { Button } from '../ui/button';
 import { EditIcon, PlusIcon } from 'lucide-react';
 import { createBudget, getBudgetById, updateBudget } from '@/lib/fetching';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const initialForm = {
 	name: '',
@@ -23,6 +32,7 @@ export default function BudgetForm({ id }: { id?: string }) {
 	const [error, setError] = useState('');
 	const isEdit = !!id;
 	const route = useRouter();
+	const t = useTranslations('BudgetForm'); // Use the hook
 
 	useEffect(() => {
 		if (id) {
@@ -66,7 +76,7 @@ export default function BudgetForm({ id }: { id?: string }) {
 			route.refresh();
 			setLoading(false);
 		} catch (err) {
-			setError('Failed to save item');
+			setError(t('Error'));
 			console.log('Error saving item:', err);
 
 			setLoading(false);
@@ -80,21 +90,23 @@ export default function BudgetForm({ id }: { id?: string }) {
 				) : (
 					<p className='inline-flex py-1.5 px-2 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'>
 						<PlusIcon className='hover:scale-110 transform duration-500 active:text-primary text-xl' />{' '}
-						Add Expense
+						{t('button')}
 					</p>
 				)}
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>
-						<CardTitle>{isEdit ? 'Update Item' : 'Create Item'}</CardTitle>
+						<CardTitle>
+							{isEdit ? t('updateTitle') : t('createTitle')}
+						</CardTitle>
 					</DialogTitle>
 				</DialogHeader>
 				<form
 					onSubmit={handleSubmit}
 					className='grid grid-cols-2 gap-4 mt-2'>
 					<div>
-						<Label htmlFor='name'>Name</Label>
+						<Label htmlFor='name'>{t('name')}</Label>
 						<Input
 							id='name'
 							name='name'
@@ -105,7 +117,7 @@ export default function BudgetForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div>
-						<Label htmlFor='price'>Price</Label>
+						<Label htmlFor='price'>{t('price')}</Label>
 						<Input
 							id='price'
 							name='price'
@@ -117,7 +129,7 @@ export default function BudgetForm({ id }: { id?: string }) {
 						/>
 					</div>
 					<div className='col-span-2'>
-						<Label htmlFor='info'>Info</Label>
+						<Label htmlFor='info'>{t('info')}</Label>
 						<Textarea
 							id='info'
 							name='info'
@@ -133,11 +145,11 @@ export default function BudgetForm({ id }: { id?: string }) {
 						className='col-span-2'>
 						{loading
 							? isEdit
-								? 'Updating...'
-								: 'Creating...'
+								? t('updating')
+								: t('saving')
 							: isEdit
-							? 'Update'
-							: 'Create'}
+							? t('update')
+							: t('save')}
 					</Button>
 				</form>
 			</DialogContent>

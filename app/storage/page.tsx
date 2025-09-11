@@ -4,9 +4,12 @@ import ItemForm from '@/components/forms/ItemForm';
 import InfoTable from '@/components/sections/InfoTable';
 import { getStorage } from '@/lib/fetching';
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
 export default async function page() {
+		const t = await getTranslations('Storage');
+
 	const storageRows = await getStorage();
 	return (
 		<div className=' min-h-screen m-5'>
@@ -17,7 +20,7 @@ export default async function page() {
 						height={25}
 						className='mx-1 text-yellow-300 '
 					/>
-					Storage
+					{t('title')}
 				</h1>
 				<div className='mx-10'>
 					<ItemForm />

@@ -13,12 +13,14 @@ import {
 	updateMaterial,
 	addMaterial,
 } from '@/lib/fetching';
+import { useTranslations } from 'next-intl';
 
 export default function UpdateMaterial({ id }: { id: string }) {
 	const [materials, setMaterials] = useState<any[]>([]);
 	const [storageOptions, setStorageOptions] = useState<
 		{ name: string; type: string }[]
 	>([]);
+	const t = useTranslations('UpdateMaterial');
 	const [newMaterial, setNewMaterial] = useState({
 		name: '',
 		type: '',
@@ -90,7 +92,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 					<div>
 						<Label>Name</Label>
 						<Input
-							value={mat.name}
+							value={t(mat.name)}
 							disabled
 						/>
 					</div>
@@ -117,7 +119,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 						className='col-span-3 mt-1'
 						onClick={() => handleUpdateMaterial(idx)}
 						disabled={loading}>
-						Update
+						{t('update')}
 					</Button>
 				</div>
 			))}
@@ -126,7 +128,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 				onSubmit={handleAddMaterial}
 				className='grid grid-cols-3 gap-2 mt-4 items-center'>
 				<div>
-					<Label htmlFor='new-name'>Name</Label>
+					<Label htmlFor='new-name'>{t('name')}</Label>
 					<select
 						id='new-name'
 						name='name'
@@ -134,18 +136,18 @@ export default function UpdateMaterial({ id }: { id: string }) {
 						onChange={handleNewMaterialName}
 						className='border rounded px-2 py-1 w-full'
 						required>
-						<option value=''>Select Name</option>
+						<option value=''>{t('selectName')}</option>
 						{storageOptions.map((opt) => (
 							<option
 								key={opt.name}
 								value={opt.name}>
-								{opt.name}
+								{t(opt.name)}
 							</option>
 						))}
 					</select>
 				</div>
 				<div>
-					<Label htmlFor='new-type'>Type</Label>
+					<Label htmlFor='new-type'>{t('type')}</Label>
 					<Input
 						id='new-type'
 						name='type'
@@ -154,7 +156,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 					/>
 				</div>
 				<div>
-					<Label htmlFor='new-quantity'>Quantity</Label>
+					<Label htmlFor='new-quantity'>{}t('quantity')</Label>
 					<Input
 						id='new-quantity'
 						name='quantity'
@@ -169,7 +171,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 					size='sm'
 					className='col-span-3 mt-1'
 					disabled={loading || !newMaterial.name}>
-					Add Material
+					{t('addMaterial')}
 				</Button>
 			</form>
 		</div>

@@ -32,56 +32,25 @@ interface FooterProps {
 }
 
 export default function FooterSection({
-  logo = <LaunchUI />,
-  name = "Launch UI",
-  columns = [
-    {
-      title: "Product",
-      links: [
-        { text: "Changelog", href: "https://www.launchuicomponents.com/" },
-        { text: "Documentation", href: "https://www.launchuicomponents.com/" },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { text: "About", href: "https://www.launchuicomponents.com/" },
-        { text: "Careers", href: "https://www.launchuicomponents.com/" },
-        { text: "Blog", href: "https://www.launchuicomponents.com/" },
-      ],
-    },
-    {
-      title: "Contact",
-      links: [
-        { text: "Discord", href: "https://www.launchuicomponents.com/" },
-        { text: "Twitter", href: "https://www.launchuicomponents.com/" },
-        { text: "Github", href: "https://www.launchuicomponents.com/" },
-      ],
-    },
-  ],
-  policies = [
-    { text: "Privacy Policy", href: "https://www.launchuicomponents.com/" },
-    { text: "Terms of Service", href: "https://www.launchuicomponents.com/" },
-  ],
+  
   showModeToggle = true,
   className,
 }: FooterProps) {
   return (
-    <footer className={cn(" w-full px-4", className)}>
-      <div className="max-w-container mx-auto">
-        <Footer>
-          <FooterBottom>
-            <div className="flex items-center gap-4">
-              {policies.map((policy, index) => (
-                <a key={index} href={policy.href}>
-                  {policy.text}
-                </a>
-              ))}
-              {showModeToggle && <ModeToggle />}
-            </div>
-          </FooterBottom>
-        </Footer>
-      </div>
-    </footer>
-  );
+		<footer className={cn(' w-full px-4', className)}>
+			<div className='max-w-container mx-auto'>
+				<Footer>
+					<FooterBottom>
+						<div className='flex items-center gap-4'>
+							{showModeToggle && <ModeToggle />}
+							<p>
+								Developed by Eslam Hassanin Email: eslamhassanin24@gmail.com ©
+								2024 All Rights Reserved
+							</p>
+						</div>
+					</FooterBottom>
+				</Footer>
+			</div>
+		</footer>
+	);
 }

@@ -2,7 +2,7 @@
 'use client';
 
 import { register } from '@/app/actions/auth';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import {
 	Card,
@@ -12,6 +12,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
+import { useTranslations } from 'next-intl';
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -21,7 +23,7 @@ export default function SignUpPage() {
 	const [error, setError] = useState<string>('');
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({ name: '', email: '', password: '' }); // <-- move here
-
+	const t=useTranslations("SignUp")
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setError('');
@@ -55,16 +57,16 @@ export default function SignUpPage() {
 	return (
 		<Card className='w-full max-w-md'>
 			<CardHeader>
-				<CardTitle>create your account</CardTitle>
+				<CardTitle>{t("title")}</CardTitle>
 				<CardDescription>
-					Enter your email below to register your account
+					{t("description")}
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit} className='w-full'>
 					<div className='flex flex-col gap-6'>
 						<div className='grid gap-2'>
-							<Label htmlFor='name'>Your name</Label>
+							<Label htmlFor='name'>{t("Name")}</Label>
 							<Input
 								id='name'
 								type='text'
@@ -77,7 +79,7 @@ export default function SignUpPage() {
 							/>
 						</div>
 						<div className='grid gap-2'>
-							<Label htmlFor='email'>Email</Label>
+							<Label htmlFor='email'>{t("Email")}</Label>
 							<Input
 								id='email'
 								type='email'
@@ -91,7 +93,7 @@ export default function SignUpPage() {
 						</div>
 						<div className='grid gap-2'>
 							<div className='flex items-center'>
-								<Label htmlFor='password'>Password</Label>
+								<Label htmlFor='password'>{t("Password")}</Label>
 							</div>
 							<Input
 								id='password'
@@ -108,17 +110,17 @@ export default function SignUpPage() {
 					<Button
 						type='submit'
 						className='w-full mt-5'>
-						{loading ? 'Loading ...' : 'Sign Up'}
+						{loading ? t("Loading") : t("signUp")}
 					</Button>
 				</form>
 			</CardContent>
 			<CardFooter className='flex-col gap-2'>
 				<div className='mt-4 text-center text-sm font-semibold'>
-					have an account?{' '}
+					{t("Account")}
 					<a
 						href='/sign-in'
 						className='underline hover:text-secondary underline-offset-4'>
-						Sign in
+						{t("signUp")}
 					</a>
 				</div>
 			</CardFooter>

@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Spinner } from './ui/spinner';
+import { useTranslations } from 'next-intl';
 
 export default function ProtectedPage({
 	children,
@@ -15,7 +16,7 @@ export default function ProtectedPage({
 	const { status } = useSession();
 	const router = useRouter();
 	const pathname = usePathname();
-
+	const t = useTranslations('ProtectedPage');
 	useEffect(() => {
 		// Allow unauthenticated access to /sign-in and /sign-up
 		if (
@@ -31,7 +32,7 @@ export default function ProtectedPage({
 		return (
 			<>
 				<div className='h-screen w-screen flex justify-center items-center'>
-					<Spinner>Loading ...</Spinner>
+					<Spinner>{t('Loading')}</Spinner>
 				</div>
 			</>
 		);

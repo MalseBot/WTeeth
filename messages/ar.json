@@ -1,0 +1,229 @@
+{
+	"Dashboard": {
+		"title": "لوحة التحكم",
+		"appointments": "مواعيد اليوم",
+		"storage": "حالة التخزين"
+	},
+	"Login": {
+		"title": "تسجيل الدخول إلى حسابك",
+		"description": "أدخل بريدك الإلكتروني أدناه لتسجيل الدخول إلى حسابك",
+		"noAccount": "ليس لديك حساب ",
+		"signUp": "اشتراك",
+		"Login": "تسجيل الدخول",
+		"Password": "كلمة المرور",
+		"Email": "البريد الإلكتروني",
+		"Loading": "جاري التحميل ..."
+	},
+	"SignUp": {
+		"title": "إنشاء حسابك الشخصي",
+		"description": "املأ معلوماتك",
+		"Account": "لديك حساب",
+		"signUp": "اشتراك",
+		"Login": "تسجيل الدخول",
+		"Password": "كلمة المرور",
+		"Name": "أدخل اسمك",
+		"Email": "البريد الإلكتروني",
+		"Loading": "... جاري التحميل"
+	},
+	"AppointmentDetails": {
+		"err404": "الموعد او المريض غير موجود",
+		"title": "تفاصيل الموعد",
+		"unknown": "غير معروف",
+		"Diagnose": "التشخيص",
+		"Waiting": "في انتظار التشخيص",
+		"Media": "وسائط",
+		"Medicine": "دواء"
+	},
+	"Appointment": {
+		"title": "المواعيد"
+	},
+	"Budget": {
+		"title": "الميزانية",
+		"income": "دخلك لهذا الشهر هو",
+		"currency": "جنيه مصري",
+		"expense": "مصروفاتك لهذا الشهر هي",
+		"chartTitle": "رسم بياني",
+		"chartDescription": "عرض معلومات الميزانية الإجمالية لهذا الشهر.",
+		"total": "إجمالي الميزانية:",
+		"totalExpense": "سجل مصروفات"
+	},
+	"PatientProfile": {
+		"notFound":"المريض غير موجود",
+		"title": "ملف المريض",
+		"Unkown": "غير معروف",
+		"phone": "رقم الهاتف:",
+		"address": "العنوان:",
+		"Notes": "ملاحظات",
+		"noNote": "لا توجد ملاحظات حتى الآن ..."
+	},
+	"Patients": {
+		"title": "المرضى"
+	},
+	"Storage": {
+		"title": "التخزين"
+	},
+	"AppointmentForm": {
+		"button": "إضافة موعد",
+		"title": "حجز موعد",
+		"description": "املأ التفاصيل أدناه لإنشاء موعد جديد.",
+		"patient": "المريض",
+		"select": "اختر مريض",
+		"new": "+ مريض جديد",
+		"name": "الاسم",
+		"age": "العمر",
+		"address": "العنوان",
+		"blood": "فصيلة الدم",
+		"phone": "الهاتف",
+		"gender": "الجنس",
+		"male": "ذكر",
+		"female": "أنثى",
+		"note": "ملاحظة",
+		"date": "التاريخ",
+		"status": "الحالة",
+		"scheduled": "مجدول",
+		"completed": "مكتمل",
+		"cancelled": "ملغي",
+		"diagnose": "التشخيص",
+		"payment": "الدفع",
+		"create": "إنشاء الموعد",
+		"saving": "جاري الحفظ ..."
+	},
+	"BudgetForm": {
+		"button": "إضافة مصروف",
+		"createTitle": "إنشاء عنصر",
+		"updateTitle": "تحديث العنصر",
+		"name": "الاسم",
+		"price": "السعر",
+		"info": "معلومات",
+		"saving": "جاري الحفظ ...",
+		"save": "حفظ التغييرات",
+		"Error": "فشل في حفظ العنصر",
+		"update": "تحديث",
+		"updating": "جاري التحديث ..."
+	},
+	"ItemForm": {
+		"button": "إضافة عنصر",
+		"createTitle": "إنشاء عنصر",
+		"updateTitle": "تحديث العنصر",
+		"name": "الاسم",
+		"price": "السعر",
+		"type": "النوع",
+		"gram": "جرام",
+		"milliliter": "ملليلتر",
+		"unit": "وحدة",
+		"quantity": "الكمية",
+		"short": "حد النقص",
+		"seller": "البائع",
+		"update": "تحديث",
+		"create": "إنشاء",
+		"creating": "جاري الإنشاء ...",
+		"updating": "جاري التحديث ...",
+		"Error": "فشل في حفظ العنصر"
+	},
+	"PatientForm": {
+		"title": "تعديل ملف المريض",
+		"description": "قم بتحديث معلومات المريض أدناه.",
+		"name": "الاسم",
+		"age": "العمر",
+		"address": "العنوان",
+		"blood": "فصيلة الدم",
+		"phone": "الهاتف",
+		"gender": "الجنس",
+		"note": "ملاحظة",
+		"saving": "جاري الحفظ ...",
+		"save": "حفظ التغييرات",
+		"male": "ذكر",
+		"female": "أنثى",
+		"select": "اختر الجنس",
+		"Error": "فشل في حفظ المريض"
+	},
+	"UpdateAppointmentForm": {
+		"title": "تحديث الموعد",
+		"description": "املأ التفاصيل أدناه لتحديث الموعد.",
+		"status": "الحالة",
+		"scheduled": "مجدول",
+		"completed": "مكتمل",
+		"cancelled": "ملغي",
+		"diagnose": "التشخيص",
+		"payment": "الدفع",
+		"operation": "عملية",
+		"medicine": "دواء",
+		"save":"حفظ التغييرات",
+		"saving": "جاري الحفظ ...",
+		"Error": "فشل في تحديث الموعد"
+	},
+	"navbar": {
+		"appointments": "المواعيد",
+		"patients": "المرضى",
+		"storage": "التخزين",
+		"budget": "الميزانية",
+		"signIn": "تسجيل الدخول",
+		"signOut": "تسجيل الخروج"
+	},
+	"navigation": {
+		"dashboard": "لوحة التحكم",
+		"essentials": "أساسيات",
+		"storage": "التخزين",
+		"storageDesc": "إدارة مخزون المواد.",
+		"budget": "الميزانية",
+		"budgetDesc": "تتبع مصادر دخلك ومصروفاتك ومبالغك بسهولة.",
+		"description": "دع WTeeth يدير عملك لك.",
+		"appointments": "المواعيد",
+		"appointmentDesc": "إدارة مواعيدك بسهولة. احجز، أعد الجدولة، وألغ المواعيد بسلاسة.",
+		"patients": "المرضى",
+		"logoDecription": " إدارة عيادة الأسنان الخاصة بك بسهولة.",
+		"patientsDesc": "إدارة مرضاك بسهولة. أضف، عدّل، وعرض معلومات المريض بسلاسة.",
+		"way":"right-0"
+	
+	},
+	"InfoTable": {
+		"name": "الاسم",
+		"status": "الحالة",
+		"gender": "الجنس",
+		"diagnose": "التشخيص",
+		"date": "التاريخ",
+		"age": "العمر",
+		"payment": "الرسوم المدفوعة",
+		"operation": "تمت العملية",
+		"createdAt": "تم الإنشاء في",
+		"quantity": "الكمية",
+		"currentAmount": "المبلغ الحالي",
+		"Shortage": "حد النقص",
+		"buyDate": "تاريخ الشراء",
+		"price": "السعر",
+		"seller": "البائع",
+		"info": "معلومات",
+		"type": "النوع",
+		"address": "العنوان",
+		"noInfo": "لا توجد معلومات حتى الآن ..."
+	},
+	"chartsCard": {
+		"income": "الدخل",
+		"expense": "المصروف"
+	},
+	"deleteBudget": {
+		"title": "حذف الميزانية",
+		"sure": "هل أنت متأكد أنك تريد حذف هذه الميزانية؟"
+	},
+	"PieCard": {
+		"title": "حالة الأرباح ل",
+		"income": "الدخل",
+		"expense": "المصروف",
+		"total": "إجمالي الأرباح",
+		"earnings":"الأرباح"
+	},
+	"ProtectedPage": {
+		"Loading": "جاري التحميل ..."
+	},
+	"UpdateMaterial": {
+		"title": "المادة",
+		"name": "الاسم",
+		"quantity": "الكمية",
+		"type": "النوع",
+		"update": "تحديث",
+		"selectName": "اختر الاسم",
+		"submited": "تم الإرسال",
+		"Error": "فشل في إضافة المادة:",
+		"addMaterial":"إضافة مادة"
+	}
+}

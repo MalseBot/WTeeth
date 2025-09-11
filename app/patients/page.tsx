@@ -3,9 +3,12 @@
 import InfoTable from '@/components/sections/InfoTable';
 import { prisma } from '@/lib/prisma';
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
 const page = async () => {
+		const t = await getTranslations('Patients');
+
 	const patients = await prisma.patient.findMany();
 	return (
 		<section className='m-10 flex-col flex gap-5'>
@@ -15,7 +18,7 @@ const page = async () => {
 					height={25}
 					className='mx-1 text-yellow-300 '
 				/>
-				Patients
+				{t('title')}
 			</h1>
 			<InfoTable rows={patients} type='patient' />
 		</section>

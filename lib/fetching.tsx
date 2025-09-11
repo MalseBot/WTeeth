@@ -308,7 +308,9 @@ export async function getAppointmentsByDateRange(
 				gte: startDate,
 				lte: endDate,
 			},
-			status: 'Scheduled',
+			status: {
+				in: ['Scheduled', 'Completed'],
+			},
 		},
 	});
 }
@@ -323,7 +325,7 @@ export async function getBudgetById(id: string) {
 }
 
 export async function getBudgetIncome() {
-	return await prisma.budget.findMany({
+	return await prisma.budget.findFirst({
 		where: {
 			type: 'income',
 		},
@@ -374,9 +376,7 @@ export async function updateIncome() {
 	const now = new Date();
 	const firstDayOfThisMonth = startOfMonth(now);
 	const lastDayOfThisMonth = endOfMonth(now);
-	console.log(
-		`Fetching data from ${firstDayOfThisMonth} to ${lastDayOfThisMonth}`
-	);
+	
 
 	const appointments = await getAppointmentsByDateRange(
 		new Date(firstDayOfThisMonth),

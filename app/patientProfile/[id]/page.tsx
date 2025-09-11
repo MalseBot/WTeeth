@@ -14,19 +14,21 @@ import {
 	Timer,
 	VenusAndMars,
 } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react';
 
 import { PlusIcon, StarFilledIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { getAppointmentsByPatientId, getPatient } from '@/lib/fetching';
 import InfoTable from '@/components/sections/InfoTable';
 import PatientForm from '@/components/forms/PatientForm';
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
 }
 
 const page = async (props: PageProps) => {
+		const t = await getTranslations('PatientProfile');
+
 	const params = await props.params;
 	const patient = await getPatient(params?.id);
 	const appointments = await getAppointmentsByPatientId(params?.id);
@@ -35,7 +37,7 @@ const page = async (props: PageProps) => {
 	if (!patient) {
 		return (
 			<div className='w-full my-20 flex justify-center h-screen items-center'>
-				Patient not found
+				{t('notFound')}
 			</div>
 		);
 	}
@@ -47,35 +49,35 @@ const page = async (props: PageProps) => {
 					height={25}
 					className='mx-1 text-yellow-300 '
 				/>
-				Patient Profile
+				{t('title')}
 			</h1>
 			<Card className=' p-5 grid lg:grid-cols-[1fr_2fr_20px] justify-around items-start lg:grid-rows-2 h-min sm:gap-0 capitalize'>
 				<CardHeader className=' '>
 					<CardTitle className='text-2xl text-primary uppercase'>
-						{patient?.name || 'Unknown Patient'}
+						{patient?.name || t('unknown')}
 					</CardTitle>
 					<CardContent className='text-sm'>
-						<PhoneIcon className='text-secondary text-xs' /> Phone number:{' '}
-						{patient?.phone || 'Unknown'}
+						<PhoneIcon className='text-secondary text-xs' />{t('phone')}:{' '}
+						{patient?.phone || t('unknown')}
 					</CardContent>
 					<CardContent className='text-sm'>
-						<LocateIcon className='text-secondary text-xs' /> Address:{' '}
-						{patient?.address || 'Unknown'}
+						<LocateIcon className='text-secondary text-xs' /> {t('address')}:{' '}
+						{patient?.address || t('unknown')}
 					</CardContent>
 				</CardHeader>
 				<div className='w-full flex'>
 					<div className='w-1/2'>
 						<CardContent className='text-lg'>
 							<VenusAndMars />
-							Gender: {patient?.gender || 'Unknown'}
+							Gender: {patient?.gender || t('unknown')}
 						</CardContent>
 						<CardContent className='text-lg'>
 							<Timer />
-							Age: {patient?.age || 'Unknown'}
+							Age: {patient?.age || t('unknown')}
 						</CardContent>
 						<CardContent className='text-lg text-destructive'>
 							<DropletIcon />
-							{patient?.bloodType || 'Unknown'}
+							{patient?.bloodType || t('unknown')}
 						</CardContent>
 					</div>
 					<div className='w-1/2 flex gap-2 flex-col'>
@@ -85,7 +87,7 @@ const page = async (props: PageProps) => {
 								height={20}
 								className='text-secondary hover:rotate-180 transform duration-500'
 							/>{' '}
-							{patient?.createdAt.toDateString() || 'Unknown'}
+							{patient?.createdAt.toDateString() || t('unknown')}
 						</CardContent>
 						<CardContent className='border border-accent p-1 rounded-tr-xl rounded-bl-xl'>
 							<UpdateIcon
@@ -93,7 +95,7 @@ const page = async (props: PageProps) => {
 								height={20}
 								className='text-secondary hover:rotate-180 transform duration-500'
 							/>{' '}
-							{patient?.updatedAt.toDateString() || 'Unknown'}
+							{patient?.updatedAt.toDateString() || t('unknown')}
 						</CardContent>
 					</div>
 				</div>
@@ -101,8 +103,8 @@ const page = async (props: PageProps) => {
 					<PatientForm patient={patient} />
 				</CardFooter>
 				<div className='w-full min-h-40 col-span-full m-2 rounded-tr-2xl rounded-bl-2xl shadow p-3'>
-					<h2 className=' font-semibold border-b'>Notes</h2>
-					<p>{patient?.note || 'Nothing to note yet'}</p>
+					<h2 className=' font-semibold border-b'>{t('Notes')}</h2>
+					<p>{patient?.note || t('noNote')}</p>
 				</div>
 			</Card>
 			<section>

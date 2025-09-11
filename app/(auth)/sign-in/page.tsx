@@ -15,10 +15,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signInSchema } from '@/lib/zodSchemas';
 import { signIn } from 'next-auth/react';
-// import { authenticate } from '@/app/actions/auth';
 import { useState } from 'react';
-// import { useRouter } from 'next/navigation';
-// import { prisma } from '@/lib/prisma';
+import { useTranslations } from 'next-intl';
 
 export default function SignInPage() {
 	const [error, setError] = useState('');
@@ -52,56 +50,57 @@ export default function SignInPage() {
 		}
 	};
 
+	const t = useTranslations('Login'); // Use the hook
+
 	return (
 		<Card className='w-full max-w-md'>
 			<CardHeader>
-				<CardTitle>Login to your account</CardTitle>
-				<CardDescription>
-					Enter your email below to login to your account
-				</CardDescription>
+				<CardTitle>{t('title')}</CardTitle>
+				<CardDescription>{t('description')}</CardDescription>
 			</CardHeader>
 			<CardContent className='hover:!scale-100 !w-full'>
-				<form onSubmit={handleSubmit} className='w-full'>
+				<form
+					onSubmit={handleSubmit}
+					className='w-full'>
 					<div className='flex flex-col gap-6'>
 						<div className='grid gap-2'>
-							<Label htmlFor='email'>Email</Label>
+							<Label htmlFor='email'>{t('Email')}</Label>
 							<Input
 								id='email'
 								type='email'
 								placeholder='m@example.com'
 								required
 								value={form.email}
-								onChange={e => setForm({ ...form, email: e.target.value })}
+								onChange={(e) => setForm({ ...form, email: e.target.value })}
 							/>
 						</div>
 						<div className='grid gap-2'>
 							<div className='flex items-center'>
-								<Label htmlFor='password'>Password</Label>
+								<Label htmlFor='password'>{t('Password')}</Label>
 							</div>
 							<Input
 								id='password'
 								type='password'
 								required
 								value={form.password}
-								onChange={e => setForm({ ...form, password: e.target.value })}
+								onChange={(e) => setForm({ ...form, password: e.target.value })}
 							/>
 						</div>
 					</div>
-				<Button
-					type='submit'
-					
-					className='w-full mt-5'>
-					{loading ? 'Loading ...': 'Login'}
-				</Button>
+					<Button
+						type='submit'
+						className='w-full mt-5'>
+						{loading ? t('Loading') : t('Login')}
+					</Button>
 				</form>
 			</CardContent>
 			<CardFooter className='flex-col gap-2'>
 				<div className='mt-4 text-center text-sm font-semibold'>
-					Don&apos;t have an account?{' '}
+					{t('noAccount')}
 					<a
 						href='/sign-up'
 						className='underline hover:text-secondary underline-offset-4'>
-						Sign up
+						{t('signUp')}
 					</a>
 				</div>
 			</CardFooter>

@@ -21,16 +21,19 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import BudgetForm from '@/components/forms/BudgetForm';
+import { getTranslations } from 'next-intl/server';
 
 const page = async () => {
 	const totalbudget = await getTotalBudget();
 	const budgetData = await getAllbudget();
-
+	const t = await getTranslations('Budget');
+	
 	await updateIncome();
-	const now = new Date();
-
 	const income = await getBudgetIncome();
 	const expense = await getBudgetExpense();
+	console.log(income);
+
+	const now = new Date();
 
 	const totalExpense = await getTotalExpense();
 
@@ -42,23 +45,22 @@ const page = async () => {
 					height={25}
 					className='mx-1 text-yellow-300 '
 				/>
-				Budget
+				{t('title')}
 			</h1>
 			<div className='gap-3 flex flex-col'>
-				<div className='rounded-tr-3xl flex justify-between rounded-bl-3xl w-full h-fit bg-white p-3 shadow'>
-					<p className='text-md capitalize font-semibold'>
-						your income for this month is
-					</p>
+				<div className={`rounded-tr-3xl flex justify-between rounded-bl-3xl w-full h-fit bg-white p-3 shadow`}>
+					<p className='text-md capitalize font-semibold'>{t('income')}</p>
 					<span className='text-md capitalize font-semibold text-end'>
-						{income[0].price} EGP
+						{income?.price}
+						{t('currency')}
 					</span>
 				</div>
-				<div className='rounded-tr-3xl flex justify-between rounded-bl-3xl w-full h-fit bg-white p-3 shadow'>
+				<div className={`rounded-tr-3xl flex justify-between rounded-bl-3xl w-full h-fit bg-white p-3 shadow`}>
 					<p className='text-md capitalize font-semibold '>
-						your expenses for this month is
+						{t('expense')}
 					</p>
 					<span className='text-md capitalize font-semibold text-end'>
-						{totalExpense} EGP
+						{totalExpense} {t('currency')}
 					</span>
 				</div>
 			</div>
@@ -69,7 +71,7 @@ const page = async () => {
 						Showing total Budget information for this month.{' '}
 						<span
 							className={totalbudget >= 0 ? 'text-accent' : 'text-destructive'}>
-							{totalbudget ? ` Total Budget: ${totalbudget} EGP` : ''}
+							{totalbudget ? ` ${t('total'),totalbudget,t('currency')}` : ''}
 						</span>
 					</CardDescription>
 				</CardHeader>
@@ -80,7 +82,7 @@ const page = async () => {
 			<section className='flex justify-between items-center w-full flex-col gap-y-3'>
 				<div className='flex justify-between items-center w-full'>
 					<h2 className='text-2xl uppercase font-bold opacity-80 border-b m-5 w-full'>
-						expenses history of
+						{t('totalExpense')} - 
 						{now.toLocaleString('en-US', {
 							month: 'long',
 						})}
