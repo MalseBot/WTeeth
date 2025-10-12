@@ -39,22 +39,22 @@ export default async function Home() {
 						height={25}
 						className='mx-1 text-yellow-300 '
 					/>
-					{t("title")}
+					{t('title')}
 				</h1>
-				<p className='bg-primary !text-primary-foreground shadow p-2 rounded-tr-2xl rounded-bl-2xl font-semibold '>
+				<p className='from-primary/100 to-secondary/100 bg-gradient-to-b !text-primary-foreground shadow p-2 rounded-tr-2xl rounded-bl-2xl font-semibold '>
 					<span className=' font-bold'>{time}</span>
 				</p>
 			</div>
 			<section className='m-5'>
-				<Card className='w-3/4 text-center m-auto rounded-tr-2xl pt-0 border-0 rounded-bl-2xl'>
-					<CardTitle className='rounded-tr-2xl bg-accent text-accent-foreground p-5 shadow-2xs font-semibold rounded-bl-2xl'>
-						{t("appointments")}
+				<Card className='md:w-3/4 text-center m-auto rounded-tr-2xl pt-0 border-0 rounded-bl-2xl'>
+					<CardTitle className='rounded-tr-2xl from-accent/100 to-muted/100 bg-gradient-to-b text-accent-foreground p-5 shadow-2xs font-semibold rounded-bl-2xl'>
+						{t('appointments')}
 					</CardTitle>
-					<CardContent className='rounded-bl-2xl '>
+					<CardContent className='rounded-bl-2xl justify-between items-center align-middle grid grid-cols-2 md:grid-cols-4 gap-3 '>
 						{appointments.map(async (e) => (
 							<div
 								key={e.id}
-								className=' p-3 bg-secondary w-fit font-bold text-secondary-foreground rounded-tr-2xl rounded-bl-2xl shadow'>
+								className=' p-3 from-secondary/80 to-muted/100 bg-gradient-to-b w-fit font-bold text-secondary-foreground rounded-tr-2xl rounded-bl-2xl shadow'>
 								{e.patientName.slice(0, 15)} {formatDate(e.date, 'h:mm a')}
 							</div>
 						))}
@@ -68,7 +68,7 @@ export default async function Home() {
 					totalExpense={totalExpense}
 				/>
 				<div className='p-3 w-full bg-accent-foreground/50 h-fit flex flex-col rounded-tr-2xl rounded-bl-2xl shadow'>
-					<h3 className='text-primary text-xl font-semibold'>{t("storage")}</h3>
+					<h3 className='text-primary text-xl font-semibold'>{t('storage')}</h3>
 					<div className='grid lg:grid-cols-2 grid-cols-1'>
 						{storage.map((e) => (
 							<div

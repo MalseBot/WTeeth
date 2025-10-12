@@ -18,6 +18,7 @@ import { EditIcon, PlusIcon } from 'lucide-react';
 import { createBudget, getBudgetById, updateBudget } from '@/lib/fetching';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 const initialForm = {
 	name: '',
@@ -69,16 +70,40 @@ export default function BudgetForm({ id }: { id?: string }) {
 		try {
 			if (isEdit) {
 				await updateBudget(id!, form);
+				toast.success('Budget updated successfully!', {
+					style: {
+						'--normal-bg':
+							'light-dark(var(--color-green-600), var(--color-green-400))',
+						'--normal-text': 'var(--color-white)',
+						'--normal-border':
+							'light-dark(var(--color-green-600), var(--color-green-400))',
+					} as React.CSSProperties,
+				});
 			} else {
 				await createBudget(form);
 				setForm(initialForm);
+				toast.success('Budget Created successfully!', {
+					style: {
+						'--normal-bg':
+							'light-dark(var(--color-green-600), var(--color-green-400))',
+						'--normal-text': 'var(--color-white)',
+						'--normal-border':
+							'light-dark(var(--color-green-600), var(--color-green-400))',
+					} as React.CSSProperties,
+				});
 			}
 			route.refresh();
 			setLoading(false);
 		} catch (err) {
 			setError(t('Error'));
-			console.log('Error saving item:', err);
-
+			toast.error(t('Error'), {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 			setLoading(false);
 		}
 	};

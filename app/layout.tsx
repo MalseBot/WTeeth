@@ -9,6 +9,7 @@ import { SessionProvider } from 'next-auth/react';
 import ProtectedPage from '@/components/ProtectedPage';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
+import { Toaster } from 'sonner';
 const geistSans = Geist({
 	variable: '--font-geist-sans',
 	subsets: ['latin'],
@@ -32,14 +33,17 @@ export default async function RootLayout({
 	  const locale = await getLocale();
 
 	return (
-		<html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+		<html
+			lang={locale}
+			dir={locale === 'ar' ? 'rtl' : 'ltr'}>
 			<body
 				className={`
                     ${geistSans.variable} ${geistMono.variable} antialiased
-                    bg-gradient-to-br from-blue-300 via-white to-teal-300
+                    bg-gradient-to-br from-blue-300 via-white to-teal-300 h-full min-h-screen
                 `}>
 				<SessionProvider>
 					<NextIntlClientProvider>
+						<Toaster/>
 						<Navbar />
 						<ProtectedPage>{children}</ProtectedPage>
 						<Footer />

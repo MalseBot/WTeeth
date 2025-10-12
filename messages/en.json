@@ -53,6 +53,10 @@
 		"Unkown": "Unknown",
 		"phone": "Phone number:",
 		"address": "Address:",
+		"age": 	"Age:",
+		"gender": "Gender:",
+		"Male":"Male",
+		"Female":"Female",
 		"Notes": "Notes",
 		"noNote": "Nothing to note yet ..."
 	},
@@ -119,7 +123,9 @@
 		"create": "Create",
 		"creating": "Creating ...",
 		"updating": "Updating ...",
-		"Error": "Failed to add item:"
+		"Error": "Failed to add item:",
+		"updated": "Item updated successfully!",
+		"created": "Item created successfully!"
 	},
 	"PatientForm": {
 		"title": "Edit Patient Profile",
@@ -136,14 +142,15 @@
 		"male": "Male",
 		"female": "Female",
 		"select": "Select Gender",
-		"Error": "Failed to save patient"
+		"Error": "Failed to save patient",
+		"Updated": "Patient updated successfully!"
 	},
 	"UpdateAppointmentForm": {
 		"title": "Update Appointment",
 		"description": "Fill in the details below to update the appointment.",
 		"status": "Status",
 		"scheduled": "Scheduled",
-		"completed": "Completed",
+		"compeleted": "Completed",
 		"cancelled": "Cancelled",
 		"diagnose": "Diagnose",
 		"payment": "Payment",
@@ -151,7 +158,8 @@
 		"medicine":"Medicine",
 		"save":"Save Changes",
 		"saving": "Saving ...",
-		"Error": "Failed to update appointment"
+		"Error": "Failed to update appointment",
+		"updated":"Appointment updated successfully!"
 	},
 	"navbar":{
 		"appointments":"Appointments",

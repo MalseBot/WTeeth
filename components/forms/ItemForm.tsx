@@ -22,6 +22,7 @@ import { Textarea } from '../ui/textarea';
 import { useRouter } from 'next/navigation';
 import { Label } from '../ui/label';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 const initialForm = {
 	name: '',
@@ -70,6 +71,7 @@ export default function ItemForm({ id }: { id?: string }) {
 					? Number(value)
 					: value,
 		}));
+		
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -85,10 +87,18 @@ export default function ItemForm({ id }: { id?: string }) {
 			}
 			route.refresh();
 			setLoading(false);
+			toast.success(isEdit ? t('updated') : t('created'), {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+				} as React.CSSProperties,
+			});
 		} catch (err) {
 			setError(t('Error'));
-			console.log('Error saving item:', err);
-
+			toast.error(t('Error'), {classNames:{ error: 'bg-red-500 text-white' }});
 			setLoading(false);
 		}
 	};

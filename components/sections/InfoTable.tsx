@@ -70,7 +70,7 @@ const HEADERS: Record<
 		{ key: 'status', label: 'status' },
 		{ key: 'payment', label: 'payment' },
 		{ key: 'prescription', label: 'diagnose' },
-		{ key: 'operation', label: 'operationed' },
+		{ key: 'operation', label: 'operation' },
 		{ key: 'createdAt', label: 'createdAt' },
 	],
 	storage: [
@@ -121,10 +121,10 @@ export default function InfoTable({ rows, patientMap, type }: InfoTableProps) {
 	};
 	const t = useTranslations('InfoTable');
 	return (
-		<div className='rounded-tr-3xl rounded-bl-3xl max-w-full h-fit  overflow-x-hidden shadow'>
+		<div className='rounded-tr-3xl rounded-bl-3xl  h-fit overflow-x-auto max-w-screen shadow'>
 			<Table className='rounded-bl-3xl max-w-full rounded-tr-3xl '>
-				<TableHeader className='!rounded-tr-3xl'>
-					<TableRow className='!rounded-tr-3xl'>
+				<TableHeader className='!rounded-tr-3xl '>
+					<TableRow className='!rounded-tr-3xl from-secondary/60 to-accent/80 bg-linear-to-b'>
 						{HEADERS[type].map((header) => (
 							<TableHead
 								key={header.key}

@@ -27,6 +27,7 @@ import {
 	DialogTrigger,
 } from '../ui/dialog';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 interface PatientProps {
 	patient: {
@@ -54,21 +55,41 @@ export default function PatientForm({ patient }: PatientProps) {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			setLoading(false);
-			return;
+			toast.error(result.error.errors[0].message, {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 		}
-		console.log(form);
 		const update = getUpdatePatient(form.id, form);
 		if (!update) {
 			setError(t('Error'));
-			console.log(error);
 			setLoading(false);
+			toast.error(t('Error'), {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 		}
 		router.refresh();
 		setLoading(false);
-		//toaster
+		toast.success(t('updated'), {
+			style: {
+				'--normal-bg':
+					'light-dark(var(--color-green-600), var(--color-green-400))',
+				'--normal-text': 'var(--color-white)',
+				'--normal-border':
+					'light-dark(var(--color-green-600), var(--color-green-400))',
+			} as React.CSSProperties,
+		}); //toaster
 	};
-	const t=useTranslations("PatientForm")
-
+	const t = useTranslations('PatientForm');
 
 	return (
 		<Dialog>
@@ -81,9 +102,7 @@ export default function PatientForm({ patient }: PatientProps) {
 						<DialogTitle>
 							<CardHeader>
 								<CardTitle>{t('title')}</CardTitle>
-								<CardDescription>
-									{t('description')}
-								</CardDescription>
+								<CardDescription>{t('description')}</CardDescription>
 							</CardHeader>
 						</DialogTitle>
 					</DialogHeader>

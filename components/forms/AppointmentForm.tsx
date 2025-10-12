@@ -28,11 +28,29 @@ import {
 	DialogTrigger,
 } from '../ui/dialog';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+
+// datetime-local expects a string like "YYYY-MM-DDTHH:mm"
+const toDatetimeLocal = (d: Date) => {
+	const pad = (n: number) => String(n).padStart(2, '0');
+	return (
+		d.getFullYear() +
+		'-' +
+		pad(d.getMonth() + 1) +
+		'-' +
+		pad(d.getDate()) +
+		'T' +
+		pad(d.getHours()) +
+		':' +
+		pad(d.getMinutes())
+	);
+};
 
 const initialForm = {
 	patientId: '',
 	patientName: '',
-	date: '', // Default to current date and time
+	// store as datetime-local string so the input and Zod coercion work
+	date: toDatetimeLocal(new Date()),
 	payment: 0,
 	prescription: '',
 	status: 'Scheduled',
@@ -59,8 +77,8 @@ export const AppointmentForm = () => {
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-		const t = useTranslations('AppointmentForm'); // Use the hook
-	
+	const t = useTranslations('AppointmentForm'); // Use the hook
+
 	useEffect(() => {
 		getAllPatients().then(setPatients);
 	}, []);
@@ -73,6 +91,7 @@ export const AppointmentForm = () => {
 		const { name, value } = e.target;
 		setForm((f) => ({
 			...f,
+			// Keep date as string for the datetime-local input; payment as number
 			[name]: name === 'payment' ? Number(value) : value,
 		}));
 	};
@@ -99,7 +118,8 @@ export const AppointmentForm = () => {
 			setForm((f) => ({
 				...f,
 				patientId: e.target.value,
-				patientName: patients.find((p) => p.id === e.target.value)?.name || '',}));
+				patientName: patients.find((p) => p.id === e.target.value)?.name || '',
+			}));
 			console.log(form.patientName, form.patientId);
 		}
 	};
@@ -137,7 +157,6 @@ export const AppointmentForm = () => {
 			return;
 		}
 
-
 		try {
 			const created = await getCreateAppointment({
 				...form,
@@ -151,8 +170,25 @@ export const AppointmentForm = () => {
 			if (created && created.id) {
 				router.push(`/appointmentDetails/${created.id}`);
 			}
+			toast.success('Appointment created successfully!', {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+				} as React.CSSProperties,
+			});
 		} catch (err) {
 			setError(t('Error'));
+			toast.error(t('Error'), {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 		}
 		setLoading(false);
 	};
@@ -169,12 +205,9 @@ export const AppointmentForm = () => {
 					<DialogTitle>
 						<CardHeader>
 							<CardTitle>{t('title')}</CardTitle>
-							<CardDescription>
-								{t('description')}
-							</CardDescription>
+							<CardDescription>{t('description')}</CardDescription>
 						</CardHeader>
 					</DialogTitle>
-
 					<CardContent>
 						<form onSubmit={handleSubmit}>
 							<div className='grid grid-cols-2 gap-6'>
@@ -276,7 +309,8 @@ export const AppointmentForm = () => {
 										name='date'
 										type='datetime-local'
 										required
-										value={form.date}
+										// form.date is a datetime-local string
+										value={String(form.date)}
 										onChange={handleChange}
 									/>
 								</div>

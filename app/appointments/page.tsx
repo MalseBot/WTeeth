@@ -19,7 +19,7 @@ const page = async () => {
 
 
 	return (
-		<section className='w-full'>
+		<section className='w-full min-h-screen'>
 			<h1 className='text-3xl uppercase text-primary font-bold m-3 border-b border-s w-fit flex justify-between items-center'>
 				<StarFilledIcon
 					width={25}

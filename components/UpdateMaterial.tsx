@@ -92,7 +92,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 					<div>
 						<Label>Name</Label>
 						<Input
-							value={t(mat.name)}
+							value={mat.name}
 							disabled
 						/>
 					</div>
@@ -104,7 +104,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 						/>
 					</div>
 					<div>
-						<Label>Quantity</Label>
+						<Label>uantity</Label>
 						<Input
 							type='number'
 							value={mat.quantity}
@@ -141,7 +141,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 							<option
 								key={opt.name}
 								value={opt.name}>
-								{t(opt.name)}
+								{opt.name}
 							</option>
 						))}
 					</select>
@@ -156,7 +156,7 @@ export default function UpdateMaterial({ id }: { id: string }) {
 					/>
 				</div>
 				<div>
-					<Label htmlFor='new-quantity'>{}t('quantity')</Label>
+					<Label htmlFor='new-quantity'>{t('quantity')}</Label>
 					<Input
 						id='new-quantity'
 						name='quantity'

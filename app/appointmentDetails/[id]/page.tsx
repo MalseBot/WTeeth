@@ -26,6 +26,7 @@ import Image from 'next/image';
 import { ImageDocument } from '@/components/ImageDocument';
 import UpdateAppointmentForm from '@/components/forms/UpdateAppointmentForm';
 import { getTranslations } from 'next-intl/server';
+import SonnerDemo from '@/components/shadcn-studio/sonner/sonner-01';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -175,9 +176,7 @@ const page = async (props: PageProps) => {
 			</div>
 			<div className='p-5 rounded-tr-3xl rounded-bl-3xl shadow'>
 				<h2 className='text-lg border-b mb-1 font-semibold'>{t('Medicine')}</h2>
-				<p className='text-accent'>
-					{appointment?.medicine || t('Waiting')}
-				</p>
+				<p className='text-accent'>{appointment?.medicine || t('Waiting')}</p>
 			</div>
 			<div className='p-5 rounded-tr-3xl rounded-bl-3xl shadow grid lg:grid-cols-3 grid-cols-2'>
 				<h2 className='text-lg border-b mb-1 font-semibold'>{t('Media')}</h2>

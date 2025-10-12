@@ -17,6 +17,7 @@ import { signInSchema } from '@/lib/zodSchemas';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 export default function SignInPage() {
 	const [error, setError] = useState('');
@@ -33,6 +34,14 @@ export default function SignInPage() {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			setLoading(false);
+			toast.error(result.error.errors[0].message, {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 			return;
 		}
 
@@ -46,7 +55,26 @@ export default function SignInPage() {
 		if (res?.error) {
 			setError('Invalid credentials');
 			setLoading(false);
+			toast.error('Invalid credentials', {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 			return;
+		}else{
+			toast.success('Welcome back', {
+				description: 'Sending you to home page',
+				style: {
+					'--normal-bg':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border':
+						'light-dark(var(--color-green-600), var(--color-green-400))',
+				} as React.CSSProperties,
+			});
 		}
 	};
 

@@ -141,6 +141,7 @@ export async function getUpdateAppointment(data: any) {
 		where: { id: data.id },
 		data: {
 			patientId: data.patientId,
+			date:data.date,
 			patientName: data.patientName,
 			status: data.status,
 			prescription: data.prescription,

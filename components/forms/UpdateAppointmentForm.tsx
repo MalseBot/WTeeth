@@ -26,8 +26,8 @@ import {
 	DialogTrigger,
 } from '../ui/dialog';
 import UpdateMaterial from '../UpdateMaterial';
-import { get } from 'http';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 // import UpdateMaterial from './UpdateMaterial';
 
 interface ParamsProps {
@@ -39,7 +39,7 @@ interface ParamsProps {
 		status: string;
 		medicine: string;
 		operation: string;
-		updatedAt: Date;
+		updatedAt: string;
 		id: string;
 	};
 }
@@ -57,20 +57,38 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			setLoading(false);
-			console.log(error, result);
-
-			return;
+			console.log(error, result, 'here');
+			toast.error(t('Error'), {
+				classNames: { error: 'bg-red-500 text-white' },
+			});
 		}
 
-		console.log(form, result);
 		const update = getUpdateAppointment(form);
 		if (!update) {
 			setError(t('Error'));
 			console.log(error, result);
 			setLoading(false);
+			toast.error(t('Error'), {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 		}
 		router.push(`/appointmentDetails/${form.id}`);
-		//toaster
+		toast.success(t('updated'), {
+			style: {
+				'--normal-bg':
+					'light-dark(var(--color-green-600), var(--color-green-400))',
+				'--normal-text': 'var(--color-white)',
+				'--normal-border':
+					'light-dark(var(--color-green-600), var(--color-green-400))',
+			} as React.CSSProperties,
+		});
+		router.refresh();
+		setLoading(false);
 	};
 	const handleChange = (
 		e: React.ChangeEvent<
@@ -95,9 +113,7 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 							<DialogTitle>
 								<CardTitle>{t('title')}</CardTitle>
 							</DialogTitle>
-							<CardDescription>
-								{t('description')}
-							</CardDescription>
+							<CardDescription>{t('description')}</CardDescription>
 						</CardHeader>
 					</DialogHeader>
 					<CardContent className='gap-5'>

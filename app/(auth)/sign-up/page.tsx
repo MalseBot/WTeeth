@@ -1,3 +1,4 @@
+/** @format */
 
 'use client';
 
@@ -18,12 +19,13 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { signUpSchema } from '@/lib/zodSchemas';
+import { toast } from 'sonner';
 export default function SignUpPage() {
 	const router = useRouter();
 	const [error, setError] = useState<string>('');
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({ name: '', email: '', password: '' }); // <-- move here
-	const t=useTranslations("SignUp")
+	const t = useTranslations('SignUp');
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setError('');
@@ -33,6 +35,14 @@ export default function SignUpPage() {
 		if (!result.success) {
 			setError(result.error.errors[0].message);
 			setLoading(false);
+			toast.error(result.error.errors[0].message, {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 			return;
 		}
 		try {
@@ -43,12 +53,32 @@ export default function SignUpPage() {
 
 			const res = await register(formData);
 
-			if ( res.success === true) {
-				return router.push('/sign-in');
+			if (res.success === true) {
+				return (
+					router.push('/sign-in'),
+					toast.success('Signed up successfuly', {
+						description: 'Sending you to sign in page',
+						style: {
+							'--normal-bg':
+								'light-dark(var(--color-green-600), var(--color-green-400))',
+							'--normal-text': 'var(--color-white)',
+							'--normal-border':
+								'light-dark(var(--color-green-600), var(--color-green-400))',
+						} as React.CSSProperties,
+					})
+				);
 			}
 		} catch (error) {
 			console.error(error);
 			setError('Something went wrong, please try again later.');
+			toast.error('Something went wrong, please try again later.', {
+				style: {
+					'--normal-bg':
+						'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+					'--normal-text': 'var(--color-white)',
+					'--normal-border': 'transparent',
+				} as React.CSSProperties,
+			});
 		} finally {
 			setLoading(false);
 		}
@@ -57,16 +87,16 @@ export default function SignUpPage() {
 	return (
 		<Card className='w-full max-w-md'>
 			<CardHeader>
-				<CardTitle>{t("title")}</CardTitle>
-				<CardDescription>
-					{t("description")}
-				</CardDescription>
+				<CardTitle>{t('title')}</CardTitle>
+				<CardDescription>{t('description')}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={handleSubmit} className='w-full'>
+				<form
+					onSubmit={handleSubmit}
+					className='w-full'>
 					<div className='flex flex-col gap-6'>
 						<div className='grid gap-2'>
-							<Label htmlFor='name'>{t("Name")}</Label>
+							<Label htmlFor='name'>{t('Name')}</Label>
 							<Input
 								id='name'
 								type='text'
@@ -79,7 +109,7 @@ export default function SignUpPage() {
 							/>
 						</div>
 						<div className='grid gap-2'>
-							<Label htmlFor='email'>{t("Email")}</Label>
+							<Label htmlFor='email'>{t('Email')}</Label>
 							<Input
 								id='email'
 								type='email'
@@ -93,7 +123,7 @@ export default function SignUpPage() {
 						</div>
 						<div className='grid gap-2'>
 							<div className='flex items-center'>
-								<Label htmlFor='password'>{t("Password")}</Label>
+								<Label htmlFor='password'>{t('Password')}</Label>
 							</div>
 							<Input
 								id='password'
@@ -110,17 +140,17 @@ export default function SignUpPage() {
 					<Button
 						type='submit'
 						className='w-full mt-5'>
-						{loading ? t("Loading") : t("signUp")}
+						{loading ? t('Loading') : t('signUp')}
 					</Button>
 				</form>
 			</CardContent>
 			<CardFooter className='flex-col gap-2'>
 				<div className='mt-4 text-center text-sm font-semibold'>
-					{t("Account")}
+					{t('Account')}
 					<a
 						href='/sign-in'
 						className='underline hover:text-secondary underline-offset-4'>
-						{t("signUp")}
+						{t('signUp')}
 					</a>
 				</div>
 			</CardFooter>
