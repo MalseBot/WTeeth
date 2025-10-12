@@ -59,8 +59,12 @@ export default function UpdateAppointmentForm({ appointment }: ParamsProps) {
 			setLoading(false);
 			console.log(error, result, 'here');
 			toast.error(t('Error'), {
-				classNames: { error: 'bg-red-500 text-white' },
-			});
+							style: {
+								'--normal-bg':
+									'light-dark(var(--destructive), color-mix(in oklab, var(--destructive) 60%, var(--background)))',
+								'--normal-text': 'var(--color-white)',
+								'--normal-border': 'transparent',
+							} as React.CSSProperties,})
 		}
 
 		const update = getUpdateAppointment(form);

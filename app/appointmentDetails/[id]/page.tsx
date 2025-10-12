@@ -26,7 +26,6 @@ import Image from 'next/image';
 import { ImageDocument } from '@/components/ImageDocument';
 import UpdateAppointmentForm from '@/components/forms/UpdateAppointmentForm';
 import { getTranslations } from 'next-intl/server';
-import SonnerDemo from '@/components/shadcn-studio/sonner/sonner-01';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -69,7 +68,7 @@ const page = async (props: PageProps) => {
 							{patient?.name || t('unknown')}
 						</Link>
 					</CardTitle>
-					<UpdateAppointmentForm appointment={appointment} />
+					<UpdateAppointmentForm appointment={{ ...appointment, updatedAt: appointment.updatedAt?.toISOString?.() ?? '' }} />
 				</CardHeader>
 				<div className='grid grid-cols-2 col-span-2 lg:col-span-1 gap-3 h-fit grid-rows-2 '>
 					<CardContent className='text-lg text-accent'>
