@@ -77,7 +77,7 @@ export default function SignInPage() {
 				} as React.CSSProperties,
 			});
 			Router.push('/')
-		};
+		}};
 
 	const t = useTranslations('Login'); // Use the hook
 
@@ -135,4 +135,4 @@ export default function SignInPage() {
 			</CardFooter>
 		</Card>
 	);
-}}
+}

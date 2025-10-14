@@ -46,5 +46,4 @@ export default function ProtectedPage({
 	}
 
 	// Optionally, render nothing while redirecting
-	return null;
 }

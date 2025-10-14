@@ -30,7 +30,7 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	  const locale = await getLocale();
+	const locale = await getLocale();
 
 	return (
 		<html
@@ -46,7 +46,7 @@ export default async function RootLayout({
 						<Navbar />
 						<ProtectedPage>{children}</ProtectedPage>
 						<Footer />
-						<Toaster/>
+						<Toaster />
 					</NextIntlClientProvider>
 				</SessionProvider>
 			</body>
