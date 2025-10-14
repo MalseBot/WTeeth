@@ -1,4 +1,3 @@
-/** @format */
 
 'use client';
 
@@ -18,11 +17,13 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({ email: '', password: '' });
+	const Router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -48,10 +49,10 @@ export default function SignInPage() {
 		const res = await signIn('credentials', {
 			email: form.email,
 			password: form.password,
-			redirect: true,
-			redirectTo: '/',
+			redirect: false,
 		});
-		//@ts-ignore
+
+		// next-auth signIn returns { error, ok, status, url } or null
 		if (res?.error) {
 			setError('Invalid credentials');
 			setLoading(false);
@@ -64,7 +65,7 @@ export default function SignInPage() {
 				} as React.CSSProperties,
 			});
 			return;
-		}else{
+		} else if (res?.ok ) {
 			toast.success('Welcome back', {
 				description: 'Sending you to home page',
 				style: {
@@ -75,8 +76,8 @@ export default function SignInPage() {
 						'light-dark(var(--color-green-600), var(--color-green-400))',
 				} as React.CSSProperties,
 			});
-		}
-	};
+			Router.push('/')
+		};
 
 	const t = useTranslations('Login'); // Use the hook
 
@@ -117,7 +118,7 @@ export default function SignInPage() {
 					</div>
 					<Button
 						type='submit'
-						className='w-full mt-5'>
+						className='w-full mt-5' >
 						{loading ? t('Loading') : t('Login')}
 					</Button>
 				</form>
@@ -134,4 +135,4 @@ export default function SignInPage() {
 			</CardFooter>
 		</Card>
 	);
-}
+}}

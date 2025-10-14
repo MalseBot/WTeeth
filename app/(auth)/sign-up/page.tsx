@@ -3,7 +3,7 @@
 'use client';
 
 import { register } from '@/app/actions/auth';
-import React, { useState, useTransition } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
 	Card,
@@ -55,18 +55,18 @@ export default function SignUpPage() {
 
 			if (res.success === true) {
 				return (
-					router.push('/sign-in'),
 					toast.success('Signed up successfuly', {
 						description: 'Sending you to sign in page',
 						style: {
 							'--normal-bg':
-								'light-dark(var(--color-green-600), var(--color-green-400))',
+							'light-dark(var(--color-green-600), var(--color-green-400))',
 							'--normal-text': 'var(--color-white)',
 							'--normal-border':
-								'light-dark(var(--color-green-600), var(--color-green-400))',
+							'light-dark(var(--color-green-600), var(--color-green-400))',
 						} as React.CSSProperties,
 					})
-				);
+				),
+				router.push('/sign-in')
 			}
 		} catch (error) {
 			console.error(error);

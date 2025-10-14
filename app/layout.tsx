@@ -43,10 +43,10 @@ export default async function RootLayout({
                 `}>
 				<SessionProvider>
 					<NextIntlClientProvider>
-						<Toaster/>
 						<Navbar />
 						<ProtectedPage>{children}</ProtectedPage>
 						<Footer />
+						<Toaster/>
 					</NextIntlClientProvider>
 				</SessionProvider>
 			</body>

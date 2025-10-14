@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 import LaunchUI from '../../logos/launch-ui';
-import { Button, type ButtonProps } from '../../ui/button';
+import { Button } from '../../ui/button';
 import {
 	Navbar as NavbarComponent,
 	NavbarLeft,
@@ -29,7 +29,6 @@ interface NavbarLink {
 interface NavbarActionProps {
 	text: string;
 	href: string;
-	variant?: ButtonProps['variant'];
 	icon?: ReactNode;
 	iconRight?: ReactNode;
 	isButton?: boolean;
@@ -85,7 +84,6 @@ export default function Navbar({
 								<Button
 									key={index}
 									className='inline-flex px-2 py-1.5 font-semibold cursor-pointer items-center justify-center whitespace-nowrap rounded-bl-md rounded-tr-md transform duration-300 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow-sm dark:hover:from-secondary/80 hover:from-secondary/70 dark:hover:to-secondary/70 hover:to-secondary/90 bg-linear-to-b from-secondary/60 to-primary/100 dark:from-primary/100 dark:to-primary/70 border-t-primary'
-									variant={action.variant || 'default'}
 									asChild>
 									<a href={action.href}>
 										{action.icon}
@@ -150,7 +148,6 @@ export default function Navbar({
 											action.isButton ? (
 												<Button
 													key={index}
-													variant={action.variant || 'default'}
 													asChild>
 													<a href={action.href}>
 														{action.icon}
