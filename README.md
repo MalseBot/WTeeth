@@ -24,66 +24,43 @@
 <h2>Table of Contents</h2>
 <ul class="list-disc pl-4 my-0">
 <li class="my-0"><a href="#overview">Overview</a></li>
-<li class="my-0"><a href="#getting-started">Getting Started</a>
-<ul class="list-disc pl-4 my-0">
-<li class="my-0"><a href="#prerequisites">Prerequisites</a></li>
-<li class="my-0"><a href="#installation">Installation</a></li>
-<li class="my-0"><a href="#usage">Usage</a></li>
-<li class="my-0"><a href="#testing">Testing</a></li>
-</ul>
-</li>
+<li class="my-0"><a href="#highlights">Highlights</a></li>
+<li class="my-0"><a href="#ideal-for">Ideal For</a></li>
+<li class="my-0"><a href="#tech-stack">Tech Stack</a></li>
 </ul>
 <hr>
 <h2>Overview</h2>
-<p>HealthTrack is a full-featured developer toolkit for building modern healthcare web applications. It combines secure user authentication, a rich library of reusable UI components, and powerful data visualization tools to create engaging, scalable platforms.</p>
+<p>HealthTrack is a production-ready healthcare web platform focused on secure access, fast clinical workflows, and patient-friendly experiences. It blends clean UI architecture, robust data handling, and scalable app structure to help teams ship reliable healthcare products faster.</p>
 <p><strong>Why HealthTrack?</strong></p>
-<p>This project simplifies complex workflows in healthcare apps by providing:</p>
+<p>It delivers the building blocks a buyer or recruiter expects in a modern healthcare product:</p>
 <ul class="list-disc pl-4 my-0">
-<li class="my-0">🎨 <strong>[Colorful Palette] UI Components:</strong> Modular, accessible elements for consistent design.</li>
-<li class="my-0">🔒 <strong>[Lock Icon] Authentication &amp; Security:</strong> Seamless user sign-in, session handling, and route protection.</li>
-<li class="my-0">📊 <strong>[Bar Chart] Data Visualization:</strong> Interactive charts and tables for real-time insights.</li>
-<li class="my-0">🖼️ <strong>[Camera] Media Management:</strong> Easy image uploads and display for medical records.</li>
-<li class="my-0">⚙️ <strong>[Gear] Customizable Architecture:</strong> Flexible configuration supporting growth and integration.</li>
-<li class="my-0">🚀 <strong>[Rocket] Rapid Development:</strong> Accelerate deployment with pre-built, scalable features.</li>
+<li class="my-0">[Palette] <strong>Reusable UI System:</strong> Modular, accessible components for a consistent clinical brand.</li>
+<li class="my-0">[Lock] <strong>Authentication &amp; Access Control:</strong> Secure sign-in, session handling, and route protection.</li>
+<li class="my-0">[Chart] <strong>Data Visualization:</strong> Charts and tables for outcomes, KPIs, and care tracking.</li>
+<li class="my-0">[Camera] <strong>Media Management:</strong> Uploads and image handling for records and documentation.</li>
+<li class="my-0">[Gear] <strong>Extensible Architecture:</strong> Built to scale with integrations and feature expansion.</li>
+<li class="my-0">[Rocket] <strong>Fast Delivery:</strong> Production patterns that reduce time-to-launch.</li>
 </ul>
 <hr>
-<h2>Getting Started</h2>
-<h3>Prerequisites</h3>
-<p>This project requires the following dependencies:</p>
+<h2 id="highlights">Highlights</h2>
 <ul class="list-disc pl-4 my-0">
-<li class="my-0"><strong>Programming Language:</strong> TypeScript</li>
-<li class="my-0"><strong>Package Manager:</strong> Npm</li>
+<li class="my-0"><strong>Healthcare-first UX:</strong> Streamlined flows for appointments, records, and results.</li>
+<li class="my-0"><strong>Security-conscious design:</strong> Access control and session handling baked in.</li>
+<li class="my-0"><strong>Component-driven build:</strong> Consistent UI patterns across pages and features.</li>
+<li class="my-0"><strong>Scalable data layer:</strong> Structured models that support growth and analytics.</li>
 </ul>
-<h3>Installation</h3>
-<p>Build healthtrack from the source and install dependencies:</p>
-<ol>
-<li class="my-0">
-<p><strong>Clone the repository:</strong></p>
-<pre><code class="language-sh">❯ git clone https://github.com/MalseBot/healthtrack
-</code></pre>
-</li>
-<li class="my-0">
-<p><strong>Navigate to the project directory:</strong></p>
-<pre><code class="language-sh">❯ cd healthtrack
-</code></pre>
-</li>
-<li class="my-0">
-<p><strong>Install the dependencies:</strong></p>
-</li>
-</ol>
-<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
-<pre><code class="language-sh">❯ npm install
-</code></pre>
-<h3>Usage</h3>
-<p>Run the project with:</p>
-<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
-<pre><code class="language-sh">npm start
-</code></pre>
-<h3>Testing</h3>
-<p>Healthtrack uses the {<strong>test_framework</strong>} test framework. Run the test suite with:</p>
-<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
-<pre><code class="language-sh">npm test
-</code></pre>
 <hr>
-<div align="left" class=""><a href="#top">⬆ Return</a></div>
+<h2 id="ideal-for">Ideal For</h2>
+<ul class="list-disc pl-4 my-0">
+<li class="my-0">Recruiters reviewing full-stack healthcare app experience.</li>
+<li class="my-0">Startups or clinics validating product-market fit quickly.</li>
+<li class="my-0">Teams looking for a polished, extensible healthcare foundation.</li>
+</ul>
+<hr>
+<h2 id="tech-stack">Tech Stack</h2>
+<p><strong>Frontend:</strong> Next.js, React, TypeScript, Tailwind CSS</p>
+<p><strong>Backend:</strong> Prisma, NextAuth (Auth.js), API routes</p>
+<p><strong>Validation &amp; Utilities:</strong> Zod, date-fns</p>
+<hr>
+<div align="left" class=""><a href="#top">Return</a></div>
 <hr></div></div></div>
